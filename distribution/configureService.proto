@@ -1,0 +1,121 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service ConfigureService {
+    //获取分销配置信息
+    rpc GetConfig  (DistributionConfig) returns (ConfigureResponse) {}
+    //保存分销配置信息
+    rpc SaveConfig  (DistributionConfig) returns (ConfigureResponse) {}
+    //保存推广海报数据
+    rpc SavePosterData (PosterData) returns (ConfigureResponse) {}
+    //保存商品海报数据
+    rpc SavePosterGoodsData (PosterGoodsData) returns (ConfigureResponse) {}
+    //清空推广海报生成数据
+    rpc ClearPoster (PosterRequest) returns (ConfigureResponse) {}
+    //清空商品海报生成数据
+    rpc ClearPosterGoods (PosterRequest) returns (ConfigureResponse) {}
+}
+
+//分销配置
+message DistributionConfig{
+    string h5_url = 1; //H5自定义地址
+    string mobile_home_page = 2; //手机端首页地址
+    repeated string user_poster_top_desc = 3; //用户海报页面顶部描述
+    string user_poster_share_title = 4; //用户海报分享标题(空则读取站点页面名称)
+    string user_poster_share_desc = 5; //用户海报分享描述
+    string is_upper_return = 6; //向上返佣,默认关闭
+    int32 level = 7; //分销层级,默认三级
+    string self_buy = 8; //分销商内购,默认关闭
+    string auto_level_type = 9; //自动升级分销等级类型
+    string is_down_return = 10; //向下返佣
+    int32 down_return_number = 11; //最多分摊佣金人数
+    string is_upper_return_integral = 12; //向上返积分
+    int64 upper_return_integral = 13; //向上返积分数量
+    string is_down_return_integral = 14; //向下返积分
+    int64 down_return_integral = 15; //向下返积分数量
+    int32 down_return_integral_people = 16; //最多分摊积分人数
+    string is_appoint_goods = 17; //指定商品返佣折扣
+    int32 appoint_level_order_min_number = 18; //购买指定商品成为指定分销等级(需要满足订单数量)
+    int32 appoint_level_goods_min_number = 19;//购买指定商品成为指定分销等级(需要满足商品购买数量)
+    int32 appoint_goods_profit_number = 20;//推荐多少个用户购买指定商品后返现商品的金额(指定用户数量)
+    int32 appoint_goods_sale_number = 21; //指定商品满足销售数量后返佣（商品购买最低数量）
+    int64 appoint_goods_sale_price = 22; //指定商品满足销售数量后返佣（返佣固定金额）
+    int32 appoint_goods_sale_rate = 23; //指定商品满足销售数量后返佣 (返佣比例 0~100 的数字)
+    string appoint_goods_repurchase_discount = 24; //指定商品复购折扣优惠(指定商品复购折扣优惠 0~1 的数字)
+    string goods_detail_icon = 25; //指定商品复购折扣优惠(商品详情折扣图标名称)
+    int64 appoint_goods_ladder_interval_time = 26; //指定商品阶梯返佣(阶梯间隔时间)
+    string is_enable_self_extraction = 27; //自提取货点申请(0关闭/1开启)
+    string is_buy_default_extraction_address = 28; //下单默认取货地址(0关闭/1开启)
+    string is_self_extraction = 29; //取货点返佣(0关闭/1开启)
+    string is_self_extraction_close_upper = 30; //取货点返佣后不再向上返佣逻辑(0关闭/1开启)
+    string extraction_profit_level = 31; //取货点返佣层级(0关闭/1开启)
+    repeated string self_extraction_apply_desc = 32; //自提取货点申请介绍
+    repeated string self_extraction_common_notice = 33; //自提取货点顶部公告
+    string profit_type = 34; //返佣类型（0所有订单，1首单）
+    string profit_settlement_limit_time = 35; //佣金结算周期
+    string is_show_introduce = 36; //分销中心开启等级介绍(0关闭/1开启)
+    repeated string user_center_level_desc = 37; //等级介绍顶部描述
+    repeated string non_conformity_desc = 38; //不符合分销条件描述
+    repeated string user_center_notice = 39; //分销中心公告
+    int32 appoint_level_id = 40; //
+    string is_admin_user_level_show = 41; //用户列表展示等级
+    string is_admin_order_user_referrer_show = 42; //订单列表展示邀请用户
+    string is_user_menu = 43; //开启用户中心菜单入口
+    string is_user_extraction_switch = 44; //开启自提地址切换
+    string is_fixed_price_multiple = 45; //商品自定义返佣金额倍数
+    string is_show_superior = 46; //用户分销中心展示上级用户
+    string is_goods_detail_poster = 47; //开启商品详情页海报
+    string is_realstore_order_not_profit = 48; //从门店插件下单不返佣
+    string is_profit_shop = 49; //支持多商户(0关闭/1开启)
+    string is_profit_down_return_shop =50; //支持向下返佣(多商户)(0关闭/1开启)
+    string is_profit_self_buy_shop =51; //支持内购返佣(多商户)(0关闭/1开启)
+    string appoint_goods_sale_is_user = 52;
+    string is_show_profit_ladder_tips = 53;
+    string system_type = 54;
+    string default_level_image_url = 55; //默认等级图标
+    string default_qrcode_logo_url = 56; //默认二维码logo
+    PosterData poster_data = 57;//推广海报数据
+    PosterGoodsData poster_goods_data = 58; //商品海报数据
+}
+
+//商品海报
+message PosterGoodsData {
+    string goods_title_text_color =1;//商品标题颜色
+    string goods_simple_text_color =2;//商品简述颜色
+    string bottom_left_text_color =3;//底部左侧文本颜色
+    string bottom_right_text_color =4;//底部右侧文本颜色
+    string bottom_left_text =5;//底部左侧文本
+    string bottom_right_text =6;//底部右侧文本
+}
+
+//推广海报
+message PosterData  {
+    string backdrop =1;//海报背景图片
+    int64 avatar_width =2;//头像宽度
+    string avatar_border_style =3;//头像样式
+    int64  avatar_top =4;//
+    int64  avatar_left =5;//
+    int64  qrcode_width =6;//二维码宽度
+    int64  qrcode_top =7;//
+    int64  qrcode_left =8;//
+    string qrcode_border_style =9;//二维码样式
+    string nickname_color =10;//昵称颜色
+    string nickname_auto_center =11;//自动计算居中位置
+    int64  nickname_top =12;//
+    int64  nickname_left =13;//
+    string created_at =16;
+    string updated_at =17;
+}
+
+message PosterRequest {
+    string is_clear_all =1;//清除全部
+    string is_clear_user =2;//清除用户
+}
+
+message ConfigureResponse {
+    DistributionConfig data = 1;
+    common.Error error = 2;
+}
+

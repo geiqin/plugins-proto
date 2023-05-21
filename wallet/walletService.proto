@@ -1,0 +1,116 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+import "configService.proto";
+import "baseInfoService.proto";
+
+service WalletService {
+  //生成付款码
+  rpc PaymentCode (WalletRequest) returns (WalletPaymentCodeResponse) {}
+  //提现创建初始化
+  rpc CashCreateInit (WalletRequest) returns (CashCreateInitResponse) {}
+  //提现安全校验
+  rpc CashAuth (WalletRequest) returns (CashAuthResponse) {}
+  //提现申请 - 验证码发送
+  rpc VerifySend (WalletRequest) returns (WalletResponse) {}
+  //提现申请 - 验证码验证
+  rpc VerifyCheck (WalletRequest) returns (WalletResponse) {}
+
+  //获取钱包
+  rpc Get (WalletRequest) returns (WalletResponse) {}
+  //查询钱包
+  rpc Search (WalletRequest) returns (WalletResponse) {}
+}
+
+
+message Wallet {
+  int64  id =1;//ID
+  int64  member_id =2;//用户ID
+  int64  normal_money =3;//有效金额（可用余额=现金余额+赠送金+信用额度-冻结金额）
+  int64  frozen_money =4;//冻结金额
+  int64  give_money =5;//赠送金额
+  int64  credit_money =6;//信用额度
+  string status =7;//状态：0停用 1正常
+  string created_at =8;
+  string updated_at =9;
+  MemberInfo member =10;
+  string status_name =11;//状态名称
+}
+
+//查询参数
+message WalletRequest {
+  int32 paged = 1;
+  int32 page_size = 2;
+  //以下为自定义参数
+  string name = 3;
+  int64  id =4;
+  int64  member_id =5;
+  string status = 6;
+  string account_type = 7; //账户类型
+  string verify_code = 8; //验证码
+
+}
+
+message WalletData{
+  Wallet entity = 1;
+  common.Pager pager =2;
+  repeated Wallet items = 3;
+  common.Info info =4;
+}
+
+
+message WalletResponse {
+  WalletData data = 1;
+  common.Error error = 2;
+}
+
+//提现安全验证数据
+message CashAuthData {
+  WalletConfig base = 1;
+  Wallet user_wallet =2;
+  repeated CheckAccountInfo check_account_list = 3;
+}
+
+//提现创建初始化数据
+message CashCreateInitData {
+  bool check_status = 1;//验证状态
+  WalletConfig base = 2; //基础配置信息
+  Wallet user_wallet = 3; //用户钱包
+  int64 can_cash_max_money = 4; //可提现最大金额
+  map<string,string> default_data = 5; //默认提现信息
+}
+
+message CheckAccountInfo {
+  string field = 1;
+  string value = 2;
+  string name = 3;
+  string msg = 4;
+}
+
+message CashAuthResponse {
+  CashAuthData data = 1;
+  common.Error error = 2;
+}
+
+message CashCreateInitResponse {
+  CashCreateInitData data = 1;
+  common.Error error = 2;
+}
+
+//提现默认数据
+message  CashDefaultData{
+  string status = 6;
+  string account_type = 7;
+}
+
+
+message WalletPaymentCodeData {
+  string code= 1;
+  int32 time =2;
+}
+
+message WalletPaymentCodeResponse {
+  WalletPaymentCodeData data = 1;
+  common.Error error = 2;
+}

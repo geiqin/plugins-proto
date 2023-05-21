@@ -1,0 +1,77 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service OrderService {
+    // 获得佣金详情
+    rpc Detail (Order) returns (OrderResponse) {}
+    // 查询佣金列表
+    rpc Search (OrderRequest) returns (OrderResponse) {}
+}
+
+message Order {
+    int64  id =1;//ID
+    string order_no =2;//单号
+    int64  shop_id =3;//分店ID
+    int64  member_id =4;//买家ID
+    int64  warehouse_id =5;//仓库ID
+    int32  buy_number_count =6;//购买商品总数量
+    int64  total_price =7;//订单单价
+    int64  actual_price =8;//订单总价(订单最终价格)
+    int64  increase_price =9;//增加的金额
+    int64  preferential_price =10;//优惠金额
+    int64  paid_money =11;//已支付金额
+    int64  refunded_money =12;//已退款金额
+    int32  returned_quantity =13;//已退货数量
+    string client_type =14;//客户端类型（pc, h5, ios, android, alipay, weixin, baidu）取APPLICATION_CLIENT_TYPE常量值
+    string order_model =15;//订单模式（0销售型, 1展示型, 2自提点, 3虚拟销售）
+    string subject =16;//订单标题(为支付提供标题)。
+    string cover_url =17;//订单商品封面URL（默认取商品明细里数量最多的商品主图）
+    string is_under_line =18;//是否线下支付（0否，1是）(如果多次支付以第一次为准)
+    string is_cod =19;//是否货到付款
+    string pay_status =20;//支付状态（0未支付, 1已支付, 2已退款, 3部分退款）
+    string status =21;//订单状态（0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+    string confirm_time =22;//确认时间
+    string pay_time =23;//支付时间
+    string delivery_time =24;//发货时间
+    string collect_time =25;//收货时间
+    string cancel_time =26;//取消时间
+    string close_time =27;//退款完成时间
+    string created_at =28;
+    string updated_at =29;
+    MemberInfo member =30;
+    string client_type_name =31;
+    string pay_status_name =32;
+    string status_name =33;
+}
+
+message OrderRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    int64 id = 3;
+    string mobile = 4;
+    int64 order_id = 5;
+    string order_sn = 6;
+    string keywords = 7;
+    string status = 8;
+    string start_date = 9;
+    string end_date = 10;
+    int64 member_id = 12;
+    int64 referrer_id = 13;
+    int32 level_id = 14;
+    repeated int64 ids = 15;
+}
+
+message OrderData {
+    Order entity = 1;
+    common.Pager pager =2;
+    repeated Order items = 3;
+    common.Info info =4;
+}
+
+message OrderResponse {
+    OrderData data = 1;
+    common.Error error = 2;
+}

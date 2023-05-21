@@ -1,0 +1,46 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+//分享
+service ShareService {
+    //海报分享
+    rpc Poster (ShareRequest) returns (SharePosterResponse) {}
+    //商品分享
+    rpc Goods (ShareRequest) returns (ShareGoodsResponse) {}
+}
+
+
+message SharePosterData  {
+    string user_share_url =1;//分享地址
+    string user_share_qrcode =2;//分享二维码
+    string user_share_poster =3;//分享海报
+    string home_seo_site_title =4;//浏览器名称
+}
+
+
+message ShareRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    int32 top = 3;
+    int64 goods_id = 4;
+    string type = 6;
+    repeated int64 ids = 5;
+}
+
+message SharePosterResponse {
+    SharePosterData data = 1;
+    common.Error error = 2;
+}
+
+
+message ShareGoodsData{
+    string user_share_url =1;//分享地址
+    string user_share_qrcode =2;//分享二维码
+}
+
+message ShareGoodsResponse {
+    ShareGoodsData data = 1;
+    common.Error error = 2;
+}
