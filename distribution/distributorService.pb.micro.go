@@ -43,6 +43,8 @@ func NewDistributorServiceEndpoints() []*api.Endpoint {
 // Client API for DistributorService service
 
 type DistributorService interface {
+	//修改分销等级
+	UpdateLevel(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error)
 	//分销人员详情
 	Detail(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//分销人员查询
@@ -59,6 +61,16 @@ func NewDistributorService(name string, c client.Client) DistributorService {
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *distributorService) UpdateLevel(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error) {
+	req := c.c.NewRequest(c.name, "DistributorService.UpdateLevel", in)
+	out := new(DistributorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *distributorService) Detail(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
@@ -84,6 +96,8 @@ func (c *distributorService) Search(ctx context.Context, in *DistributorRequest,
 // Server API for DistributorService service
 
 type DistributorServiceHandler interface {
+	//修改分销等级
+	UpdateLevel(context.Context, *Distributor, *DistributorResponse) error
 	//分销人员详情
 	Detail(context.Context, *DistributorRequest, *DistributorResponse) error
 	//分销人员查询
@@ -92,6 +106,7 @@ type DistributorServiceHandler interface {
 
 func RegisterDistributorServiceHandler(s server.Server, hdlr DistributorServiceHandler, opts ...server.HandlerOption) error {
 	type distributorService interface {
+		UpdateLevel(ctx context.Context, in *Distributor, out *DistributorResponse) error
 		Detail(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
 		Search(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
 	}
@@ -104,6 +119,10 @@ func RegisterDistributorServiceHandler(s server.Server, hdlr DistributorServiceH
 
 type distributorServiceHandler struct {
 	DistributorServiceHandler
+}
+
+func (h *distributorServiceHandler) UpdateLevel(ctx context.Context, in *Distributor, out *DistributorResponse) error {
+	return h.DistributorServiceHandler.UpdateLevel(ctx, in, out)
 }
 
 func (h *distributorServiceHandler) Detail(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {

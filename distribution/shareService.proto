@@ -21,9 +21,9 @@ message SharePosterData  {
 
 
 message ShareRequest {
-    int32 paged = 1;
-    int32 page_size = 2;
-    int32 top = 3;
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 top = 3;
     int64 goods_id = 4;
     string type = 6;
     repeated int64 ids = 5;

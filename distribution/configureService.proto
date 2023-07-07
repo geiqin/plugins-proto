@@ -54,7 +54,7 @@ message DistributionConfig{
     repeated string self_extraction_apply_desc = 32; //自提取货点申请介绍
     repeated string self_extraction_common_notice = 33; //自提取货点顶部公告
     string profit_type = 34; //返佣类型（0所有订单，1首单）
-    string profit_settlement_limit_time = 35; //佣金结算周期
+    int64 profit_settlement_limit_time = 35; //佣金结算周期(分钟)
     string is_show_introduce = 36; //分销中心开启等级介绍(0关闭/1开启)
     repeated string user_center_level_desc = 37; //等级介绍顶部描述
     repeated string non_conformity_desc = 38; //不符合分销条件描述

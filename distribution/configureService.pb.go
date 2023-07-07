@@ -61,7 +61,7 @@ type DistributionConfig struct {
 	SelfExtractionApplyDesc        []string         `protobuf:"bytes,32,rep,name=self_extraction_apply_desc,json=selfExtractionApplyDesc,proto3" json:"self_extraction_apply_desc"`                         //自提取货点申请介绍
 	SelfExtractionCommonNotice     []string         `protobuf:"bytes,33,rep,name=self_extraction_common_notice,json=selfExtractionCommonNotice,proto3" json:"self_extraction_common_notice"`                //自提取货点顶部公告
 	ProfitType                     string           `protobuf:"bytes,34,opt,name=profit_type,json=profitType,proto3" json:"profit_type"`                                                                    //返佣类型（0所有订单，1首单）
-	ProfitSettlementLimitTime      string           `protobuf:"bytes,35,opt,name=profit_settlement_limit_time,json=profitSettlementLimitTime,proto3" json:"profit_settlement_limit_time"`                   //佣金结算周期
+	ProfitSettlementLimitTime      int64            `protobuf:"varint,35,opt,name=profit_settlement_limit_time,json=profitSettlementLimitTime,proto3" json:"profit_settlement_limit_time"`                  //佣金结算周期(分钟)
 	IsShowIntroduce                string           `protobuf:"bytes,36,opt,name=is_show_introduce,json=isShowIntroduce,proto3" json:"is_show_introduce"`                                                   //分销中心开启等级介绍(0关闭/1开启)
 	UserCenterLevelDesc            []string         `protobuf:"bytes,37,rep,name=user_center_level_desc,json=userCenterLevelDesc,proto3" json:"user_center_level_desc"`                                     //等级介绍顶部描述
 	NonConformityDesc              []string         `protobuf:"bytes,38,rep,name=non_conformity_desc,json=nonConformityDesc,proto3" json:"non_conformity_desc"`                                             //不符合分销条件描述
@@ -357,11 +357,11 @@ func (x *DistributionConfig) GetProfitType() string {
 	return ""
 }
 
-func (x *DistributionConfig) GetProfitSettlementLimitTime() string {
+func (x *DistributionConfig) GetProfitSettlementLimitTime() int64 {
 	if x != nil {
 		return x.ProfitSettlementLimitTime
 	}
-	return ""
+	return 0
 }
 
 func (x *DistributionConfig) GetIsShowIntroduce() string {
@@ -1004,7 +1004,7 @@ var file_configureService_proto_rawDesc = []byte{
 	0x65, 0x18, 0x22, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x74, 0x54,
 	0x79, 0x70, 0x65, 0x12, 0x3f, 0x0a, 0x1c, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x74, 0x5f, 0x73, 0x65,
 	0x74, 0x74, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x5f, 0x74,
-	0x69, 0x6d, 0x65, 0x18, 0x23, 0x20, 0x01, 0x28, 0x09, 0x52, 0x19, 0x70, 0x72, 0x6f, 0x66, 0x69,
+	0x69, 0x6d, 0x65, 0x18, 0x23, 0x20, 0x01, 0x28, 0x03, 0x52, 0x19, 0x70, 0x72, 0x6f, 0x66, 0x69,
 	0x74, 0x53, 0x65, 0x74, 0x74, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6d, 0x69, 0x74,
 	0x54, 0x69, 0x6d, 0x65, 0x12, 0x2a, 0x0a, 0x11, 0x69, 0x73, 0x5f, 0x73, 0x68, 0x6f, 0x77, 0x5f,
 	0x69, 0x6e, 0x74, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x65, 0x18, 0x24, 0x20, 0x01, 0x28, 0x09, 0x52,

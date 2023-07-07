@@ -2,24 +2,22 @@ syntax = "proto3";
 package services;
 option go_package ="/.;services";
 import "common/base.proto";
-import "configService.proto";
 import "baseInfoService.proto";
 
 service WalletService {
   //生成付款码
   rpc PaymentCode (WalletRequest) returns (WalletPaymentCodeResponse) {}
-  //提现创建初始化
-  rpc CashCreateInit (WalletRequest) returns (CashCreateInitResponse) {}
-  //提现安全校验
-  rpc CashAuth (WalletRequest) returns (CashAuthResponse) {}
-  //提现申请 - 验证码发送
-  rpc VerifySend (WalletRequest) returns (WalletResponse) {}
-  //提现申请 - 验证码验证
-  rpc VerifyCheck (WalletRequest) returns (WalletResponse) {}
 
-  //获取钱包
-  rpc Get (WalletRequest) returns (WalletResponse) {}
-  //查询钱包
+  //用户钱包有效金额更新
+  rpc UserWalletNormalMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+  //用户钱包冻结金额更新
+  rpc UserWalletFrozenMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+  //用户钱包赠送金额更新
+  rpc UserWalletGiveMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+
+  //钱包详情
+  rpc Detail (WalletRequest) returns (WalletResponse) {}
+  //钱包查询
   rpc Search (WalletRequest) returns (WalletResponse) {}
 }
 
@@ -38,10 +36,20 @@ message Wallet {
   string status_name =11;//状态名称
 }
 
+message WalletMoneyUpdate {
+  int64  member_id =2;//用户ID
+  int64  money =3;//操作金额
+  string type =4;//类型（0减少, 1增加）
+  string businessType =5;//业务类型（0系统, 1充值, 2提现, 3消费）
+  string msg_title =6;//附加描述标题
+  map<string,string> params =8; //扩展参数
+}
+
+
 //查询参数
 message WalletRequest {
-  int32 paged = 1;
-  int32 page_size = 2;
+  int64 paged = 1;
+  int64 page_size = 2;
   //以下为自定义参数
   string name = 3;
   int64  id =4;
@@ -63,45 +71,6 @@ message WalletData{
 message WalletResponse {
   WalletData data = 1;
   common.Error error = 2;
-}
-
-//提现安全验证数据
-message CashAuthData {
-  WalletConfig base = 1;
-  Wallet user_wallet =2;
-  repeated CheckAccountInfo check_account_list = 3;
-}
-
-//提现创建初始化数据
-message CashCreateInitData {
-  bool check_status = 1;//验证状态
-  WalletConfig base = 2; //基础配置信息
-  Wallet user_wallet = 3; //用户钱包
-  int64 can_cash_max_money = 4; //可提现最大金额
-  map<string,string> default_data = 5; //默认提现信息
-}
-
-message CheckAccountInfo {
-  string field = 1;
-  string value = 2;
-  string name = 3;
-  string msg = 4;
-}
-
-message CashAuthResponse {
-  CashAuthData data = 1;
-  common.Error error = 2;
-}
-
-message CashCreateInitResponse {
-  CashCreateInitData data = 1;
-  common.Error error = 2;
-}
-
-//提现默认数据
-message  CashDefaultData{
-  string status = 6;
-  string account_type = 7;
 }
 
 

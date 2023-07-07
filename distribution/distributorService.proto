@@ -6,6 +6,8 @@ import "levelService.proto";
 
 //分销人员
 service DistributorService {
+    //修改分销等级
+    rpc UpdateLevel (Distributor) returns (DistributorResponse) {}
     //分销人员详情
     rpc Detail (DistributorRequest) returns (DistributorResponse) {}
     //分销人员查询
@@ -13,9 +15,9 @@ service DistributorService {
 }
 
 message DistributorRequest {
-    int32 paged = 1;
-    int32 page_size = 2;
-    int32 top = 3;
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 top = 3;
     int64 id = 4;
     string mobile = 5;
     string keywords = 6;
