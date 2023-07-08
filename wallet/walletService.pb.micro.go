@@ -46,11 +46,11 @@ type WalletService interface {
 	//生成付款码
 	PaymentCode(ctx context.Context, in *WalletRequest, opts ...client.CallOption) (*WalletPaymentCodeResponse, error)
 	//用户钱包有效金额更新
-	UserWalletNormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
+	NormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
 	//用户钱包冻结金额更新
-	UserWalletFrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
+	FrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
 	//用户钱包赠送金额更新
-	UserWalletGiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
+	GiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error)
 	//钱包详情
 	Detail(ctx context.Context, in *WalletRequest, opts ...client.CallOption) (*WalletResponse, error)
 	//钱包查询
@@ -79,8 +79,8 @@ func (c *walletService) PaymentCode(ctx context.Context, in *WalletRequest, opts
 	return out, nil
 }
 
-func (c *walletService) UserWalletNormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
-	req := c.c.NewRequest(c.name, "WalletService.UserWalletNormalMoneyUpdate", in)
+func (c *walletService) NormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
+	req := c.c.NewRequest(c.name, "WalletService.NormalMoneyUpdate", in)
 	out := new(WalletResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -89,8 +89,8 @@ func (c *walletService) UserWalletNormalMoneyUpdate(ctx context.Context, in *Wal
 	return out, nil
 }
 
-func (c *walletService) UserWalletFrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
-	req := c.c.NewRequest(c.name, "WalletService.UserWalletFrozenMoneyUpdate", in)
+func (c *walletService) FrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
+	req := c.c.NewRequest(c.name, "WalletService.FrozenMoneyUpdate", in)
 	out := new(WalletResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -99,8 +99,8 @@ func (c *walletService) UserWalletFrozenMoneyUpdate(ctx context.Context, in *Wal
 	return out, nil
 }
 
-func (c *walletService) UserWalletGiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
-	req := c.c.NewRequest(c.name, "WalletService.UserWalletGiveMoneyUpdate", in)
+func (c *walletService) GiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, opts ...client.CallOption) (*WalletResponse, error) {
+	req := c.c.NewRequest(c.name, "WalletService.GiveMoneyUpdate", in)
 	out := new(WalletResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -135,11 +135,11 @@ type WalletServiceHandler interface {
 	//生成付款码
 	PaymentCode(context.Context, *WalletRequest, *WalletPaymentCodeResponse) error
 	//用户钱包有效金额更新
-	UserWalletNormalMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
+	NormalMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
 	//用户钱包冻结金额更新
-	UserWalletFrozenMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
+	FrozenMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
 	//用户钱包赠送金额更新
-	UserWalletGiveMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
+	GiveMoneyUpdate(context.Context, *WalletMoneyUpdate, *WalletResponse) error
 	//钱包详情
 	Detail(context.Context, *WalletRequest, *WalletResponse) error
 	//钱包查询
@@ -149,9 +149,9 @@ type WalletServiceHandler interface {
 func RegisterWalletServiceHandler(s server.Server, hdlr WalletServiceHandler, opts ...server.HandlerOption) error {
 	type walletService interface {
 		PaymentCode(ctx context.Context, in *WalletRequest, out *WalletPaymentCodeResponse) error
-		UserWalletNormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
-		UserWalletFrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
-		UserWalletGiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
+		NormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
+		FrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
+		GiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error
 		Detail(ctx context.Context, in *WalletRequest, out *WalletResponse) error
 		Search(ctx context.Context, in *WalletRequest, out *WalletResponse) error
 	}
@@ -170,16 +170,16 @@ func (h *walletServiceHandler) PaymentCode(ctx context.Context, in *WalletReques
 	return h.WalletServiceHandler.PaymentCode(ctx, in, out)
 }
 
-func (h *walletServiceHandler) UserWalletNormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
-	return h.WalletServiceHandler.UserWalletNormalMoneyUpdate(ctx, in, out)
+func (h *walletServiceHandler) NormalMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
+	return h.WalletServiceHandler.NormalMoneyUpdate(ctx, in, out)
 }
 
-func (h *walletServiceHandler) UserWalletFrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
-	return h.WalletServiceHandler.UserWalletFrozenMoneyUpdate(ctx, in, out)
+func (h *walletServiceHandler) FrozenMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
+	return h.WalletServiceHandler.FrozenMoneyUpdate(ctx, in, out)
 }
 
-func (h *walletServiceHandler) UserWalletGiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
-	return h.WalletServiceHandler.UserWalletGiveMoneyUpdate(ctx, in, out)
+func (h *walletServiceHandler) GiveMoneyUpdate(ctx context.Context, in *WalletMoneyUpdate, out *WalletResponse) error {
+	return h.WalletServiceHandler.GiveMoneyUpdate(ctx, in, out)
 }
 
 func (h *walletServiceHandler) Detail(ctx context.Context, in *WalletRequest, out *WalletResponse) error {

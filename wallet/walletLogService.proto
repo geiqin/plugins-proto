@@ -6,8 +6,6 @@ import "baseInfoService.proto";
 import "walletService.proto";
 
 service WalletLogService {
-  //增加钱包日志（同时更新至钱包）【服务专用】
-  rpc WalletLogInsert (WalletLog) returns (WalletLogResponse) {}
   //获得保证金记录信息
   rpc Get (WalletLog) returns (WalletLogResponse) {}
   //查询保证金记录信息

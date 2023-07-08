@@ -9,11 +9,11 @@ service WalletService {
   rpc PaymentCode (WalletRequest) returns (WalletPaymentCodeResponse) {}
 
   //用户钱包有效金额更新
-  rpc UserWalletNormalMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+  rpc NormalMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
   //用户钱包冻结金额更新
-  rpc UserWalletFrozenMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+  rpc FrozenMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
   //用户钱包赠送金额更新
-  rpc UserWalletGiveMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
+  rpc GiveMoneyUpdate (WalletMoneyUpdate) returns (WalletResponse) {}
 
   //钱包详情
   rpc Detail (WalletRequest) returns (WalletResponse) {}
