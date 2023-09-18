@@ -1,0 +1,83 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+message MemberInfo {
+    int64  id =1;//ID
+    string type =2;//类型：0个人,1企业
+    string number_code =3;//会员编号
+    string username =4;//用户名称
+    string nickname =5;//用户昵称
+    string gender =6;//性别:0=未知,1=男,2=女
+    string birthday =7;//会员生日
+    int64  area_id =8;//区域ID
+    string province_name =9;//所在省
+    string city_name =10;//所在市
+    string county_name =11;//所在区/县
+    string address =12;//详细地址
+    string email =13;//邮箱
+    string mobile =14;//手机号
+    int64  avatar_id =15;//会员头像ID
+    string avatar_url =16;//会员头像url地址
+    string status =17;
+}
+
+message SpuInfo {
+    int64 id =1;//ID
+    int64 taxonomy_id =2;//标准类目ID
+    int64 category_id =3;//商品分类ID
+    int32 brand_id =4;//品牌ID
+    int64 shop_id =5;//分店ID
+    string title =6;//商品标题
+    string title_color =7;//标题颜色
+    string simple_desc =8;//简述
+    string type =9;//商品类型：product商品,material原料,assets资产
+    string site_type =10;//商品类型
+    string unit =11;//计量单位
+    int64  place_origin_id =12;//产地ID（地区省id）
+    int32  inventory =13;//库存（所有规格库存总和）
+    string image_url =15;//商品主图url
+    string video_url =17;//短视频url
+    string is_many_spec =20;//是否多规格商品,否则为单品
+    string is_deduction_inventory =21;//是否扣减库存（0否, 1是）
+    string is_listed =22;//是否上架（下架后用户不可见, 0否, 1是）
+    string is_member_right =23;//是否设置商品购买权限（0否, 1是）
+    string is_member_price =24;//是否参与会员折扣价（0否, 1是）
+    int64  min_original_price =25;//最低原价
+    int64  max_original_price =26;//最大原价
+    int64  min_price =27;//最低价格
+    int64  max_price =28;//最高价格
+    string show_original_price =29;//显示原价（单值:10, 区间:10.00-20.00）一般用于展示使用
+    string show_price =30;//显示销售价格（单值:10, 区间:10.00-20.00）一般用于展示使用
+    int32  buy_min_number =31;//最低起购数量（默认1）
+    int32  buy_max_number =32;//最大购买数量（最大数值 100000000, 小于等于0或空则不限）
+    int32  give_integral =33;//购买赠送积分比例
+    int32  photo_count =34;//相册图片数量
+    int32  sale_count =35;//销量
+    int32  access_count =36;//访问次数
+    int32  sort =37;//排序值
+    string freight_type =42;//运费模式：1统一邮费，2运费模板
+    int64  freight_uniform_fee =43;//统一运费
+    int64  freight_express_id =44;//运费模板ID
+    string is_fictitious =45;//是否虚拟商品（0否, 1是）
+    string status = 50;
+}
+
+message OrderInfo {
+    int64 id = 1;//ID
+    string order_no =2; //订单编号
+}
+
+message AppNavInfo {
+    string icon =1;
+    string title =2;
+    string url =3;
+}
+
+message DictInfo {
+    string name	 =1;
+    string value =2;
+    string class =3;
+    string color =4;
+    bool checked =5;
+}

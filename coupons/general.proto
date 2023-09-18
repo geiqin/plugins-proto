@@ -1,0 +1,66 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+//通用服务
+service GeneralService {
+  //字典选项
+  rpc DictList (DictRequest) returns (DictResponse) {}
+  //获配置信息
+  rpc GetConfig  (CouponConfig) returns (ConfigResponse) {}
+  //保存配置信息
+  rpc SaveConfig  (CouponConfig) returns (ConfigResponse) {}
+}
+
+message DictType {
+  string name = 1;
+  repeated DictInfo items = 2;
+}
+
+message DictRequest{
+  int64 paged = 1;
+  int64 page_size = 2;
+  string order_by = 3;
+  //
+  int64 id = 4;
+  string name = 5;
+  string type = 6;
+  repeated string type_list = 7;
+}
+
+message DictData {
+  DictInfo entity = 1;
+  common.Pager pager =2;
+  repeated DictType dict_list = 3;
+  common.Info info =4;
+}
+
+message DictResponse {
+  DictData data = 1;
+  common.Error error = 2;
+}
+
+
+//配置
+message CouponConfig {
+  string application_name = 1; //应用名称
+  string banner_image_url = 2; //优惠券首页顶部大图
+  string banner_bg_color = 3; //优惠券首页顶部大图（背景色）
+  string is_user_coupon_send_site_notice = 7; //优惠券发放站内信通知
+  string is_exclude_seckill_goods_order = 8; //限时秒杀商品订单不可用(0否、1是)
+  string is_user_coupon_send_sms_notice = 9;//优惠券发放短信通知
+  string user_coupon_send_notice_sms_template = 10;//优惠券发放通知短信模板
+  string is_shop_coupon =11;//开启支持多商户(0否、1是)
+  string is_shop_nav_coupon = 12;//开启多商户店铺优惠券导航入口(0否、1是)
+  map<string,string> banner_url_rules = 13;//优惠券首页顶部大图（链接地址）
+}
+
+
+message ConfigResponse {
+  CouponConfig data = 1;
+  common.Error error = 2;
+}
+
+
