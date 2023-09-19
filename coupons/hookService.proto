@@ -7,10 +7,12 @@ import "couponUserService.proto";
 
 //钩子服务
 service HookService {
-    //商品页面优惠券
-    rpc GoodsDetailCoupon (HookRequest) returns (GoodsDetailCouponResponse) {}
-    //购买确认页面优惠券选择
-    rpc BuyUserCoupon (HookRequest) returns (BuyUserCouponResponse) {}
+    //商品接口数据
+    rpc GoodsResultHandle (HookRequest) returns (GoodsResultResponse) {}
+    //下单接口数据
+    rpc BuyResultHandle (HookRequest) returns (BuyResultResponse) {}
+    //购买订单优惠处理
+    rpc BuyCalculate (HookRequest) returns (BuyCalculateResponse) {}
 }
 
 message HookRequest{
@@ -32,18 +34,28 @@ message HookRequest{
     int64 member_id = 15;
 }
 
-message GoodsDetailCouponData {
+message OrderExtension {
+    int64 id = 1;
+    string name = 2;
+    string type = 3;
+    int64 price = 4;
+    string business = 5;
+    string tips = 6;
+}
+
+
+message GoodsResultData {
     CouponBaseInfo base =1;
     repeated Coupon data = 2;
     string msg =3;
 }
 
-message GoodsDetailCouponResponse {
-    GoodsDetailCouponData data = 1;
+message GoodsResultResponse {
+    GoodsResultData data = 1;
     common.Error error = 2;
 }
 
-message BuyUserCouponData {
+message BuyResultData {
     int64 warehouse_id =1;
     string warehouse_name =2;
     repeated CouponUser coupon_list =3;
@@ -51,7 +63,22 @@ message BuyUserCouponData {
     string msg =5;
 }
 
-message BuyUserCouponResponse {
-    BuyUserCouponData data = 1;
+
+message BuyResultResponse {
+    BuyResultData data = 1;
+    common.Error error = 2;
+}
+
+
+message BuyCalculateData {
+    int64 warehouse_id =1;
+    repeated OrderExtension discount_list =3;
+    repeated CouponUser coupon_choice =4;
+    string msg =5;
+}
+
+
+message BuyCalculateResponse {
+    BuyCalculateData data = 1;
     common.Error error = 2;
 }

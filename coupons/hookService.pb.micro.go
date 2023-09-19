@@ -43,10 +43,12 @@ func NewHookServiceEndpoints() []*api.Endpoint {
 // Client API for HookService service
 
 type HookService interface {
-	//商品页面优惠券
-	GoodsDetailCoupon(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*GoodsDetailCouponResponse, error)
-	//购买确认页面优惠券选择
-	BuyUserCoupon(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyUserCouponResponse, error)
+	//商品接口数据
+	GoodsResultHandle(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*GoodsResultResponse, error)
+	//下单接口数据
+	BuyResultHandle(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyResultResponse, error)
+	//购买订单优惠处理
+	BuyCalculate(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyCalculateResponse, error)
 }
 
 type hookService struct {
@@ -61,9 +63,9 @@ func NewHookService(name string, c client.Client) HookService {
 	}
 }
 
-func (c *hookService) GoodsDetailCoupon(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*GoodsDetailCouponResponse, error) {
-	req := c.c.NewRequest(c.name, "HookService.GoodsDetailCoupon", in)
-	out := new(GoodsDetailCouponResponse)
+func (c *hookService) GoodsResultHandle(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*GoodsResultResponse, error) {
+	req := c.c.NewRequest(c.name, "HookService.GoodsResultHandle", in)
+	out := new(GoodsResultResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,9 +73,19 @@ func (c *hookService) GoodsDetailCoupon(ctx context.Context, in *HookRequest, op
 	return out, nil
 }
 
-func (c *hookService) BuyUserCoupon(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyUserCouponResponse, error) {
-	req := c.c.NewRequest(c.name, "HookService.BuyUserCoupon", in)
-	out := new(BuyUserCouponResponse)
+func (c *hookService) BuyResultHandle(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyResultResponse, error) {
+	req := c.c.NewRequest(c.name, "HookService.BuyResultHandle", in)
+	out := new(BuyResultResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hookService) BuyCalculate(ctx context.Context, in *HookRequest, opts ...client.CallOption) (*BuyCalculateResponse, error) {
+	req := c.c.NewRequest(c.name, "HookService.BuyCalculate", in)
+	out := new(BuyCalculateResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -84,16 +96,19 @@ func (c *hookService) BuyUserCoupon(ctx context.Context, in *HookRequest, opts .
 // Server API for HookService service
 
 type HookServiceHandler interface {
-	//商品页面优惠券
-	GoodsDetailCoupon(context.Context, *HookRequest, *GoodsDetailCouponResponse) error
-	//购买确认页面优惠券选择
-	BuyUserCoupon(context.Context, *HookRequest, *BuyUserCouponResponse) error
+	//商品接口数据
+	GoodsResultHandle(context.Context, *HookRequest, *GoodsResultResponse) error
+	//下单接口数据
+	BuyResultHandle(context.Context, *HookRequest, *BuyResultResponse) error
+	//购买订单优惠处理
+	BuyCalculate(context.Context, *HookRequest, *BuyCalculateResponse) error
 }
 
 func RegisterHookServiceHandler(s server.Server, hdlr HookServiceHandler, opts ...server.HandlerOption) error {
 	type hookService interface {
-		GoodsDetailCoupon(ctx context.Context, in *HookRequest, out *GoodsDetailCouponResponse) error
-		BuyUserCoupon(ctx context.Context, in *HookRequest, out *BuyUserCouponResponse) error
+		GoodsResultHandle(ctx context.Context, in *HookRequest, out *GoodsResultResponse) error
+		BuyResultHandle(ctx context.Context, in *HookRequest, out *BuyResultResponse) error
+		BuyCalculate(ctx context.Context, in *HookRequest, out *BuyCalculateResponse) error
 	}
 	type HookService struct {
 		hookService
@@ -106,10 +121,14 @@ type hookServiceHandler struct {
 	HookServiceHandler
 }
 
-func (h *hookServiceHandler) GoodsDetailCoupon(ctx context.Context, in *HookRequest, out *GoodsDetailCouponResponse) error {
-	return h.HookServiceHandler.GoodsDetailCoupon(ctx, in, out)
+func (h *hookServiceHandler) GoodsResultHandle(ctx context.Context, in *HookRequest, out *GoodsResultResponse) error {
+	return h.HookServiceHandler.GoodsResultHandle(ctx, in, out)
 }
 
-func (h *hookServiceHandler) BuyUserCoupon(ctx context.Context, in *HookRequest, out *BuyUserCouponResponse) error {
-	return h.HookServiceHandler.BuyUserCoupon(ctx, in, out)
+func (h *hookServiceHandler) BuyResultHandle(ctx context.Context, in *HookRequest, out *BuyResultResponse) error {
+	return h.HookServiceHandler.BuyResultHandle(ctx, in, out)
+}
+
+func (h *hookServiceHandler) BuyCalculate(ctx context.Context, in *HookRequest, out *BuyCalculateResponse) error {
+	return h.HookServiceHandler.BuyCalculate(ctx, in, out)
 }
