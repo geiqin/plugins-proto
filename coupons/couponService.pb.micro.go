@@ -61,10 +61,6 @@ type CouponService interface {
 	Receive(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*CouponResponse, error)
 	//优惠劵发送
 	Send(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*CouponResponse, error)
-	//商品页面优惠券
-	GoodsDetailCouponData(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*PluginResultResponse, error)
-	//购买确认页面优惠券选择
-	BuyUserCouponData(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*PluginResultResponse, error)
 }
 
 type couponService struct {
@@ -169,26 +165,6 @@ func (c *couponService) Send(ctx context.Context, in *CouponRequest, opts ...cli
 	return out, nil
 }
 
-func (c *couponService) GoodsDetailCouponData(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*PluginResultResponse, error) {
-	req := c.c.NewRequest(c.name, "CouponService.GoodsDetailCouponData", in)
-	out := new(PluginResultResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *couponService) BuyUserCouponData(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*PluginResultResponse, error) {
-	req := c.c.NewRequest(c.name, "CouponService.BuyUserCouponData", in)
-	out := new(PluginResultResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // Server API for CouponService service
 
 type CouponServiceHandler interface {
@@ -210,10 +186,6 @@ type CouponServiceHandler interface {
 	Receive(context.Context, *CouponRequest, *CouponResponse) error
 	//优惠劵发送
 	Send(context.Context, *CouponRequest, *CouponResponse) error
-	//商品页面优惠券
-	GoodsDetailCouponData(context.Context, *CouponRequest, *PluginResultResponse) error
-	//购买确认页面优惠券选择
-	BuyUserCouponData(context.Context, *CouponRequest, *PluginResultResponse) error
 }
 
 func RegisterCouponServiceHandler(s server.Server, hdlr CouponServiceHandler, opts ...server.HandlerOption) error {
@@ -227,8 +199,6 @@ func RegisterCouponServiceHandler(s server.Server, hdlr CouponServiceHandler, op
 		Index(ctx context.Context, in *CouponRequest, out *CouponResponse) error
 		Receive(ctx context.Context, in *CouponRequest, out *CouponResponse) error
 		Send(ctx context.Context, in *CouponRequest, out *CouponResponse) error
-		GoodsDetailCouponData(ctx context.Context, in *CouponRequest, out *PluginResultResponse) error
-		BuyUserCouponData(ctx context.Context, in *CouponRequest, out *PluginResultResponse) error
 	}
 	type CouponService struct {
 		couponService
@@ -275,12 +245,4 @@ func (h *couponServiceHandler) Receive(ctx context.Context, in *CouponRequest, o
 
 func (h *couponServiceHandler) Send(ctx context.Context, in *CouponRequest, out *CouponResponse) error {
 	return h.CouponServiceHandler.Send(ctx, in, out)
-}
-
-func (h *couponServiceHandler) GoodsDetailCouponData(ctx context.Context, in *CouponRequest, out *PluginResultResponse) error {
-	return h.CouponServiceHandler.GoodsDetailCouponData(ctx, in, out)
-}
-
-func (h *couponServiceHandler) BuyUserCouponData(ctx context.Context, in *CouponRequest, out *PluginResultResponse) error {
-	return h.CouponServiceHandler.BuyUserCouponData(ctx, in, out)
 }

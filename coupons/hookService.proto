@@ -1,0 +1,57 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "couponService.proto";
+import "couponUserService.proto";
+
+//钩子服务
+service HookService {
+    //商品页面优惠券
+    rpc GoodsDetailCoupon (HookRequest) returns (GoodsDetailCouponResponse) {}
+    //购买确认页面优惠券选择
+    rpc BuyUserCoupon (HookRequest) returns (BuyUserCouponResponse) {}
+}
+
+message HookRequest{
+    int64 paged = 1;
+    int64 page_size = 2;
+    string order_by = 3;
+    //
+    int64 id = 4;
+    string name = 5;
+    string type = 6;
+    string is_enable = 7;
+    string is_register_send = 8;
+    int64 shop_id = 9;
+    int64 spu_id = 10;
+    string is_user_receive = 11;
+    repeated int64 ids = 12;
+    repeated int64 member_ids = 13;
+    int64 coupon_id = 14;
+    int64 member_id = 15;
+}
+
+message GoodsDetailCouponData {
+    CouponBaseInfo base =1;
+    repeated Coupon data = 2;
+    string msg =3;
+}
+
+message GoodsDetailCouponResponse {
+    GoodsDetailCouponData data = 1;
+    common.Error error = 2;
+}
+
+message BuyUserCouponData {
+    int64 warehouse_id =1;
+    string warehouse_name =2;
+    repeated CouponUser coupon_list =3;
+    repeated CouponUser coupon_choice =4;
+    string msg =5;
+}
+
+message BuyUserCouponResponse {
+    BuyUserCouponData data = 1;
+    common.Error error = 2;
+}

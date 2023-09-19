@@ -35,6 +35,7 @@ message CouponUser {
     Coupon coupon = 13;//优惠券
     MemberInfo member = 14;//用户
     OrderInfo use_order = 15;//使用关联的订单
+    repeated int64 buy_goods_ids =16;//附加：购买商品ID
 }
 
 message CouponUserRequest {

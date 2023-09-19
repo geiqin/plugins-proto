@@ -27,10 +27,6 @@ service CouponService {
     //优惠劵发送
     rpc Send (CouponRequest) returns (CouponResponse) {}
 
-    //商品页面优惠券
-    rpc GoodsDetailCouponData (CouponRequest) returns (PluginResultResponse) {}
-    //购买确认页面优惠券选择
-    rpc BuyUserCouponData (CouponRequest) returns (PluginResultResponse) {}
 }
 
 //优惠劵
@@ -83,10 +79,11 @@ message CouponRequest{
     string is_enable = 7;
     string is_register_send = 8;
     int64 shop_id = 9;
-    int64 coupon_id = 10;
+    int64 spu_id = 10;
     string is_user_receive = 11;
     repeated int64 ids = 12;
     repeated int64 member_ids = 13;
+    int64 coupon_id = 14;
 }
 
 message CouponBaseInfo{
@@ -109,16 +106,5 @@ message CouponData {
 
 message CouponResponse {
     CouponData data = 1;
-    common.Error error = 2;
-}
-
-message PluginResultData {
-    CouponBaseInfo base =1;
-    repeated Coupon data = 2;
-    string msg =3;
-}
-
-message PluginResultResponse {
-    PluginResultData data = 1;
     common.Error error = 2;
 }
