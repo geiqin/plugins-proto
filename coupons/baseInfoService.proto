@@ -68,6 +68,16 @@ message OrderInfo {
     string order_no =2; //订单编号
 }
 
+message OrderExtensionInfo {
+    int64 id = 1;
+    string name = 2;
+    string type = 3;
+    int64 price = 4;
+    string business = 5;
+    string tips = 6;
+    string origin_data =7;
+}
+
 message AppNavInfo {
     string icon =1;
     string title =2;

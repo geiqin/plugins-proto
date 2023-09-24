@@ -32,16 +32,10 @@ message HookRequest{
     repeated int64 member_ids = 13;
     int64 coupon_id = 14;
     int64 member_id = 15;
+    map<int64,int64> choice_coupon_ids =17; //选中的优惠劵 <仓库ID,用户优惠劵ID>
+    string buy_order_data =18; //订单数据 JSON格式
 }
 
-message OrderExtension {
-    int64 id = 1;
-    string name = 2;
-    string type = 3;
-    int64 price = 4;
-    string business = 5;
-    string tips = 6;
-}
 
 
 message GoodsResultData {
@@ -71,10 +65,9 @@ message BuyResultResponse {
 
 
 message BuyCalculateData {
-    int64 warehouse_id =1;
-    repeated OrderExtension discount_list =3;
-    repeated CouponUser coupon_choice =4;
-    string msg =5;
+    bool is_changed =1;
+    string buy_order_data =2;
+    string msg =3;
 }
 
 
