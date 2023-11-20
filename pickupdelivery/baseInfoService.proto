@@ -1,0 +1,86 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+message AreaInfo {
+	int64 id = 1;
+	int64 area_id = 2;
+	string level_type = 3;
+	string name = 4;
+	string shortname = 5;
+	string parent_path = 6;
+	string province = 7;
+	string city = 8;
+	string district = 9;
+	string province_shortname = 11;
+	string city_shortname = 12;
+	string district_shortname = 13;
+	string province_pinyin = 14;
+	string city_pinyin = 15;
+	string district_pinyin = 16;
+	string pinyin = 17;
+	string jianpin = 18;
+	string first_char = 19;
+	string city_code = 20;
+	string zip_code = 21;
+	string lng = 22;
+	string lat = 23;
+	string remark1 = 24;
+	string remark2 = 25;
+}
+
+//商品信息
+message SpuInfo {
+	int64 id = 1; //比如购物车ID
+	int64 sku_id = 2;
+	int64 spu_id = 3;
+	string type = 4; //类型
+	string title = 5; //标题
+	string title_color = 6; //标题颜色
+	string simple_desc = 7; //简单描述
+	int32 inventory = 8; //库存数量
+	string unit = 9; //库存单位
+	string image_url = 10; //封面URL
+	string video_url = 11; //视频URL
+	string is_many_spec = 12;//是否多规格商品（0否，1是）
+	string is_deduction_inventory = 13; //是否扣减库存
+	string is_listed = 14; //是否上架（0否，1是）
+	string is_virtual = 15; //是否虚拟商品（0否，1是）
+	int64 shop_id = 16; //分店ID
+	int32 brand_id = 17;//品牌ID
+	string brand_name = 18; //品牌名称
+	string virtual_type = 19; //虚拟商品类型
+	string virtual_data = 20; //虚拟商品扩展数据
+	int64 taxonomy_id = 22;//
+	int64 category_id  =23;
+	int64 give_integral  = 24;
+	int32 buy_min_number  = 25;
+	int32 buy_max_number  = 26;
+	int32 photo_count =27; //相册数量
+	int32 sale_count =28; //销售量
+	int32 access_count =29; //访问量
+	int64 place_origin_id =30; //原产地ID
+	int64 weight = 31;
+	int64 volume = 32;
+	string coding = 33;
+	string barcode = 34;
+	int64 price = 35;
+	int64 original_price = 36;
+	int64 cost_price = 37;
+	string spec_desc =38;
+	string show_field_original_price_text =39;
+	string show_field_price_text =40;
+	string goods_url =41;
+	bool checked = 42; //是否选中
+	int32 number = 43; //购买数量
+	int64 subtotal_price = 44; //合计价格
+	string is_error = 45; //购物车用(0否,1是)
+	string error_message = 46; //购物车用
+	repeated SpecificationData spec = 47; //规格
+}
+
+//货品规格信息
+message SpecificationData{
+	string type =1;
+	string value =2;
+}

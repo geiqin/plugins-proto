@@ -1,0 +1,28 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service ConfigService {
+    //配置中心
+    rpc Index   (ExpressDeliveryConfig) returns (ConfigResponse) {}
+    //获配置信息
+    rpc Get   (ExpressDeliveryConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save   (ExpressDeliveryConfig) returns (ConfigResponse) {}
+    //配送开关：开启/关闭
+    rpc DeliverySwitch (ExpressDeliveryConfig) returns (ConfigResponse) {}
+}
+
+//钱包配置
+message ExpressDeliveryConfig {
+    string is_enable_delivery =1;//是否开启快递发货(0否、1是)
+    string charging_type =2;//计费方式:1-累加运费,2-组合运费
+    string is_init_data =3;//是否已初始化数据(0否、1是)
+}
+
+message ConfigResponse {
+    ExpressDeliveryConfig data = 1;
+    common.Error error = 2;
+}
+

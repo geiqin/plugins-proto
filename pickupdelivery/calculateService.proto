@@ -1,0 +1,36 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+
+service CalculateService {
+  rpc Handle (CalculateRequest) returns (CalculateResponse) {}
+}
+
+message Calculate {
+  string starting_price =1;//快递名称
+  string delivery_price =2;//快递编号
+  bool is_exists =3;//是否存在
+}
+
+
+
+message CalculateRequest {
+  int64 order_id =1;
+  int64 packet_id =2;
+  string lng =3;
+  string lat =4;
+  string express_number =5;
+  string express_code =6;
+  string status =7;
+}
+
+message CalculateData {
+  Calculate entity = 1;
+  string msg=2;
+}
+
+message CalculateResponse {
+  CalculateData data = 1;
+  common.Error error = 2;
+}

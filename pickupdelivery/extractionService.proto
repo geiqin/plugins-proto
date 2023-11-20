@@ -1,0 +1,94 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service ExtractionService {
+  rpc Create (Extraction) returns (ExtractionResponse) {}
+  rpc Update (Extraction) returns (ExtractionResponse) {}
+  rpc Delete (ExtractionRequest) returns (ExtractionResponse) {}
+  rpc Get (Extraction) returns (ExtractionResponse) {}
+  rpc Search (ExtractionRequest) returns (ExtractionResponse) {}
+  rpc List (ExtractionRequest) returns (ExtractionResponse) {}
+  // 获取距离用户最近的自提点
+  rpc NearestList (ExtractionRequest) returns (ExtractionResponse) {}
+}
+
+message ExtractionRequest {
+  int64 paged = 1;
+  int64 page_size = 2;
+  string sorting = 3;
+  string keywords = 4;
+  int64 id = 5;
+  string name = 6;
+  float lng = 7;
+  float lat = 8;
+  int64 shop_id =10; //多店铺ID
+  int64 realstore_id =11; //多门店ID
+  int64 province_id =12;//所在省ID
+  int64 city_id =13;//所在市ID
+  int64 county_id =14;//所在县/区ID
+  repeated int64 ids = 15;
+}
+
+message Extraction {
+  int64 id =1;
+  int64 shop_id =2; //多店铺ID
+  int64 realstore_id =3; //多门店ID
+  string name =4; //姓名
+  string alias =5;//别名
+  string tel =6;//电话
+  int64 province_id =7;//所在省ID
+  int64 city_id =8;//所在市ID
+  int64 county_id =9;//所在县/区ID
+  string province_name =10;//所在省
+  string city_name =11;//所在市
+  string county_name =12;//所在县/区
+  string address =13;//详细地址
+  float lng =14; //经度
+  float lat =15;  //纬度
+  string logo_url = 16;
+  string memo = 17;
+  ExtractionConfig config =18; //配置信息
+  string created_at = 21;
+  string updated_at = 22;
+  float distance_value = 27; //距离数据（离用户位置）
+  string distance_unit = 28; //距离单位（离用户位置）
+}
+
+message ExtractionConfig{
+  string reception = 9;
+  int32 reception_repeat_weeks = 10;
+  repeated int32 reception_repeat_week_arr = 11;
+  bool is_fetch_time = 12;
+  string fetch = 13;
+  int32 fetch_repeat_weeks = 14;
+  repeated int32 fetch_repeat_week_arr = 15;
+  string sub_fetch_time = 16;
+  string appointment = 17;
+  int32 appointment_num = 18;
+  int32 max_appointment_num = 19;
+  repeated ExtractionTime reception_times = 23;
+  repeated ExtractionTime fetch_times = 24;
+}
+
+message ExtractionTime{
+  string type = 3;
+  string start_time = 4;
+  string end_time = 5;
+}
+
+
+message ExtractionData {
+  Extraction entity = 1;
+  common.Pager pager =2;
+  repeated Extraction items = 3;
+  common.Info info =4;
+}
+
+
+message ExtractionResponse {
+  ExtractionData data = 1;
+  common.Error error = 2;
+}
+

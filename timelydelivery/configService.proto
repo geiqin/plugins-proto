@@ -1,0 +1,75 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service ConfigService {
+    //配置中心
+    rpc Index   (TimelyDeliveryConfig) returns (ConfigResponse) {}
+    //获配置信息
+    rpc Get   (TimelyDeliveryConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save   (TimelyDeliveryConfig) returns (ConfigResponse) {}
+    //配送开关：开启/关闭
+    rpc DeliverySwitch (TimelyDeliveryConfig) returns (ConfigResponse) {}
+}
+
+//钱包配置
+message TimelyDeliveryConfig {
+    string is_enable_delivery =1;//是否开启同城配送(0否、1是)
+    int64  pickup_province_id =2;//取货点所在省
+    int64  pickup_city_id =3;//取货点所在市
+    int64  pickup_county_id =4;//取货点所在县/区
+    string pickup_province_name =5;//取货点-省-名称
+    string pickup_city_name =6;//取货点-市-名称
+    string pickup_county_name =7;//取货点-县/区-名称
+    string pickup_address =8;//取货点详细地址
+    MapPoint pickup_point =9;//取货点坐标
+    string fee_type =10;//收费标准【地图划分版】: 1按区域收取固定配送费,2按距离收取配送费
+    float  first_km =11;//首公里数【按距离收取配送费】
+    int64  first_km_fee =12;//首公里数内收取的配送费【按距离收取配送费】
+    float additional_km =13;//每超出多少km额外收费【按距离收取配送费】
+    int64  additional_km_fee =14;//额外费用【按距离收取配送费】
+    int64  first_weight =15;//多少kg内不收费【续重收费】
+    int64  additional_weight =16;//每超出多少kg额外收费【续重收费】
+    int64  additional_weight_fee =17;//额外费用【续重收费】
+    string is_timed_arrival =18;//是否开启定时达(0否、1是)
+    TimedArrival timed_arrival  =19;//定时达规则
+    string description =20;//配送说明
+    repeated DeliveryRangeRule ranges=21; //配送范围规则
+}
+
+//定时送达数据
+message TimedArrival {
+    string repeat_type =1;//配送时间:all_day全天、repeat_day每天重复、repeat_week每周重复
+    int32  repeat_weeks =2;//自提时间每周重复的星期数按|运算: 1周一，2周二，4周三，8周四，16周五，32周六，64周日
+    string time_section =3;//配送时段细分: day按天，hour按小时，half_hour按半小时
+    string appointment_type =4;//预约下单：no无需提前、day提前X天、hour提前X小时、minute提前X分钟
+    int32  appointment_value =5;//预约下单的天数、小时、分钟
+    int32  appointment_max_days =6;//最长预约天数(0只能当天配送)
+    repeated string ranges =7;//范围 待定
+    repeated string delivery_times =8;// 配送时段 待定
+}
+
+//配送范围规则
+message DeliveryRangeRule {
+    string area_name =1;//区域名称
+    int64 starting_price =2;//起送价
+    int64 delivery_price =3;//配送费
+    string shape =4;//划分方式: 1-半径,2-自定义
+    float circle_radius  =5;//圆半径，公里内【半径】
+    MapPoint center_point =6;//中心点坐标【半径】
+    repeated MapPoint coordinates =7;//自定义坐标列表
+}
+
+//地图坐标
+message MapPoint {
+    float lng =1;//经度
+    float lat =2;//纬度
+}
+
+message ConfigResponse {
+    TimelyDeliveryConfig data = 1;
+    common.Error error = 2;
+}
+
