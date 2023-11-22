@@ -18,7 +18,6 @@ service ConfigService {
 message ExpressDeliveryConfig {
     string is_enable_delivery =1;//是否开启快递发货(0否、1是)
     string charging_type =2;//计费方式:1-累加运费,2-组合运费
-    string is_init_data =3;//是否已初始化数据(0否、1是)
 }
 
 message ConfigResponse {

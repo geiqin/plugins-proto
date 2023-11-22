@@ -44,13 +44,13 @@ func NewConfigServiceEndpoints() []*api.Endpoint {
 
 type ConfigService interface {
 	//配置中心
-	Index(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
+	Index(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
 	//获配置信息
-	Get(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
+	Get(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
 	//保存配置信息
-	Save(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
+	Save(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
 	//配送开关：开启/关闭
-	DeliverySwitch(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
+	DeliverySwitch(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error)
 }
 
 type configService struct {
@@ -65,7 +65,7 @@ func NewConfigService(name string, c client.Client) ConfigService {
 	}
 }
 
-func (c *configService) Index(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
+func (c *configService) Index(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
 	req := c.c.NewRequest(c.name, "ConfigService.Index", in)
 	out := new(ConfigResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -75,7 +75,7 @@ func (c *configService) Index(ctx context.Context, in *TimelyDeliveryConfig, opt
 	return out, nil
 }
 
-func (c *configService) Get(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
+func (c *configService) Get(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
 	req := c.c.NewRequest(c.name, "ConfigService.Get", in)
 	out := new(ConfigResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -85,7 +85,7 @@ func (c *configService) Get(ctx context.Context, in *TimelyDeliveryConfig, opts 
 	return out, nil
 }
 
-func (c *configService) Save(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
+func (c *configService) Save(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
 	req := c.c.NewRequest(c.name, "ConfigService.Save", in)
 	out := new(ConfigResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -95,7 +95,7 @@ func (c *configService) Save(ctx context.Context, in *TimelyDeliveryConfig, opts
 	return out, nil
 }
 
-func (c *configService) DeliverySwitch(ctx context.Context, in *TimelyDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
+func (c *configService) DeliverySwitch(ctx context.Context, in *PickupDeliveryConfig, opts ...client.CallOption) (*ConfigResponse, error) {
 	req := c.c.NewRequest(c.name, "ConfigService.DeliverySwitch", in)
 	out := new(ConfigResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -109,21 +109,21 @@ func (c *configService) DeliverySwitch(ctx context.Context, in *TimelyDeliveryCo
 
 type ConfigServiceHandler interface {
 	//配置中心
-	Index(context.Context, *TimelyDeliveryConfig, *ConfigResponse) error
+	Index(context.Context, *PickupDeliveryConfig, *ConfigResponse) error
 	//获配置信息
-	Get(context.Context, *TimelyDeliveryConfig, *ConfigResponse) error
+	Get(context.Context, *PickupDeliveryConfig, *ConfigResponse) error
 	//保存配置信息
-	Save(context.Context, *TimelyDeliveryConfig, *ConfigResponse) error
+	Save(context.Context, *PickupDeliveryConfig, *ConfigResponse) error
 	//配送开关：开启/关闭
-	DeliverySwitch(context.Context, *TimelyDeliveryConfig, *ConfigResponse) error
+	DeliverySwitch(context.Context, *PickupDeliveryConfig, *ConfigResponse) error
 }
 
 func RegisterConfigServiceHandler(s server.Server, hdlr ConfigServiceHandler, opts ...server.HandlerOption) error {
 	type configService interface {
-		Index(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error
-		Get(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error
-		Save(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error
-		DeliverySwitch(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error
+		Index(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error
+		Get(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error
+		Save(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error
+		DeliverySwitch(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error
 	}
 	type ConfigService struct {
 		configService
@@ -136,18 +136,18 @@ type configServiceHandler struct {
 	ConfigServiceHandler
 }
 
-func (h *configServiceHandler) Index(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error {
+func (h *configServiceHandler) Index(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error {
 	return h.ConfigServiceHandler.Index(ctx, in, out)
 }
 
-func (h *configServiceHandler) Get(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error {
+func (h *configServiceHandler) Get(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error {
 	return h.ConfigServiceHandler.Get(ctx, in, out)
 }
 
-func (h *configServiceHandler) Save(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error {
+func (h *configServiceHandler) Save(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error {
 	return h.ConfigServiceHandler.Save(ctx, in, out)
 }
 
-func (h *configServiceHandler) DeliverySwitch(ctx context.Context, in *TimelyDeliveryConfig, out *ConfigResponse) error {
+func (h *configServiceHandler) DeliverySwitch(ctx context.Context, in *PickupDeliveryConfig, out *ConfigResponse) error {
 	return h.ConfigServiceHandler.DeliverySwitch(ctx, in, out)
 }
