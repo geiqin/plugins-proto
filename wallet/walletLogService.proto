@@ -1,0 +1,61 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "walletService.proto";
+
+service WalletLogService {
+  //获得保证金记录信息
+  rpc Get (WalletLog) returns (WalletLogResponse) {}
+  //查询保证金记录信息
+  rpc Search (WalletLogRequest) returns (WalletLogResponse) {}
+}
+
+message WalletLog {
+  int64  id =1;//ID
+  int64  member_id =2;//用户ID
+  int64  wallet_id =3;//钱包ID
+  string business_type =4;//业务类型（0系统, 1充值, 2提现, 3消费）
+  string money_type =5;//金额类型（0正常, 1冻结, 2赠送）
+  string operation_type =6;//操作类型：0 减少，1增加
+  int64  operation_money =7;//增减方向：增减金额
+  int64  original_money =8;//原始金额
+  int64  latest_money =9;//最新金额
+  int64  operator_id =10;//操作员ID（涉及人工处理的需要记录操作员）
+  string msg =11;//描述：如：账户充值 [ 赠送500.00元 ]
+  string created_at =12;
+  string updated_at =13;
+  MemberInfo member =14;
+  Wallet wallet =15;
+  string business_type_name =16;//业务类型名称
+  string money_type_name =17;//金额类型名称
+  string operation_type_name =18;//操作类型名称
+}
+
+
+//查询参数
+message WalletLogRequest {
+  int64 paged = 1;
+  int64 page_size = 2;
+  //以下为自定义参数
+  int64 member_id =3;
+  string business_type =4;
+  string money_type =5;
+  string operation_type =6;
+  int64 wallet_id =7;
+  int64 id =8;
+  int64 operator_id =9;
+  string memo =10;
+  int64 min_money = 11;
+  int64 max_money = 12;
+}
+
+
+//
+message WalletLogResponse {
+  WalletLog entity = 1;
+  common.Pager pager =2;
+  repeated WalletLog items = 3;
+  string info =4;
+}

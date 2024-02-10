@@ -1,0 +1,36 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "configService.proto";
+import "baseInfoService.proto";
+import "walletService.proto";
+
+service HomeService {
+  //控制面板
+  rpc Dashboard (HomeRequest) returns (AdminIndexResponse) {}
+  //用户中心
+  rpc Index (HomeRequest) returns (UserIndexResponse) {}
+}
+
+
+message HomeRequest {
+  int64  id =4;
+  int64  member_id =5;
+  string status =6;
+  int32 type = 7;
+}
+
+
+message UserIndexResponse {
+  WalletConfig base = 1;
+  Wallet member_wallet =2;
+  repeated AppNavInfo nav_list = 3;
+}
+
+
+message AdminIndexResponse {
+  WalletConfig base = 1;
+  Wallet member_wallet =2;
+  repeated AppNavInfo nav_list = 3;
+}
+

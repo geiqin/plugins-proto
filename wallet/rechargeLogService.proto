@@ -1,0 +1,59 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service RechargeLogService {
+  //充值-创建
+  rpc Create (RechargeLog) returns (RechargeLogResponse) {}
+  //充值-提交支付
+  rpc Pay (RechargeLog) returns (RechargeLogResponse) {}
+  //充值-详情
+  rpc Detail (RechargeLog) returns (RechargeLogResponse) {}
+  //充值删除
+  rpc Delete (RechargeLog) returns (RechargeLogResponse) {}
+  //获取充值信息
+  rpc Get (RechargeLog) returns (RechargeLogResponse) {}
+  //查询充值列表
+  rpc Search (RechargeLogRequest) returns (RechargeLogResponse) {}
+}
+
+message RechargeLog {
+  int64  id =1;//ID
+  string recharge_no =2;//充值编号
+  int64  member_id =3;//用户ID
+  int64  wallet_id =4;//钱包ID
+  int64  money =5;//充值金额
+  int64  pay_money =6;//支付金额
+  int64  payment_id =7;//支付方式Id
+  string payment_code =8;//支付方式标记
+  string payment_name =9;//支付方式名称
+  int64  operator_id =10;//操作员ID
+  string status =11;//状态：0待支付，1已支付，2已失效
+  string pay_time =12;//支付时间
+  string created_at =13;
+  string updated_at =14;
+  string status_name =15;
+  MemberInfo member =16;
+}
+
+
+//查询参数
+message RechargeLogRequest {
+  int64 paged = 1;
+  int64 page_size = 2;
+  //以下为自定义参数
+  int64 member_id =3;
+  int64 wallet_id =4;
+  int32 payment_id = 5;
+  string recharge_no =6;
+  string status =7;
+}
+
+message RechargeLogResponse {
+  RechargeLog entity = 1;
+  common.Pager pager =2;
+  repeated RechargeLog items = 3;
+  string info =4;
+}
