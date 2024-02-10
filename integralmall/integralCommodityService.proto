@@ -1,0 +1,68 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service IntegralCommodityService {
+  rpc Create (IntegralCommodity ) returns (IntegralCommodityResponse) {}
+  rpc Update (IntegralCommodity ) returns (IntegralCommodityResponse) {}
+  rpc Delete (IntegralCommodity ) returns (IntegralCommodityResponse) {}
+  rpc Detail (IntegralCommodity ) returns (IntegralCommodityResponse) {}
+  rpc Search (IntegralCommodityRequest) returns (IntegralCommodityResponse) {}
+  rpc ProductSearch (IntegralCommodityRequest) returns (ProductSearchResponse) {}
+}
+
+message IntegralCommodity {
+  int64  id =1;//ID
+  string exchange_type =2;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+  int64  category_id =3;//分类id
+  int64  spu_id =4;//商品id
+  string md5_key =5;//md5key
+  int64  integral =6;//积分
+  int64  money =7;//金额
+  int64  stock =8;//可兑换数量
+  int64  used_stock =9;//已兑换数量
+  int64  limit_num =10;//限制数量，件/人
+  int32  sort =11;//排序值
+  string describe =12;//积分兑换说明
+  string created_at =13;
+  string updated_at =14;
+  string title =15;//标题
+  string unit =16;//型号
+  float unit_rate =17;//计量单位换算率
+  string is_open_weight =18;//是否开启称重（称重商品不能是多规格）（0否, 1是）
+  string image_url =19;//图片路径
+  int64  inventory =20;//库存量
+  int64  price =21;//价格
+  string spec_desc =22;//规格描述
+  string is_error =23;//是否错误（0否，1是）
+  string error_msg =24;//错误信息
+}
+
+message IntegralCommodityRequest {
+  int64 paged =1;
+  int64 page_size =2;
+  string	keywords =3;
+  //----------
+  int64 id = 4;
+  int64 order_id =6;
+  string exchange_type =7;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+  int64  spu_id =8;//商品id
+  string md5_key =9;//md5key
+  int64  integral =10;//积分
+  string status =11;
+}
+
+message IntegralCommodityResponse {
+  IntegralCommodity entity = 1;
+  repeated IntegralCommodity items = 2;
+  common.Pager pager =3;
+  string info =4;
+}
+
+message ProductSearchResponse {
+  repeated ProductInfo items = 2;
+  common.Pager pager =3;
+  string info =4;
+}

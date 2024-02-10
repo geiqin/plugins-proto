@@ -1,0 +1,52 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+
+service CategoryService {
+    rpc Create(Category) returns (CategoryResponse);
+    rpc Update(Category) returns (CategoryResponse);
+    rpc Delete (Category) returns (CategoryResponse);
+    rpc Detail (Category) returns (CategoryResponse);
+    rpc List (CategoryRequest) returns (CategoryResponse);
+    rpc Tree (CategoryRequest) returns (CategoryResponse);
+    rpc Search (CategoryRequest) returns (CategoryResponse);
+}
+
+message Category {
+    int64  id =1;//ID
+    string name =2;//名称
+    int64  parent_id =3; //父ID
+    string dept_path =4;//深度路径
+    string icon_url =5;//icon图标
+    int32  sort =6;//排序值
+    string seo_title =7;//SEO标题
+    string seo_keywords =8;//SEO关键字
+    string seo_desc =9;//SEO描述
+    string is_enable =10;//是否启用（0否，1是）
+    string created_at = 11;
+    string updated_at = 12;
+    Category parent =13;
+    repeated Category children =14;
+}
+
+message CategoryRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string type = 6;
+    string is_enable = 7;
+    int64 parent_id = 8;
+    string status = 9;
+}
+
+message CategoryResponse {
+    Category  entity = 1;
+    common.Pager pager = 2;
+    repeated Category items = 3;
+    string info = 4;
+}
+

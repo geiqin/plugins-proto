@@ -63,14 +63,9 @@ message FreightTemplateDetail {
 }
 
 
-message FreightTemplateData {
+message FreightTemplateResponse {
   FreightTemplate entity = 1;
   common.Pager pager = 2;
   repeated FreightTemplate items = 3;
-  common.Info info = 4;
-}
-
-message FreightTemplateResponse {
-  FreightTemplateData data = 1;
-  common.Error error = 2;
+  string info = 4;
 }

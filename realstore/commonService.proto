@@ -1,0 +1,44 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "baseInfoService.proto";
+
+service CommonService {
+    //配置中心
+    rpc ConfigIndex (RealstoreConfig) returns (CommonResponse) {}
+    //保存配置
+    rpc ConfigSave (RealstoreConfig) returns (CommonResponse) {}
+    //字典列表
+    rpc Dictionary (CommonRequest) returns (CommonResponse) {}
+}
+
+//多门店配置
+message RealstoreConfig {
+    string application_name =1;//应用名称
+    string is_enable_realstore_scanpay =2;//开启门店扫码收款默认否、扩展信息里面可以查看收款记录、并生成收款码
+    string is_goods_detail_realstore_ent =3;//商品详情（底部导航展示门店入口）
+    string is_goods_detail_realstore_list_ent =4;//商品详情（展示所有关联门店列表）
+    string is_main_goods_to_realstore_goods =5;//商品详情（仅属单个门店则以门店模式进入）
+    string not_realstore_ent_goods_detail_hide_btn_text =6;//非门店进入商品详情隐藏（购买和购物车）占位信息
+    string is_goods_detail_realstore_event_goods_detail =7;//取货点-县/区-名称
+    string is_realstore_system_goods_add =8;//门店添加商品默认否、开启后门店可以添加商品后台审核
+
+    string is_independent_inventory =10;//门店独立库存默认否、开启后仅使用门店配置的库存、未配置则0
+    string is_independent_price =11;//门店独立售价默认否、开启后门店可单独配置售价、未配置则使用默认
+    int64  is_home_choice_location =12;//进入门店首页提示选择地理位置默认否
+    string is_home_choice_location_force =13;//进入门店首页提示选择地理位置（是否强制）
+    string home_choice_location_msg =14;//进入门店首页提示选择地理位置（提示信息）
+    string seller_center_notice =15;//门店中心通知可换行、一行一句
+}
+
+message CommonRequest {
+    repeated string const_keys = 1; //常量键名
+    repeated string dict_keys = 2;//字典键名
+    repeated string keys = 3; //混合键名（常量+字典）
+}
+
+message CommonResponse {
+    RealstoreConfig config = 1;
+    repeated DictionaryType dict_list =2;
+    string info= 5;
+}

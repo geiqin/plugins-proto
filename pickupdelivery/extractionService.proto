@@ -79,16 +79,11 @@ message ExtractionTime{
 }
 
 
-message ExtractionData {
+message ExtractionResponse {
   Extraction entity = 1;
   common.Pager pager =2;
   repeated Extraction items = 3;
-  common.Info info =4;
+  string info =4;
 }
 
-
-message ExtractionResponse {
-  ExtractionData data = 1;
-  common.Error error = 2;
-}
 

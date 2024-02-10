@@ -1,0 +1,92 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+import "baseInfoService.proto";
+
+//收银挂单服务
+service CashierHangingService {
+    //挂单保存
+    rpc Save(CashierHanging) returns (CashierHangingResponse);
+    //挂单取出
+    rpc Get(CashierHanging) returns (CashierHangingResponse);
+    //挂单总数
+    rpc Count(CashierHanging) returns (CashierHangingResponse);
+    //挂单清空
+    rpc Clear (CashierHanging) returns (CashierHangingResponse);
+    //挂单删除
+    rpc Delete (CashierHanging) returns (CashierHangingResponse);
+    //挂单详情
+    rpc Detail (CashierHanging) returns (CashierHangingResponse);
+    //挂单查询
+    rpc Search (CashierHangingRequest) returns (CashierHangingResponse);
+}
+
+//收银挂单
+message CashierHanging {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  member_id =3;//客户用户id
+    string order_type =4;//订单模式（0快递配送, 1客户自提, 2上门服务, 3虚拟产品）
+    int64  buy_count =5;//购买商品总数量
+    int64  buy_number_count =6;//购买商品总数量
+    int64  buy_weight_count =7;//购买商品总数量
+    int64  total_price =8; //订单单价
+    string user_note =9;//特别说明（管理员填写）
+    string card_value =10;//门店次卡（json存储）
+    string address_data =11;//地址数据（json存储）
+    repeated CashierHangingDetail commodities =12;//详情数据（json存储）
+    int64  table_code_id =13;//桌码id
+    string buy_datetime_value =14;//指定时间
+    string change_price_type =15;//订单改价类型（0减少、1增加）
+    int64  change_price_value =16;//订单改价值
+    string created_at = 17;
+    string updated_at = 18;
+    Realstore realstore =19;
+    MemberInfo member =20;
+    string order_type_name =21;
+}
+
+message CashierHangingDetail {
+    int64  spu_id =1;//商品id
+    string md5_key =2; //货品MD5KEY
+    string title =3; //标题
+    string image_url =4; //标题
+    int64  inventory =5;//库存数量
+    string unit =6; //单位
+    float unit_rate =7; //单位换算率
+    string is_open_weight =8; //是否开启称重
+    int64  spec_weight =11;//规格重量
+    int64  spec_volume =12; //规格体积
+    string spec_coding =13; //规格编码
+    string spec_barcode =14;//规格条码
+    string spec_desc =15; //规格描述
+    int64 stock =16;//购买数量
+    int64 price =17;//销售价格
+    int64 subtotal_price =18;//商品小计
+    int64 original_price =19;//原价
+    string is_error =20;//是否错误（0否，1是）
+    string error_msg =21;//错误信息
+}
+
+message CashierHangingRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string order_type = 6;
+    int64 realstore_id = 7;
+    int64 member_id = 8;
+    int64 table_code_id = 9;
+}
+
+message CashierHangingResponse {
+    CashierHanging  entity = 1;
+    common.Pager pager = 2;
+    repeated CashierHanging items = 3;
+    int64  count = 4;
+    string info = 5;
+}
+

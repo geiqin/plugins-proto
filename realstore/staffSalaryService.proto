@@ -1,0 +1,54 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "staffService.proto";
+import "realstoreService.proto";
+
+service StaffSalaryService {
+    rpc Create(StaffSalary) returns (StaffSalaryResponse);
+    rpc Update(StaffSalary) returns (StaffSalaryResponse);
+    rpc Delete (StaffSalary) returns (StaffSalaryResponse);
+    rpc Get (StaffSalary) returns (StaffSalaryResponse);
+    rpc List (StaffSalaryRequest) returns (StaffSalaryResponse);
+    rpc Search (StaffSalaryRequest) returns (StaffSalaryResponse);
+}
+
+message StaffSalary {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  user_id =3;//用户id
+    int64  staff_id =4;//员工id
+    int64  total_price =5;//总额
+    int64  base_salary =6;//底薪
+    int64  order_profit_price =7;//订单收益金额
+    int64  recharge_profit_price =8;//充值收益金额
+    int32  ym =9;//年月(Ym)
+    string msg =10;//描述（一般用于订单发生改变描述）
+    string status =11;//结算状态（0待结算, 1已结算）
+    string settlement_time =12;//结算时间
+    string created_at = 13;
+    string updated_at = 14;
+    Realstore realstore =15;
+    Staff staff =16;
+    string status_name =17;
+}
+
+message StaffSalaryRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string type = 6;
+    int64 realstore_id = 7;
+    int64 user_id = 8;
+    string status = 9;
+}
+
+message StaffSalaryResponse {
+    StaffSalary  entity = 1;
+    common.Pager pager = 2;
+    repeated StaffSalary items = 3;
+    string info = 4;
+}

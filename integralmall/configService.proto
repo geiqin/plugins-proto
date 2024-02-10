@@ -1,0 +1,29 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+service ConfigService {
+    //获配置信息
+    rpc Get  (IntegralMallConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save (IntegralMallConfig) returns (ConfigResponse) {}
+    //开关：开启/关闭
+    rpc Switch (IntegralMallConfig) returns (ConfigResponse) {}
+}
+
+
+//配置
+message IntegralMallConfig {
+    string is_enable = 1; //是否启用积分商城(0否、1是)
+    string is_register_reward_integral = 2; //开启注册奖励积分(0否、1是)
+    string is_invite_reward_integral = 3; //开启邀请人奖励积分(0否、1是)
+    int64 register_reward_integral =4; //注册人奖励积分默认[ 空、0 ]则不奖励
+    int64 invite_reward_integral =5; //邀请人奖励积分默认[ 空、0、无邀请人 ]则不奖励
+    repeated string banner_images =6; //横幅广告图片列表
+}
+
+message ConfigResponse {
+    IntegralMallConfig config = 1;
+    string info = 2;
+}
+

@@ -1,7 +1,6 @@
 syntax = "proto3";
 package services;
 option go_package = "/.;services";
-import "common/base.proto";
 
 //运费计算器
 service CalculatorService {
@@ -50,13 +49,7 @@ message DeliveryResult {
     repeated AdjustmentInfo adjustments =2;
 }
 
-message CalculatorData {
+message CalculatorResponse {
     ExpressResult express_result = 1;
     DeliveryResult delivery_result = 2;
-}
-
-
-message CalculatorResponse {
-    CalculatorData data = 1;
-    common.Error error = 2;
 }

@@ -1,0 +1,43 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service OrderGiveIntegralLogService {
+  rpc Detail (OrderGiveIntegralLog) returns (OrderGiveIntegralLogResponse) {}
+  rpc Search (OrderGiveIntegralLogRequest) returns (OrderGiveIntegralLogResponse) {}
+}
+
+message OrderGiveIntegralLogRequest {
+  int64 paged = 1;
+  int64 page_size = 2;
+  string sorting = 3;
+  string keywords = 4;
+  int64 id = 5;
+  int64 order_id = 6;
+  int64 consume_id =7;//消费有礼ID
+  int64 member_id = 8;
+  string status =9;//状态（0待发放, 1已发放, 2已关闭）
+  repeated int64 ids = 10;
+}
+
+
+message OrderGiveIntegralLog {
+  int64  id =1;//ID
+  int64  order_id =2;//订单id
+  int64  member_id =3;//用户id
+  int64  consume_id =4;//消费有礼ID
+  int64  rate =5;//赠送比例
+  int64  integral =6;//赠送积分
+  string desc =7;//描述
+  string status =8;//状态（0待发放, 1已发放, 2已关闭）
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message OrderGiveIntegralLogResponse {
+  OrderGiveIntegralLog entity = 1;
+  common.Pager pager = 2;
+  repeated OrderGiveIntegralLog items = 3;
+  string info= 4;
+}

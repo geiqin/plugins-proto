@@ -1,0 +1,51 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+
+service GoodsCategoryService {
+    rpc Create(GoodsCategory) returns (GoodsCategoryResponse);
+    rpc Update(GoodsCategory) returns (GoodsCategoryResponse);
+    rpc Delete (GoodsCategory) returns (GoodsCategoryResponse);
+    rpc Detail (GoodsCategory) returns (GoodsCategoryResponse);
+    rpc Tree (GoodsCategoryRequest) returns (GoodsCategoryResponse);
+    rpc Search (GoodsCategoryRequest) returns (GoodsCategoryResponse);
+}
+
+message GoodsCategory {
+    int64  id =1;//ID
+    string name =2;//名称
+    int64  parent_id =3; //父ID
+    string dept_path =4;//深度路径
+    string icon_url =5;//icon图标
+    int32  sort =6;//排序值
+    string seo_title =7;//SEO标题
+    string seo_keywords =8;//SEO关键字
+    string seo_desc =9;//SEO描述
+    string is_enable =10;//是否启用（0否，1是）
+    int64  realstore_id =11; //父ID
+    string created_at = 12;
+    string updated_at = 13;
+    GoodsCategory parent =14;
+    repeated GoodsCategory children =15;
+}
+
+message GoodsCategoryRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    int64 parent_id = 6;
+    string is_enable = 7;
+    string realstore_id = 8;
+    string status = 9;
+}
+
+message GoodsCategoryResponse {
+    GoodsCategory  entity = 1;
+    common.Pager pager = 2;
+    repeated GoodsCategory items = 3;
+    string info = 4;
+}

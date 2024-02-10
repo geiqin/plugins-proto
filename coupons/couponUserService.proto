@@ -59,17 +59,12 @@ message CouponUserRequest {
     repeated int64 ids = 18;
 }
 
-message CouponUserData {
+message CouponUserResponse {
     CouponUser entity = 1;
     common.Pager pager =2;
     repeated CouponUser items = 3;
     repeated CouponUser not_use = 4;
     repeated CouponUser already_use = 5;
     repeated CouponUser already_expire = 6;
-    common.Info info =7;
-}
-
-message CouponUserResponse {
-    CouponUserData data = 1;
-    common.Error error = 2;
+    string info =7;
 }

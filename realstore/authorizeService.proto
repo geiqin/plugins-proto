@@ -1,0 +1,32 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "realstoreService.proto";
+
+service AuthorizeService {
+    //切换门店
+    rpc Switch(AuthorizeRequest) returns (AuthorizeResponse);
+    //切换列表
+    rpc SwitchList(AuthorizeRequest) returns (AuthorizeResponse);
+}
+
+message Authorize {
+    string access_token =1;
+    string refresh_token =3;
+    string scope =4;
+    string token_type =5;
+    int64 expires_in =2;
+}
+
+message AuthorizeRequest {
+    int64 realstore_id = 1;
+    int64 store_id = 2;
+}
+
+message AuthorizeResponse {
+    Authorize token = 1;
+    repeated Realstore realstores = 2;
+    string info = 3;
+}
+
+

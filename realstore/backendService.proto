@@ -1,0 +1,44 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "baseInfoService.proto";
+import "realstoreService.proto";
+import "staffService.proto";
+
+//后台管理
+service BackendService {
+    //门店后台初始化
+    rpc Init(BackendRequest) returns (BackendResponse);
+    //门店概况
+    rpc Dashboard(BackendRequest) returns (BackendResponse);
+    //门店菜单
+    rpc Nav(BackendRequest) returns (BackendResponse);
+}
+
+message Dashboard {
+    int64 realstore_id =2;//门店id
+    int64 user_count =3;//用户数量
+    int64 order_count =4;//订单数量
+    int64 order_sale_count =5;//成交总量
+    int64 order_complete_total =6;//订单总计
+}
+
+message BackendRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string mobile = 6;
+    int64 realstore_id = 7;
+    int64 user_id = 8;
+    string status = 9;
+}
+
+message BackendResponse {
+    Realstore realstore =1;
+    repeated Nav main_nav = 2;
+    Staff staff = 3;
+    Dashboard dashboard = 4;
+    string info = 5;
+}

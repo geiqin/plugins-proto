@@ -1,0 +1,49 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service GoodsService {
+    rpc Create(Goods) returns (GoodsResponse);
+    rpc Update(Goods) returns (GoodsResponse);
+    rpc Delete (Goods) returns (GoodsResponse);
+    rpc Get (Goods) returns (GoodsResponse);
+    rpc List (GoodsRequest) returns (GoodsResponse);
+    rpc Search (GoodsRequest) returns (GoodsResponse);
+}
+
+message Goods {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  spu_id =3;//商品id
+    int64  category_id =4;//分类id
+    int64  settle_price =5;//结算固定金额（权重高于比例）
+    float  settle_rate =6;//结算比例0~100的值（权重高于店铺统一比例）
+    string printer_cfg =7;//打印机配置、json存储
+    int32  sort =8;//排序值
+    string is_enable =9;//是否启用（0否，1是）
+    string created_at = 10;
+    string updated_at = 11;
+    SpuInfo spu =12;
+}
+
+message GoodsRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    int64 spu_id = 6;
+    int64 realstore_id = 7;
+    int64 category_id = 8;
+    string is_enable = 9;
+    string is_cashier_client = 10;
+}
+
+message GoodsResponse {
+    Goods  entity = 1;
+    common.Pager pager = 2;
+    repeated Goods items = 3;
+    string info = 4;
+}

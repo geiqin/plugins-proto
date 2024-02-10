@@ -1,0 +1,50 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "realstoreService.proto";
+import "orderAllotService.proto";
+
+service OrderProfitService {
+    rpc Detail (OrderProfit) returns (OrderProfitResponse);
+    rpc Search (OrderProfitRequest) returns (OrderProfitResponse);
+}
+
+message OrderProfit {
+    int64  id =1;//ID
+    int64  user_id =2;//用户id
+    int64  order_id =3;//订单id
+    int64  order_member_id =4;//订单用户id
+    int64  realstore_id =5;//门店id
+    int64  order_allot_id =6;//分配订单id
+    int64  total_price =7; //订单金额
+    int64  profit_price =8;//收益金额
+    string status =9;//结算状态（0待结算, 1已结算, 2已失效）
+    string msg =10;//描述（一般用于订单发生改变描述）
+    string created_at = 11;
+    string updated_at = 12;
+    Realstore realstore =13;
+    OrderAllot order_allot =14;
+    UserInfo user =15;
+    string status_name =16;
+}
+
+message OrderProfitRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    int64 order_id = 6;
+    int64 realstore_id = 7;
+    int64 order_allot_id = 8;
+    string status = 9;
+}
+
+message OrderProfitResponse {
+    OrderProfit  entity = 1;
+    common.Pager pager = 2;
+    repeated OrderProfit items = 3;
+    string info = 4;
+}

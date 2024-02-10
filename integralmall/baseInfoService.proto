@@ -1,0 +1,48 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+//货品信息
+message ProductInfo {
+  int64 spu_id = 2; //SpuId
+  string md5_key = 3; //md5key
+  string type = 4; //类型
+  string title = 5; //标题
+  string title_color = 6; //标题颜色
+  string simple_desc = 7; //简单描述
+  int32 inventory = 8; //库存数量
+  string unit = 9; //库存单位
+  string unit_rate = 10; //库存单位换算率
+  string is_open_weight = 11; //是否开启称重（0否，1是）
+  string image_url = 12; //封面URL
+  string video_url = 13; //视频URL
+  string is_many_spec = 14;//是否多规格商品（0否，1是）
+  string is_deduction_inventory = 15; //是否扣减库存
+  string is_listed = 16; //是否上架（0否，1是）
+  string is_virtual = 17; //是否虚拟商品（0否，1是）
+  int64 shop_id = 18; //分店ID
+  int32 brand_id = 19;//品牌ID
+  string brand_name = 20; //品牌名称
+  string virtual_type = 21; //虚拟商品类型
+  string virtual_data = 22; //虚拟商品扩展数据
+  int64 taxonomy_id = 23;//
+  int64 category_id  =24;
+  int64 give_integral  = 25;
+  int64 buy_min_number  = 26;
+  int64 buy_max_number  = 27;
+  int32 photo_count =28; //相册数量
+  int32 sale_count =29; //销售量
+  int32 access_count =30; //访问量
+  int64 place_origin_id =31; //原产地ID
+  int64 weight = 32;
+  int64 volume = 33;
+  string coding = 34;
+  string barcode = 35;
+  int64 price = 36;
+  int64 original_price = 37;
+  int64 cost_price = 38;
+  string spec_desc =39;
+  bool checked = 43; //是否选中
+  string is_error = 44; //购物车用(0否,1是)
+  string error_msg = 47; //购物车用
+}

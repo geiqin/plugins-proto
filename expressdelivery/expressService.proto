@@ -42,16 +42,11 @@ message ExpressRequest {
   repeated int32 ids = 11;
 }
 
-message ExpressData{
+message ExpressResponse{
   Express entity = 1;
   common.Pager pager =2;
   repeated Express items = 3;
-  common.Info info =4;
+  string info =4;
 }
 
-
-message ExpressResponse {
-  ExpressData data = 1;
-  common.Error error = 2;
-}
 

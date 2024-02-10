@@ -1,7 +1,6 @@
 syntax = "proto3";
 package services;
 option go_package ="/.;services";
-import "common/base.proto";
 
 service CalculateService {
   rpc Handle (CalculateRequest) returns (CalculateResponse) {}
@@ -25,12 +24,7 @@ message CalculateRequest {
   int64 order_weight_count =8;
 }
 
-message CalculateData {
-  Calculate result =1;
-  string msg =2;
-}
-
 message CalculateResponse {
-  CalculateData data = 1;
-  common.Error error = 2;
+  Calculate result =1;
+  string info =2;
 }

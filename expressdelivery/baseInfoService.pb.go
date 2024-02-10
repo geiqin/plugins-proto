@@ -251,7 +251,7 @@ func (x *AreaInfo) GetRemark2() string {
 	return ""
 }
 
-//商品信息
+// 商品信息
 type SpuInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -659,7 +659,7 @@ func (x *SpuInfo) GetSpec() []*SpecificationData {
 	return nil
 }
 
-//货品规格信息
+// 货品规格信息
 type SpecificationData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

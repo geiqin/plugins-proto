@@ -96,15 +96,10 @@ message CouponBaseInfo{
     string is_shop_nav_coupon = 8;//开启多商户店铺优惠券导航入口(0否、1是)
 }
 
-message CouponData {
+message CouponResponse {
     Coupon entity = 1;
     common.Pager pager =2;
     repeated Coupon items = 3;
-    string msg =4;
+    string info =4;
     CouponBaseInfo base =5;
-}
-
-message CouponResponse {
-    CouponData data = 1;
-    common.Error error = 2;
 }

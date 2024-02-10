@@ -1,0 +1,127 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "categoryService.proto";
+import "regionManageService.proto";
+
+service RealstoreService {
+    rpc Create(Realstore) returns (RealstoreResponse);
+    rpc Update(Realstore) returns (RealstoreResponse);
+    rpc Delete (Realstore) returns (RealstoreResponse);
+    rpc Detail (Realstore) returns (RealstoreResponse);
+    rpc List (RealstoreRequest) returns (RealstoreResponse);
+    rpc Search (RealstoreRequest) returns (RealstoreResponse);
+}
+
+message Realstore {
+    int64  id = 1;//ID
+    string system_type = 2;//系统类型（默认 default, 其他按照SYSTEM_TYPE常量类型）
+    string name = 3;//名称
+    string alias = 4;//别名
+    string describe = 5;//简介
+    string logo_url = 6; //logo图片
+    string logo_long_url = 7;//长方形门店logo
+    int64  user_id = 8;//用户id
+    int64  region_manage_id = 9;//所属区管id
+    int64  category_id = 10;//门店分类id
+    string service_tel = 11;//客服电话
+    string service_qq = 12;//客服QQ
+    string service_weixin_qrcode = 13;//客服微信二维码
+    string open_week = 14;//工作日起始
+    string close_week = 15;//工作日结束
+    string open_time = 16;//在线时间起始
+    string close_time = 17;//在线时间结束
+    string contact_name = 18;//联系人
+    string contact_tel = 19;//联系电话
+    int64  province_id = 20;//所在省ID
+    int64  city_id = 21;//所在市ID
+    int64  county_id = 22;//所在县/区ID
+    string address = 23;//详细地址
+    float  lng = 24;//经度
+    float  lat = 25;//纬度
+    string auth_type = 26;//认证类型（0个人，1企业）
+    string fail_reason = 27;//失败原因
+    int64  starting_price = 28;//起步价
+    string expire_time = 29;//门店到期时间（空则永久）
+    string user_buy_payment = 30;//用户可选支付方式（json存储）
+    int64  position_distance_limit = 31;//地理位置距离限制（仅外送订单有效）(米)
+    string seo_title = 32; //SEO标题
+    string seo_keywords = 33;//SEO关键字
+    string seo_desc = 34;//SEO描述
+    string is_auto_delivery = 35;//是否自动发货及分配（0否，1是）
+    string is_auto_collect = 36;//是否自动收货（0否，1是）
+    string status = 37;//状态（0待提交，1待审核，2已审核，3已拒绝，4已关闭）
+    string created_at = 38;
+    string updated_at = 39;
+    string status_name =40;
+    string auth_type_name =41;
+    string province_name = 42;
+    string city_name = 43;
+    string county_name = 44;
+    RegionManage region_manage = 45;
+    Category category = 46;
+    RealstoreSecret secret =47;
+    RealstoreStatusInfo status_info =48; //用客户端展示
+}
+
+//店铺状态信息
+message RealstoreStatusInfo {
+    string type =1;
+    string status =2;
+    string msg =3;
+    string time =4;
+}
+
+
+message RealstoreSecret {
+    int64  id = 1;//ID
+    int64  realstore_id = 2;//门店id
+    string notice_mobile = 3;//接收通知手机号码
+    string notice_email = 4;//接收通知电子邮箱
+    string company_name = 5;//企业名称
+    string company_number = 6;//企业统一社会信用代码
+    string company_license = 7;//企业执照图片
+    string more_prove = 8;//更多材料附件、json存储
+    string idcard_name = 9;//身份证姓名
+    string idcard_number = 10;//身份证号码
+    string idcard_front = 11;//身份证人像面图片
+    string idcard_back = 12;//身份证国微面图片
+    float  settle_rate = 13;//结算比例0~100的值
+    string fail_reason = 14;//失败原因
+    string printer_cfg = 15;//打印机配置、json存储
+    string created_at = 16;
+    string updated_at = 17;
+}
+
+
+message RealstoreRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string type = 6;
+    string auth_type = 7;
+    string creator_id = 8;
+    string status = 9;
+    int64  region_manage_id = 10;//所属区管id
+    int64  category_id = 11;//门店分类id
+    int64  user_id = 12;//用户id
+    int64  province_id = 13;//所在省ID
+    int64  city_id = 14;//所在市ID
+    int64  county_id = 15;//所在县/区ID
+    float  lng = 16;//经度
+    float  lat = 17;//纬度
+    repeated int64 ids =18;
+
+}
+
+message RealstoreResponse {
+    Realstore  entity = 1;
+    common.Pager pager = 2;
+    repeated Realstore items = 3;
+    string info = 4;
+}
+
+

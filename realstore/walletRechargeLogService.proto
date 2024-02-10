@@ -1,0 +1,56 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "realstoreService.proto";
+
+//钱包充值记录
+service WalletRechargeLogService {
+    rpc Create (WalletRechargeLog) returns (WalletRechargeLogResponse);
+    rpc Delete (WalletRechargeLog) returns (WalletRechargeLogResponse);
+    rpc Detail (WalletRechargeLog) returns (WalletRechargeLogResponse);
+    rpc Search (WalletRechargeLogRequest) returns (WalletRechargeLogResponse);
+}
+
+//钱包充值记录
+message WalletRechargeLog {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  member_id =3;//钱包用户id
+    int64  wallet_id =4;//钱包id
+    int64  recharge_id =5;//充值id
+    string recharge_no =6;//充值单号
+    int64  total_price =7;//充值金额
+    string service_msg =8;//服务描述（门店填写）
+    int64  operate_id =9;//操作人id
+    string operate_name =10;//操作人名称
+    string status =11;//状态（0待确认, 1已确认, 2已退款）
+    string created_at = 12;
+    string updated_at = 13;
+    Realstore realstore =14;
+    MemberInfo member =15;
+    WalletInfo wallet =16;
+    string status_name =17;
+}
+
+message WalletRechargeLogRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string type = 6;
+    string is_enable = 7;
+    string parent_id = 8;
+    string status = 9;
+}
+
+message WalletRechargeLogResponse {
+    WalletRechargeLog  entity = 1;
+    common.Pager pager = 2;
+    repeated WalletRechargeLog items = 3;
+    string info = 4;
+}
+
+

@@ -1,0 +1,152 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+//收银台下单
+service PurchaseService { 
+
+    //购物车更新
+    rpc CartUpdate(Cart) returns (PurchaseResponse);
+    //购物车提交
+    rpc CartSubmit(Cart) returns (PurchaseResponse);
+    //订单支付
+    rpc OrderPay(PurchaseRequest) returns (PurchaseResponse);
+
+    //商品搜索
+    rpc GoodsSearch (UserGoodsRequest) returns (PurchaseResponse);
+    //商品规格
+    rpc GoodsSpec (UserGoodsRequest) returns (PurchaseResponse);
+    //用户地址
+    rpc UserAddress (PurchaseRequest) returns (PurchaseResponse);
+
+    //下单首页（收银台）
+    //rpc Index(PurchaseRequest) returns (PurchaseResponse);
+    //订单支付
+    // rpc OrderPay(PurchaseRequest) returns (PurchaseResponse);
+    //散客用户
+    //rpc ScatteredUser(PurchaseRequest) returns (PurchaseResponse);
+}
+
+
+// 购物车信息
+message Cart {
+    string order_type =1;
+    string user_note =2;
+    int64  total_price =3; //订单总价
+    int64  actual_price =4; //订单实际支付金额(已减去优惠金额, 已加上增加金额)
+    int64  increase_price =5; //增加金额
+    int64  preferential_price =6; //优惠金额
+    int64 spec_weight_total =7;//规格重量总计
+    int64 spec_volume_total =8; //规格体积总计
+    float  buy_count =9;//购买商品总数量(总件数+总称重（千克）)
+    int64  buy_number_count =10;//购买商品总件数（非称重商品）
+    int64  buy_weight_count =11;//购买商品总秤重（称重商品.克）
+    string is_scatter =15; //是否散客（0否，1是）
+    int64 cashier_hanging_id = 16; //挂单ID
+    string modify_price_type = 17; //整单改价类型
+    int64 modify_price_value = 18; //整单改价值
+    int64 realstore_id = 19; //门店ID
+    int64 member_id = 20; //会员ID
+    int64 table_code_id = 21; //卓码ID
+    string buy_datetime_value = 22;
+    int32 payment_id = 23; //选中的支付方式
+    int64 coupon_id = 24; //选中的优惠劵凭证ID
+    int64 use_integral = 25; //使用的积分数
+    int64 use_surplus = 26; //使用的余额数
+
+    MemberInfo member =28;//会员信息
+    OrderAddress address_data =29;//收件地址
+    repeated OrderExtension extension_data = 30; //扩展数据
+    repeated CartCommodity commodities = 31; //商品列表
+}
+
+
+message CartCommodity{
+    //int64  id =1;//ID
+    string title =2;//标题
+    string image_url =3;//封面图片
+    int64  spu_id =4;//商品spuId
+    string md5_key =5;//商品规格md5_key
+    int64  inventory =6;//库存数量
+    int64  original_price =7;//原价
+    int64  price =8;//销售价格
+    int64  buy_min_number =9; //购买数量
+    int64  buy_max_number =10;//购买数量
+    int64  spec_weight =11;//规格重量
+    int64  spec_volume =12; //规格体积
+    string spec_coding =13; //规格编码
+    string spec_barcode =14;//规格条码
+    string unit =15;//库存单位
+    float unit_rate = 16; //库存单位换算率
+    string is_open_weight = 17; //是否开启称重（0否，1是）
+    map<string,string> extends =19;//扩展数据
+    string is_invalid =20;//是否无效（0否，1是）
+    string is_error =21;//是否错误（0否，1是）
+    string error_msg =22;//错误信息
+    int64 stock =23;//购买数量
+    int64 subtotal_price =24;//商品小计
+    repeated SpecificationData spec =25; //规格描述
+    string spec_desc =26;
+    string brand_name =27;
+    string goods_url =28;
+    string site_type =29;
+}
+
+
+
+//购买确认数据
+message PurchaseResponse {
+    Cart cart = 1;//购物车信息
+    CartSubmit submit =2; //购物车提交
+    repeated OrderAddress address_list =3;//收件地址
+    common.Pager pager = 4; //分页
+    map<string,string> plugins_data =6;//插件数据
+    string info =7;
+}
+
+//购买提交数据
+message CartSubmit  {
+    repeated int64 order_allot_ids =1;
+    repeated int64 order_ids =2;
+    string is_payment =3; //是否已支付（0否，1是）
+    int64 total_price =4; //实付金额
+}
+
+
+
+//门店下单请求
+message PurchaseRequest {
+    string order_type = 1;
+    string is_realstore_cashier = 2;
+    string address_data = 3;
+    int32 cashier_hanging_id = 4;
+    string user_note = 5;
+    string order_modify_price_type = 6;
+    int64 order_modify_price_value = 7;
+    int64 realstore_id = 8;
+    int64 member_id = 9;
+    int64 table_code_id = 10;
+    string buy_datetime_value = 11;
+    int32 payment_id = 12; //选中的支付方式
+    int64 coupon_id = 13; //选中的优惠劵凭证ID
+    int64 use_integral = 14; //使用的积分数
+    string payment_code = 15; //支付码
+    repeated int64 order_ids  =16;
+}
+
+//用户商品查询请求
+message UserGoodsRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string platform = 6;
+    string is_enable = 7;
+    string realstore_id = 8;
+    string event_type = 9;
+}
+
+

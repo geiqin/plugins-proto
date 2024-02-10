@@ -1,0 +1,64 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "realstoreService.proto";
+
+service StaffService {
+    rpc Create(Staff) returns (StaffResponse);
+    rpc Update(Staff) returns (StaffResponse);
+    rpc Delete (Staff) returns (StaffResponse);
+    rpc Get (Staff) returns (StaffResponse);
+    rpc List (StaffRequest) returns (StaffResponse);
+    rpc Search (StaffRequest) returns (StaffResponse);
+}
+
+message Staff {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  user_id =3;//用户id
+    string code =4;//员工编号
+    string alias =5;//员工别名
+    string avatar_url =6;//员工头像地址
+    string mobile =7;//手机号
+    string email =8;//电子邮箱
+    string idcard_name =9;//身份证姓名
+    string idcard_number =10;//身份证号码
+    string idcard_front =11;//身份证人像面图片
+    string idcard_back =12;//身份证国微面图片
+    int64  base_salary =13;//底薪
+    float  settle_rate =14;//结算比例0~100的值
+    string bank_name =15;//结算银行开户行
+    string bank_username =16;//结算银行姓名
+    string bank_account =17;//结算银行账户
+    int32  sort =18;//排序
+    string status =19;//状态（0待确认，1在职中，2暂休中，3已解聘）
+    string created_at = 20;
+    string updated_at = 21;
+    Realstore realstore =22;
+    UserInfo user =23;
+    string type =24; //类型：1店长，2员工
+    string type_name =25;
+    string nickname =26;
+    string status_name =28;
+}
+
+message StaffRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string mobile = 6;
+    int64 realstore_id = 7;
+    int64 user_id = 8;
+    string status = 9;
+}
+
+message StaffResponse {
+    Staff  entity = 1;
+    common.Pager pager = 2;
+    repeated Staff items = 3;
+    string info = 4;
+}

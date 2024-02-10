@@ -1,0 +1,51 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+
+service CashCollectService {
+    rpc Create(CashCollect) returns (CashCollectResponse);
+    rpc Update(CashCollect) returns (CashCollectResponse);
+    rpc Delete (CashCollect) returns (CashCollectResponse);
+    rpc Get (CashCollect) returns (CashCollectResponse);
+    rpc List (CashCollectRequest) returns (CashCollectResponse);
+    rpc Search (CashCollectRequest) returns (CashCollectResponse);
+}
+
+message CashCollect {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  business_id =3;//业务id
+    string business_type =4;//业务类型（0服务订单, 1钱包充值）
+    int64  price =5;//金额
+    string status =6;//状态（0待收款, 1已收款, 2已核算, 3已退款）
+    int64  operate_id =7;//操作人id
+    string operate_name =8;//指定时间
+    string settlement_time =9;//核算时间
+    string created_at = 10;
+    string updated_at = 11;
+    Realstore realstore =12;
+    string business_type_name =13;
+    string status_name =14;
+}
+
+message CashCollectRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    int64 business_id = 5;
+    string business_type = 6;
+    int64 operate_id = 7;
+    int64 realstore_id = 8;
+    string status = 9;
+}
+
+message CashCollectResponse {
+    CashCollect  entity = 1;
+    common.Pager pager = 2;
+    repeated CashCollect items = 3;
+    string  info = 4;
+}
+

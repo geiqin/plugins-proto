@@ -1,0 +1,49 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+import "staffService.proto";
+
+//门店员工值班记录
+service StaffDutyLogService {
+    rpc Create (StaffDutyLog) returns (StaffDutyLogResponse);
+    rpc Delete (StaffDutyLog) returns (StaffDutyLogResponse);
+    rpc Detail (StaffDutyLog) returns (StaffDutyLogResponse);
+    rpc Search (StaffDutyLogRequest) returns (StaffDutyLogResponse);
+}
+
+//门店员工值班记录
+message StaffDutyLog {
+    int64  id =1; //ID
+    int64  staff_id =2; //用户id
+    int64  user_id =3; //用户id
+    int64  realstore_id =4; //门店id
+    string start_time =5; //开始时间
+    string end_time =6; //结束时间
+    string note =7; //备注信息
+    string created_at = 8;
+    string updated_at = 9;
+    Realstore realstore =10;
+    Staff staff =11;
+}
+
+message StaffDutyLogRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string type = 6;
+    string is_enable = 7;
+    string parent_id = 8;
+    string status = 9;
+}
+
+message StaffDutyLogResponse {
+    StaffDutyLog  entity = 1;
+    common.Pager pager = 2;
+    repeated StaffDutyLog items = 3;
+    string info = 4;
+}
+

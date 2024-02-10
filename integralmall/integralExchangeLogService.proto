@@ -1,0 +1,47 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+
+//积分兑换日志
+service IntegralExchangeLogService {
+  //物流信息详情
+  rpc Detail (IntegralExchangeLog) returns (IntegralExchangeLogResponse) {}
+  //查询物流信息
+  rpc Search (IntegralExchangeLogRequest) returns (IntegralExchangeLogResponse) {}
+}
+
+message IntegralExchangeLog {
+  int64  id =1;//ID
+  int64  member_id =2;//会员id
+  string exchange_type =3;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+  int64  use_integral =4;//使用积分
+  int64  use_price =5;//使用金额
+  int64  number =6;//兑换数量
+  int64  spu_id =7;//商品id
+  string md5_key =8;//md5key
+  string title =9;//标题
+  string status =10;//状态:
+  string created_at =12;
+  string updated_at =13;
+  string status_name =14;
+}
+
+message IntegralExchangeLogRequest {
+  int64 paged = 1;
+  int64 page_size = 2;
+  //以下为自定义参数
+  int64 start_at =3;
+  string express_type =4;
+  string express_name =8;
+  string express_number =9;
+  string express_code =10;
+  string status =11;
+}
+
+message IntegralExchangeLogResponse {
+  IntegralExchangeLog entity = 1;
+  common.Pager pager =2;
+  repeated IntegralExchangeLog items = 3;
+  string info =4;
+}

@@ -1,0 +1,46 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+
+service IntegralCategoryService {
+    rpc Create(IntegralCategory) returns (IntegralCategoryResponse);
+    rpc Update(IntegralCategory) returns (IntegralCategoryResponse);
+    rpc Delete (IntegralCategory) returns (IntegralCategoryResponse);
+    rpc Get (IntegralCategory) returns (IntegralCategoryResponse);
+    rpc Tree (IntegralCategoryRequest) returns (IntegralCategoryResponse);
+    rpc List (IntegralCategoryRequest) returns (IntegralCategoryResponse);
+    rpc Search (IntegralCategoryRequest) returns (IntegralCategoryResponse);
+}
+
+message IntegralCategory {
+    int64 id = 1; 
+    string name = 3;
+    int64 parent_id = 4;
+    string path = 5; 
+    int32 sort = 11;
+    string status = 12;
+    string created_at = 13;
+    string updated_at = 14;
+    IntegralCategory parent = 15;
+    repeated IntegralCategory children = 16;
+}
+
+
+message IntegralCategoryRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5; 
+    int64 parent_id = 12;
+    string status = 13;
+}
+
+message IntegralCategoryResponse {
+    IntegralCategory  entity = 1;
+    common.Pager pager = 2;
+    repeated IntegralCategory items = 3;
+    string info= 4;
+}

@@ -1,0 +1,56 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+//门店区管服务
+service RegionManageService {
+    rpc Create(RegionManage) returns (RegionManageResponse);
+    rpc Update(RegionManage) returns (RegionManageResponse);
+    rpc Delete (RegionManage) returns (RegionManageResponse);
+    rpc Detail (RegionManage) returns (RegionManageResponse);
+    rpc List (RegionManageRequest) returns (RegionManageResponse);
+    rpc Search (RegionManageRequest) returns (RegionManageResponse);
+}
+//门店区管
+message RegionManage {
+    int64  id =1;//ID
+    string name =2;//名称
+    string describe =3;//简介
+    string contacts_name =4;//联系人
+    string contacts_tel =5;//联系电话
+    int64  province_id =6;//所在省ID
+    int64  city_id =7;//所在市ID
+    int64  county_id =8;//所在县/区ID
+    string address =9;//详细地址
+    float  lng =10;//经度
+    float  lat =11;//纬度
+    string is_enable =12; //是否启用（0否，1是）
+    int32  sort =13;//排序值
+    string created_at = 14;
+    string updated_at = 15;
+    string province_name = 16;
+    string city_name = 17;
+    string county_name = 18;
+    string is_enable_name =19;
+}
+
+message RegionManageRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string type = 6;
+    string is_enable = 7;
+    int64 province_id = 8;
+    int64 city_id = 9;
+    int64 county_id = 10;
+}
+
+message RegionManageResponse {
+    RegionManage  entity = 1;
+    common.Pager pager = 2;
+    repeated RegionManage items = 3;
+    string info = 4;
+}

@@ -1,0 +1,63 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service OrderAllotAddressService {
+    rpc Create(OrderAllotAddress) returns (OrderAllotAddressResponse);
+    rpc Update(OrderAllotAddress) returns (OrderAllotAddressResponse);
+    rpc Delete (OrderAllotAddress) returns (OrderAllotAddressResponse);
+    rpc Get (OrderAllotAddress) returns (OrderAllotAddressResponse);
+    rpc List (OrderAllotAddressRequest) returns (OrderAllotAddressResponse);
+    rpc Search (OrderAllotAddressRequest) returns (OrderAllotAddressResponse);
+}
+
+message OrderAllotAddress {
+    int64 id =1;
+    int64 order_allot_id =2; //会员ID
+    int64 order_id =3; //会员ID
+    string name =4; //姓名
+    string alias =5;//别名
+    string tel =6;//电话
+    int64 province_id =7;//所在省ID
+    int64 city_id =8;//所在市ID
+    int64 county_id =9;//所在县/区ID
+    string province_name =10;//所在省
+    string city_name =11;//所在市
+    string county_name =12;//所在县/区
+    string address =13;//详细地址
+    float lng =14; //经度
+    float lat =15;  //纬度
+    string idcard_name =16;//身份证姓名
+    string idcard_number =17;//身份证号码
+    string idcard_front =18;//身份证人像面图片
+    string idcard_back =19;//身份证国微面图片
+    string is_default =20;//是否默认地址（0否, 1是）
+    string created_at = 21;
+    string updated_at = 22;
+}
+
+
+message OrderAllotAddressRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string title = 5;
+    string model = 6;
+    int64 order_allot_id = 7;
+    int64 order_id = 8;
+    int64 province_id = 9;
+    int64 city_id = 10;
+    int64 county_id = 11;
+    string created_type =12;
+    string order_type =13;
+}
+
+message OrderAllotAddressResponse {
+    OrderAllotAddress  entity = 1;
+    common.Pager pager = 2;
+    repeated OrderAllotAddress items = 3;
+    string info = 4;
+}
+

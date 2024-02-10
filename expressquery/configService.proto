@@ -1,0 +1,23 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+service ConfigService {
+    //获配置信息
+    rpc GetConfig  (ExpressQueryConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc SaveConfig  (ExpressQueryConfig) returns (ConfigResponse) {}
+}
+
+
+//配置
+message ExpressQueryConfig {
+    string is_enable_query = 1; //是否开启充值(0否、1是)
+}
+
+
+message ConfigResponse {
+    ExpressQueryConfig config = 1;
+    string  info= 2;
+}
+

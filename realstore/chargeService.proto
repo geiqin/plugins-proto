@@ -1,0 +1,55 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+
+//挂账主体服务
+service ChargeService {
+    rpc Create(Charge) returns (ChargeResponse);
+    rpc Update(Charge) returns (ChargeResponse);
+    rpc Delete (Charge) returns (ChargeResponse);
+    rpc Get (Charge) returns (ChargeResponse);
+    rpc List (ChargeRequest) returns (ChargeResponse);
+    rpc Search (ChargeRequest) returns (ChargeResponse);
+}
+
+//挂账主体
+message Charge {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    string subject =3;//主体名称（企业名称或个人姓名）
+    string number =4;//主体号码（企业统一社会信用代码或个人身份证号）
+    string contacts_name =5;//联系人
+    string contacts_tel =6;//联系电话
+    int64  limit_amount =7;//限制额度
+    int64  used_amount =8;//已用额度
+    string note =9;//备注信息
+    repeated string images =10;//图片/附件
+    string status =11;//状态（0待合作, 1合作中, 2已终止）
+    string created_at = 12;
+    string updated_at = 13;
+    Realstore realstore =14;
+    string status_name =15;
+}
+
+//挂账主体请求
+message ChargeRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string subject = 5;
+    string number = 6;
+    string is_enable = 7;
+    int64 realstore_id = 8;
+    string contacts_name = 9;
+}
+
+//挂账主体数据
+message ChargeResponse {
+    Charge  entity = 1;
+    common.Pager pager = 2;
+    repeated Charge items = 3;
+    string info = 4;
+}

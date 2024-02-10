@@ -1,0 +1,104 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "realstoreService.proto";
+
+service OrderAllotService {
+    rpc Create(OrderAllot) returns (OrderAllotResponse);
+    rpc Update(OrderAllot) returns (OrderAllotResponse);
+    rpc Delete (OrderAllot) returns (OrderAllotResponse);
+    rpc Detail (OrderAllot) returns (OrderAllotResponse);
+    rpc List (OrderAllotRequest) returns (OrderAllotResponse);
+    rpc Search (OrderAllotRequest) returns (OrderAllotResponse);
+}
+
+message OrderAllot {
+    int64  id =1;//ID
+    string order_allot_no =2;//订单分配单号
+    int64  realstore_id =3;//门店id
+    int64  user_id =4;//用户id
+    int64  order_id =5;//订单id
+    int64  order_member_id =6;//订单用户id
+    string created_type =7;//订单来源（0系统指派, 1门店收银, 2用户扫码）
+    string order_type =8;//订单模式（0快递配送, 1客户自提, 2上门服务, 3虚拟产品）
+    float  buy_count =9;//购买商品总数量(总件数+总称重（千克）)
+    int64  buy_number_count =10;//购买商品总件数（非称重商品）
+    int64  buy_weight_count =11;//购买商品总秤重（称重商品.克）
+    int64  total_price =12;//订单单价
+    int64  actual_price =13;//订单总价(订单最终价格)
+    int64  increase_price =14;//增加的金额
+    int64  preferential_price =15;//优惠金额
+    string special_remarks =16;//特别说明（管理员填写）
+    string transfer_reason =17;//转单原因（门店申请转单填写）
+    string service_msg =18;//服务描述（门店填写）
+    string receive_time =19;//接收时间
+    string service_time =20;//服务时间
+    string success_time =21;//完成时间
+    string transfer_time =22;//转单时间
+    string cancel_time =23;//取消时间
+    int64  creator_id =24;//创建-用户id
+    string creator_name =25;//创建人-名称
+    string status =26;//订单状态（0待接收、1已接收、2服务中、3待签收、4已完成、5转单中、6已取消、7已关闭）
+    string created_at = 27;
+    string updated_at = 28;
+    Realstore realstore =29;
+    repeated OrderAllotDetail details =30;
+    string created_type_name =31;
+    string order_type_name =32;
+    string status_name =33;
+}
+
+message OrderAllotDetail{
+    int64  id =1;//ID
+    int64  order_allot_id =2;//订单分配id
+    int64  realstore_id =3;//门店id
+    int64  order_id =4;//订单id
+    int64  order_detail_id =5;//原始订单详情id
+    int64  spu_id =6;//商品id
+    string title =7;//标题
+    string image_url =8;//图片路径
+    string md5_key =9;//md5key
+    string unit =11;//型号
+    float unit_rate =12;//计量单位换算率
+    string is_open_weight =13;//是否开启称重（称重商品不能是多规格）（0否, 1是）
+    int64  buy_number =14;//购买数量
+    int64  sale_price =15;//销售价
+    int64  price =16;//成交价
+    int64  subtotal_price =17;//当前总价(单价*数量)
+    string model =18;//型号
+    int64  spec_weight =19; //规格重量（g）
+    int64  spec_volume =20;//规格体积
+    string spec_coding =21;//编码
+    string spec_barcode =22;//条形码
+    string spec_desc =23;//规格描述
+    repeated SpecificationData spec =24;//规格信息
+    string created_at = 25;
+    string updated_at = 26;
+}
+
+message OrderAllotRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string title = 5;
+    string model = 6;
+    int64 realstore_id = 7;
+    int64 spu_id = 8;
+    int64 order_id = 9;
+    int64 member_id = 10;
+    int64 user_id = 11;
+    string status = 15;
+    string created_type =16;
+    string order_type =17;
+}
+
+message OrderAllotResponse {
+    OrderAllot  entity = 1;
+    common.Pager pager = 2;
+    repeated OrderAllot items = 3;
+    string info = 4;
+}
+

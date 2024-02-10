@@ -1,0 +1,51 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+
+//门店桌码服务
+service TableCodeService {
+    rpc Create(TableCode) returns (TableCodeResponse);
+    rpc Update(TableCode) returns (TableCodeResponse);
+    rpc Delete (TableCode) returns (TableCodeResponse);
+    rpc Get (TableCode) returns (TableCodeResponse);
+    rpc List (TableCodeRequest) returns (TableCodeResponse);
+    rpc Search (TableCodeRequest) returns (TableCodeResponse);
+}
+
+//门店桌码
+message TableCode {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    string platform =3;//所属平台
+    string name =4;//名称
+    string code =5;//编号
+    string qrcode_url =6;//二维码地址
+    int32  order_count =7;//下单总数
+    string is_enable =8;//是否启用（0否，1是）
+    string created_at = 9;
+    string updated_at = 10;
+    Realstore realstore =11;
+    string platform_name =12;
+    string is_enable_name =13;
+}
+
+message TableCodeRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int32 id = 4;
+    string name = 5;
+    string platform = 6;
+    string is_enable = 7;
+    int64 realstore_id = 8;
+    string status = 9;
+}
+
+message TableCodeResponse {
+    TableCode  entity = 1;
+    common.Pager pager = 2;
+    repeated TableCode items = 3;
+    string info = 4;
+}

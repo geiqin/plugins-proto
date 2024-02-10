@@ -1,0 +1,53 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "realstoreService.proto";
+import "chargeService.proto";
+
+service ChargeOrderService {
+    rpc Create(ChargeOrder) returns (ChargeOrderResponse);
+    rpc Update(ChargeOrder) returns (ChargeOrderResponse);
+    rpc Delete (ChargeOrder) returns (ChargeOrderResponse);
+    rpc Detail (ChargeOrder) returns (ChargeOrderResponse);
+    rpc Search (ChargeOrderRequest) returns (ChargeOrderResponse);
+}
+
+message ChargeOrder {
+    int64  id =1;//ID
+    int64  realstore_id =2;//门店id
+    int64  charge_id =3;//挂账主体id
+    int64  business_id =4;//业务id
+    string business_type =5;//业务类型（0服务订单, 1钱包充值）
+    int64  price =6;//金额
+    string note =7;//备注信息
+    int64  operate_id =8;//操作人id
+    string operate_name =9;//操作人名称
+    string collection_time =10;//收款时间
+    string status =11;//状态（0待收款, 1已收款, 2已失效）
+    string created_at = 12;
+    string updated_at = 13;
+    Realstore realstore =14;
+    Charge charge =15;
+    string business_type_name =16;
+    string status_name =17;
+}
+
+message ChargeOrderRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    string keywords = 3;
+    int64 id = 4;
+    string name = 5;
+    string business_type = 6;
+    int64 charge_id = 7;
+    int64 realstore_id = 8;
+    string status = 9;
+}
+
+message ChargeOrderResponse {
+    ChargeOrder  entity = 1;
+    common.Pager pager = 2;
+    repeated ChargeOrder items = 3;
+    string info = 4;
+}
