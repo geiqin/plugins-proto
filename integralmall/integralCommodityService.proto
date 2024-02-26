@@ -25,19 +25,11 @@ message IntegralCommodity {
   int64  used_stock =9;//已兑换数量
   int64  limit_num =10;//限制数量，件/人
   int32  sort =11;//排序值
-  string describe =12;//积分兑换说明
-  string created_at =13;
-  string updated_at =14;
-  string title =15;//标题
-  string unit =16;//型号
-  float unit_rate =17;//计量单位换算率
-  string is_open_weight =18;//是否开启称重（称重商品不能是多规格）（0否, 1是）
-  string image_url =19;//图片路径
-  int64  inventory =20;//库存量
-  int64  price =21;//价格
-  string spec_desc =22;//规格描述
-  string is_error =23;//是否错误（0否，1是）
-  string error_msg =24;//错误信息
+  string is_only_exchange =12;//只能兑换：0否，1是
+  string describe =13;//积分兑换说明
+  string created_at =14;
+  string updated_at =15;
+  ProductInfo product =16;
 }
 
 message IntegralCommodityRequest {
@@ -51,7 +43,8 @@ message IntegralCommodityRequest {
   int64  spu_id =8;//商品id
   string md5_key =9;//md5key
   int64  integral =10;//积分
-  string status =11;
+  string is_only_exchange =11;
+  repeated string md5_key_list =12;
 }
 
 message IntegralCommodityResponse {

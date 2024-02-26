@@ -1,0 +1,51 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+//积分计算
+service CalculateService {
+    //商品显示计算
+    rpc GoodsDisplay(GoodsDisplayRequest) returns (CalculateResponse);
+    //积分兑换计算
+    rpc IntegralExchange(IntegralExchangeRequest) returns (CalculateResponse);
+
+}
+
+//计算购买商品
+message CalculateBuyGoods{
+    int64 spu_id =1;
+    string md5_key =2;
+    int64 price =3; //价格
+    int64 stock =4; //数量
+}
+
+message IntegralExchangeRequest {
+    int64 member_id = 1;
+    repeated CalculateBuyGoods buy_goods_list =2; //可兑换的商品
+}
+
+message GoodsDisplayRequest {
+    int64 spu_id = 1;
+    string md5_key = 2;
+    int64 member_id = 3; //用户ID
+    int64 member_integral = 4; //用户积分
+}
+
+message GoodsDisplayData {
+    string exchange_type =1;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+    int64 integral = 2;
+    int64 money = 3;
+    string tips = 4;
+}
+
+message IntegralExchangeData {
+    string is_support_goods_exchange =1;//是否支持商品兑换（0否，1是）
+    int64 use_integral = 2; //使用积分
+    int64 use_money = 3; //使用金额
+    repeated CalculateBuyGoods exchangeable_goods_list =4; //可兑换的商品
+}
+
+message CalculateResponse {
+    GoodsDisplayData goods_display = 1;
+    IntegralExchangeData integral_exchange = 2;
+}

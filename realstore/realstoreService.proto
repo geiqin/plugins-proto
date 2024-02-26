@@ -12,6 +12,7 @@ service RealstoreService {
     rpc Detail (Realstore) returns (RealstoreResponse);
     rpc List (RealstoreRequest) returns (RealstoreResponse);
     rpc Search (RealstoreRequest) returns (RealstoreResponse);
+    rpc Index (RealstoreRequest) returns (RealstoreResponse);
 }
 
 message Realstore {
@@ -117,11 +118,23 @@ message RealstoreRequest {
 
 }
 
-message RealstoreResponse {
-    Realstore  entity = 1;
+message RealstoreIndex {
+    Realstore  base = 1;
+    common.Pager category = 2;
+    repeated Realstore slider_list = 3;
+    string info = 4;
+}
+
+message RealstoreSearch {
     common.Pager pager = 2;
     repeated Realstore items = 3;
-    string info = 4;
+}
+
+message RealstoreResponse {
+    Realstore entity = 1;
+    string info = 2;
+    RealstoreIndex index =3;
+    RealstoreSearch search =4;
 }
 
 
