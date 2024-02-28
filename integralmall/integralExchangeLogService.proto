@@ -2,6 +2,7 @@ syntax = "proto3";
 package services;
 option go_package ="/.;services";
 import "common/base.proto";
+import "baseInfoService.proto";
 
 //积分兑换日志
 service IntegralExchangeLogService {
@@ -20,11 +21,12 @@ message IntegralExchangeLog {
   int64  number =6;//兑换数量
   int64  spu_id =7;//商品id
   string md5_key =8;//md5key
-  string title =9;//标题
+  int64 order_id =9;//订单ID
   string status =10;//状态:
   string created_at =12;
   string updated_at =13;
   string status_name =14;
+  ProductInfo product =15;
 }
 
 message IntegralExchangeLogRequest {
