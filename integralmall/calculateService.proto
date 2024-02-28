@@ -25,6 +25,7 @@ message CalculateExchangeGoods{
     int64 price =3; //价格
     int64 integral =4;//积分
     int64 stock =5; //数量
+    string exchange_type =6;//兑换类型
 }
 
 message IntegralExchangeRequest {
@@ -53,7 +54,7 @@ message IntegralExchangeData {
     int64 use_integral = 3; //使用积分
     int64 use_price = 4; //使用金额
     int64 discount_price = 5; //优惠金额
-    repeated CalculateExchangeGoods exchangeable_goods_list =6; //可兑换的商品
+    repeated CalculateExchangeGoods exchange_goods_list =6; //兑换商品列表
 }
 
 message CalculateResponse {
