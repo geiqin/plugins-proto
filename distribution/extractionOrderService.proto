@@ -1,0 +1,40 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service ExtractionOrderService {
+	rpc Create (ExtractionOrder) returns (ExtractionOrderResponse) {}
+	rpc Take (ExtractionOrder) returns (ExtractionOrderResponse) {}
+	rpc Detail (ExtractionOrder) returns (ExtractionOrderResponse) {}
+	rpc Search (ExtractionOrderRequest) returns (ExtractionOrderResponse) {}
+}
+
+
+message ExtractionOrder {
+	int64  id =1;//ID
+	int64  member_id =2;//站点所属用户id
+	int64  order_id =3;//订单ID
+	int64  self_extraction_id =4;//取货点地址id
+	string notes =5;//备注
+	string status =6;//状态（0待处理, 1已处理）
+	string created_at =7;
+	string updated_at =8;
+}
+
+message ExtractionOrderRequest {
+	int64 paged = 1;
+	int64 page_size = 2;
+	int64 top = 3;
+	int64 id = 4;
+	string type = 6;
+	repeated int64 ids = 5;
+}
+
+
+message ExtractionOrderResponse{
+	ExtractionOrder entity = 1;
+	common.Pager pager = 2;
+	repeated ExtractionOrder items = 3;
+	string info = 5;
+}

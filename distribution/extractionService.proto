@@ -1,0 +1,87 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "configureService.proto";
+
+//取货点
+service ExtractionService{
+	//用户取货点首页
+	rpc ExtractionIndex (Extraction) returns (ExtractionIndexResponse) {}
+	//用户取货点申请信息
+	rpc ExtractionApplyInfo (Extraction) returns (ExtractionResponse) {}
+	//用户取货点申请保存
+	rpc ExtractionApplySave (Extraction) returns (ExtractionResponse) {}
+	//获取用户取货点数据
+	rpc ExtractionDetail (Extraction) returns (ExtractionResponse) {}
+	//取货点审核
+	rpc ExtractionAudit (Extraction) returns (ExtractionResponse) {}
+	//取货点解约
+	rpc ExtractionRelieve (ExtractionRequest) returns (ExtractionResponse) {}
+	//取货点删除
+	rpc ExtractionDelete (ExtractionRequest) returns (ExtractionResponse) {}
+	//取货点切换保存
+	rpc ExtractionSwitchSave (ExtractionRequest) returns (ExtractionResponse) {}
+	//获取用户自定义地址
+	rpc UserCustomExtractionAddress (ExtractionRequest) returns (ExtractionResponse) {}
+	//取货点查询
+	rpc Search (ExtractionRequest) returns (ExtractionResponse) {}
+}
+
+
+message Extraction {
+	int64  id =1;//ID
+	int64  member_id =2;//站点所属用户id
+	string logo_url =3;//logo图片
+	string alias =4;//别名
+	string name =5;//别名
+	string tel =6;//电话
+	int64 province_id =8;//所在省ID
+	int64 city_id =9;//所在市ID
+	int64 county_id =10;//所在县/区ID
+	string province_name =11;//所在省-名称
+	string city_name =12;//所在市-名称
+	string county_name =13;//所在县/区-名称
+	string address =14;//详细地址
+	string lng =15;//经度
+	string lat =16;//纬度
+	string fail_reason =17;//审核拒绝原因
+	string status =18;//状态（0待审核, 1已通过, 2已拒绝, 3已解约）
+	string created_at =19;
+	string updated_at =20;
+	string status_name =21;
+}
+
+message ExtractionRequest {
+	int64 paged = 1;
+	int64 page_size = 2;
+	int64 top = 3;
+	int64 id = 4;
+	string status = 6;
+	string is_passed = 7;
+	repeated int64 ids = 8;
+}
+
+message ExtractionIndexStatistical{
+	int64 order_wait =2; //待处理
+	int64 order_already =3; //已处理
+}
+
+message ExtractionIndexData{
+	DistributionConfig base =1;
+	Extraction extraction =2;
+	ExtractionIndexStatistical statistical =3;
+}
+
+message ExtractionIndexResponse {
+	ExtractionIndexData data = 1;
+	common.Error error = 2;
+}
+
+
+message ExtractionResponse{
+	Extraction extraction = 1;
+	common.Pager pager = 2;
+	repeated Extraction items = 3;
+	string info = 5;
+}

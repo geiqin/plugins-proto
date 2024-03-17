@@ -1,0 +1,54 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+// 分销订单
+service DistributorOrderService {
+    // 获得佣金详情
+    rpc Detail (DistributorOrder) returns (DistributorOrderResponse) {}
+    // 查询佣金列表
+    rpc Search (DistributorOrderRequest) returns (DistributorOrderResponse) {}
+    // 同步拉取订单
+    rpc PullOrder (DistributorOrderRequest) returns (DistributorOrderResponse) {}
+}
+
+message DistributorOrder {
+    int64  id =1;//ID
+    int64  member_id =2;//用户ID
+    int64  order_id =3;//订单ID
+    string status =4;//状态（0待生效, 1待结算, 2已结算, 3已失效）
+    string valid_time =5;//生效时间
+    string settle_time =6;//结算时间
+    string created_at =8;
+    string updated_at =9;
+    MemberInfo member =10;
+    OrderInfo order =11;
+    string status_name =12;
+}
+
+message DistributorOrderRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 id = 3;
+    string mobile = 4;
+    int64 order_id = 5;
+    string order_sn = 6;
+    string keywords = 7;
+    string status = 8;
+    string start_date = 9;
+    string end_date = 10;
+    string is_settled =11;
+    int64 member_id = 12;
+    int64 referrer_id = 13;
+    int32 level_id = 14;
+    repeated int64 ids = 15;
+}
+
+message DistributorOrderResponse {
+    DistributorOrder entity = 1;
+    common.Pager pager =2;
+    repeated DistributorOrder items = 3;
+    string info =4;
+}

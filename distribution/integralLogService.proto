@@ -1,0 +1,51 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service IntegralLogService {
+    // 获得积分详情
+    rpc Detail (IntegralLog) returns (IntegralLogResponse) {}
+    // 查询积分列表
+    rpc Search (IntegralLogRequest) returns (IntegralLogResponse) {}
+}
+
+message IntegralLog {
+    int64  id =1;//ID
+    int64  member_id =2;//用户id
+    int64  order_id =3;//订单ID
+    int64  integral =4;//积分
+    string msg =5;//描述（一般用于退回描述）
+    string status =6;//状态（0待发放, 1已发放, 2已退回）
+    string created_at =7;
+    string updated_at =8; 
+    string status_name =9; //状态名称
+    string order_status_name =10; //订单状态名称
+    string order_pay_status_name =11; //订单支付状态名称
+    string order_client_type_name =12;//订单客户端
+    MemberInfo member =13; //用户信息
+}
+
+message IntegralLogRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 id = 3;
+    string mobile = 4;
+    int64 order_id = 5;
+    string order_sn = 6;
+    string keywords = 7;
+    string status = 8;
+    string start_date = 9;
+    string end_date = 10;
+    int64 member_id = 12;
+    int32 level_id = 13;
+    repeated int64 ids = 15;
+}
+
+message IntegralLogResponse {
+    IntegralLog entity = 1;
+    common.Pager pager =2;
+    repeated IntegralLog items = 3;
+    string info =4;
+}

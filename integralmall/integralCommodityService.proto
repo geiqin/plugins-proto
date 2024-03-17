@@ -22,7 +22,7 @@ message IntegralCommodity {
   int64  integral =6;//积分
   int64  money =7;//金额
   int64  stock =8;//可兑换数量
-  int64  used_stock =9;//已兑换数量
+  int64  exchanged_count =9;//已兑换数量
   int64  limit_num =10;//限制数量，件/人
   int32  sort =11;//排序值
   string is_only_exchange =12;//只能兑换：0否，1是

@@ -1,0 +1,201 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+message MemberInfo {
+    int64  id =1;//ID
+    string type =2;//类型：0个人,1企业
+    string number_code =3;//会员编号
+    string username =4;//用户名称
+    string nickname =5;//用户昵称
+    string gender =6;//性别:0=未知,1=男,2=女
+    string birthday =7;//会员生日
+    int64  province_id =8;//区域ID
+    int64  city_id =9;//区域ID
+    int64  county_id =10;//区域ID
+    string province_name =11;//所在省
+    string city_name =12;//所在市
+    string county_name =13;//所在区/县
+    string address =14;//详细地址
+    string email =15;//绑定邮箱
+    string mobile =16;//绑定手机
+    string avatar_url =17;//会员头像url地址
+    int32  free_level_id =18;//会员等级ID
+    int64  integral =19;//有效积分
+    int64  locking_integral =20;//锁定积分
+    int64  points =21;//累计积分(升级专用)
+    int64  order_total_count =22;//订单成交笔数
+    int64  order_total_price =23;//订单成交总额
+    int32  comment_count =24;//评价总数
+    int32  collect_count =25;//商品收藏总数
+    int64  referrer_id =26;//推荐人ID
+    string client_type =27;//来源终端
+    string contact_tel =28;//联系电话
+    string is_scatter =29;//是否为散客（0否，1是）
+    string is_trusted =30;//是否已实名认证（0否，1是）
+    string memo =31;//备注
+    int64 surplus =32; //可用余额（依赖钱包更新）
+    string status =33;//状态：1正常，2锁定，3禁用，9注销
+    string created_at = 34;
+    string updated_at = 35;
+    string is_distributor =36; //是否分销员（0否，1是）
+    MemberInfo referrer =37;
+}
+
+
+//产品信息
+message ProductInfo {
+    int64  spu_id =1;//SpuID
+    int64  shop_id =2;//多店铺ID
+    int64  taxonomy_id =3;//标准类目ID
+    int64  category_id =4;//商品分类ID
+    int32  brand_id =5;//品牌ID
+    string title =6;//商品标题
+    string title_color =7;//标题颜色
+    string simple_desc =8;//简述
+    string type =9;//商品类型：goods实物商品,fictitious虚拟商品,combine组合商品
+    string is_virtual =10;//是否为虚拟商品（0否, 1是）
+    string is_many_spec =11;//是否多规格商品（0否, 1是）
+    string is_open_weight =12;//是否开启称重（0否, 1是）
+    string is_open_presale =13;//是否开启预售（0否, 1是）
+    string model =14;//型号
+    int64  place_origin_id =15;//产地ID（地区省id）
+    string unit =16;//计量单位
+    float  unit_rate =17;//计量单位换算率(称重商品需要)
+    string weight_plu_code =18;//称重PLU码
+    string image_url =20;//商品主图url
+    string video_url =21;//短视频url
+    string content =22;//商品内容
+    string is_shelve =24;//是否上架（ 0否, 1是）
+    string is_disable_buy =25;//是否不允许直接购买
+    string is_deduction_inventory =26;//是否扣减库存（0否, 1是）
+    string is_member_right =27;//是否设置商品购买权限（0否, 1是）
+    string is_member_price =28;//是否参与会员折扣价（0否, 1是）
+    int64  min_original_price =29;//最低原价
+    int64  max_original_price =30;//最大原价
+    int64  min_price =31;//最低价格
+    int64  max_price =32;//最高价格
+    int64  buy_min_number =33;//最低起购数量（默认1）
+    int64  buy_max_number =34;//最大购买数量（最大数值 100000000, 小于等于0或空则不限）
+    int32  photo_count =35;//相册图片数量
+    int32  access_count =36;//访问次数
+    int32  sale_count =37;//实际销量
+    int32  initial_sale_count =38;//初始销售数量（前端展示销量=实际销量+初始销售数量）
+    string button_mode =41;//立即购买按钮：1默认名称，2自定义名称
+    string button_custom =42;//按钮自定义名称,英文最多15个字符
+    string freight_type =43;//运费模式：0统一邮费，1运费模板
+    int64  freight_uniform_fee =44;//统一运费
+    int64  freight_template_id =45;//运费模板ID
+    repeated string support_logistics =46;//支持的物流类型（1快递发货, 2同城配送, 3虚拟发货,4上门自提）
+    repeated string support_client_type =47;//支持的客户终端
+    map<string,string> fictitious_value =48;//虚拟商品展示数据
+    int64  detail_template_id =49;//展示详情模板ID
+    string seo_title =50;//SEO标题
+    string seo_keywords =51;//SEO关键字
+    string seo_desc =52;//SEO描述
+    int32  sort =53;//排序(数字越大显示越靠前)
+    string status =54;//商品状态。0创建 1新品 2正常 3清仓 4停售 5淘汰
+    string created_at = 55;
+    string updated_at = 56;
+    string brand_name =75;
+    string is_error =77;//是否错误（0否，1是）
+    string error_msg =78;//错误信息
+    int64 original_price =80;//划线价
+    int64 cost_price =81;//成本价
+    int64 price =82;//销售价
+    int64 inventory =83;//库存
+    string md5_key =84;//唯一标识
+    string coding =85;//编号
+    string barcode =86;//条码
+    int64 weight =87;//重量：克
+    int64 volume =88;//体积
+    string spec_desc =89;//规格描述
+    string goods_url =92;//商品URL
+    repeated SkuSpecInfo spec = 93; //规格
+    string is_distribution =94; //是否分销（0否，1是）
+    bool checked =95;
+}
+
+//货品规格信息
+message SkuSpecInfo{
+    string type =1;
+    string value =2;
+}
+
+//订单信息
+message OrderInfo {
+    int64  id =1;//ID
+    string order_no =2;//单号
+    int64  member_id =3;//客户ID
+    int64  shop_id =4;//多商户ID(依赖多商户插件)
+    int64  realstore_id =5;//多门店ID(依赖多商户插件)
+    int64  warehouse_id =6;//仓库ID
+    float  buy_count =7;//购买商品总数量(总件数+总称重（千克）)
+    int64  buy_number_count =8;//购买商品总件数（非称重商品）
+    int64  buy_weight_count =9;//购买商品总秤重（称重商品.克）
+    int64  total_price =10;//订单单价
+    int64  actual_price =11;//订单总价(订单最终价格)
+    int64  increase_price =12;//增加的金额
+    int64  preferential_price =13;//优惠金额
+    int64  use_integral =14;//使用积分
+    int64  use_surplus =15;//使用余额
+    int64  paid_money =16;//已支付金额
+    int64  refunded_money =17;//已退款金额
+    int64  returned_number =18;//已退货数量
+    int64  delivered_number =19;//已发货数量
+    string integral_discount_type =20; //积分优惠类型：0-无积分优惠,1-积分抵现，2积分兑换
+    int64  integral_deduction_rate =21;//积分抵现率
+    string client_type =22;//客户端类型（pc, h5, ios, android, alipay, weixin, baidu）取APPLICATION_CLIENT_TYPE常量值
+    string order_model =23;//订单模式（0销售型, 1展示型, 2自提点, 3虚拟销售）
+    string subject =24;//订单标题(为支付提供标题)。
+    string cover_url =25;//订单商品封面URL（默认取商品明细里数量最多的商品主图）
+    string user_note =26;//订单附言,由用户提交订单前填写
+    string seller_note =27;//商家留言,当该字段值时可以在订单查询看到
+    string logistics_type =28;//物流模式：1-物流快递，2-同城配送，3-虚拟发货，4-用户自提
+    string delivery_mode =29;//发货模式：1-统一发货，2-分拆发货
+    string is_all_delivered =30;//是否已全部发货(发货模式为2时有效)（0否，1是）
+    string is_underline_pay =31;//是否线下支付（0否，1是）(如果多次支付以第一次为准)
+    string is_cod =32;//是否货到付款
+    string is_invoiced =33;//是否已过开票（0否，1是）
+    string is_refunded =34;//是否已产生退款（0否，1是）
+    string is_modify_address =35;//是否手动修改过订单地址（0否，1是）
+    string is_modify_price =36;//是否手动修改过订单价（0否，1是）
+    int32  payment_id =37;//用户选择的支付方式的id,取值表payment
+    string payment_type =38;//支付类型
+    string payment_way_code =39;//支付通道Code
+    string pay_status =40;//支付状态（0未支付, 1已支付, 2已退款, 3部分退款）
+    string status =41;//订单状态（0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
+    string pay_time =42;//支付时间
+    string confirm_time =43;//订单确认时间
+    string delivery_time =44;//发货时间
+    string cancel_time =45;//取消时间
+    string collect_time =46;//收货时间
+    string close_time =47;//退款完成时间
+    string finished_time =48;//订单完成时间
+    string created_at =49;
+    string updated_at =50;
+    //--ext---
+    bool is_can_launch_aftersale =55; //是否启动售后服务
+    string client_type_name =56; //终端类型名称
+    string payment_type_name =57; //支付类型名称
+    string payment_way_name =58; //支付通道名称
+    string status_name =59; //状态名称
+    string status_color =60; //状态颜色
+    string pay_status_name =61; //状态名称
+    string logistics_type_name =62; //物流模式名称
+    string delivery_mode_name =63; //发货模式名称
+}
+
+
+message AppNavInfo {
+    string icon =1;
+    string title =2;
+    string url =3;
+}
+
+message DictInfo {
+    string name	 =1;
+    string value =2;
+    string class =3;
+    bool checked =4;
+}

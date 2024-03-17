@@ -1,0 +1,74 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "baseInfoService.proto";
+import "configureService.proto";
+import "levelService.proto";
+import "extractionService.proto";
+
+service HomeService {
+    //用户中心
+    rpc Index (HomeRequest) returns (HomeResponse) {}
+    //分销介绍
+    rpc Introduce (HomeRequest) returns (HomeResponse) {}
+}
+
+message HomeRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    int32 top = 3;
+    int32 id = 4;
+    string type = 6;
+}
+
+//用户中心
+
+message ProfitLadder{
+    int32 level =1;
+    int32 count =2;
+    string time =3;
+    string msg =4;
+    bool is_valid =5;
+    current_data current =6;
+    message current_data {
+        int32 rate =1;
+        int64 price =2;
+    }
+}
+
+
+// 申请达标条件
+message ApplyReachCondition {
+    int32 rank_id = 1;
+    bool has_bought = 2;// 指定购买商品是否达标
+    bool has_consumption_amount =3;// 自购金额是否达标
+    bool has_consumption_num = 4;// 最低消费笔数是否达标
+    bool has_bind_id_card = 5;// 是否已实名认证
+    bool has_bind_mobile = 6;// 是否已绑定手机号
+    bool has_information = 7;
+    bool has_joined = 8; //是否以加入
+    bool has_join_fee = 9; //是否缴纳保证金
+    bool has_promotion_amount = 10;// 推广金是否达标
+    bool has_primary_num = 11;// 一级分销员人数是否达标
+    bool has_second_num = 12;// 二级分销员人数是否达标
+}
+
+message HomeIndex {
+    DistributionConfig base =1;//配置信息
+    Level user_level =2;//用户分销等级
+    Extraction extraction =3;//取货地点
+    MemberInfo superior =4;//推荐人
+    ProfitLadder profit_ladder =5;//阶梯返佣提示
+    repeated AppNavInfo nav_list =6;//导航列表
+}
+
+
+message HomeIntroduce{
+    DistributionConfig base =1;//配置信息
+    repeated Level level_list =2;//分销等级列表
+}
+
+message HomeResponse{
+    HomeIndex index =1;
+    HomeIntroduce introduce =2;
+}

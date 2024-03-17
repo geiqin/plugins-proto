@@ -1,0 +1,59 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "levelService.proto";
+
+service DistributorApplyService {
+    // 申请首页【客户专用】
+    rpc Index (DistributorApply) returns (DistributorApplyResponse) {}
+    // 发起申请【客户专用】
+    rpc Create (DistributorApply) returns (DistributorApplyResponse) {}
+    //审核申请者
+    rpc Audit (DistributorApply) returns (DistributorApplyResponse) {}
+    //获取申请者信息
+    rpc Detail (DistributorApply) returns (DistributorApplyResponse) {}
+    //分页查询申请者
+    rpc Search (DistributorApplyRequest) returns (DistributorApplyResponse) {}
+}
+
+
+message DistributorApply {
+    int64  id =1;//ID
+    int64  member_id =2;//申请者用户ID
+    int32  level_id =3;//申请的等级ID
+    string is_auto_audit =4;//是否自动审核
+    int64  referrer_id =5;//推荐人ID
+    string fail_reason =6;//审核未通过原因
+    string conditions =7;//申请时的附加条件门槛信息
+    string status =8;//申请状态：0待审核，1审核通过，2审核未通过
+    string created_at = 9;
+    string updated_at = 10;
+    MemberInfo member =11;
+    MemberInfo referrer =12;
+    Level level =14;
+    string status_name = 15;
+}
+
+
+message DistributorApplyRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 top = 3;
+    int64 id = 4;
+    string mobile = 5;
+    string keywords = 6;
+    string status = 7;
+    int32  level_id = 8;
+    int64 member_id = 9;
+    int64 referrer_id = 10;
+    repeated int64 ids = 11;
+}
+
+message DistributorApplyResponse {
+    DistributorApply entity = 3;
+    common.Pager pager =4;
+    repeated DistributorApply items = 5;
+    string info =7;
+}

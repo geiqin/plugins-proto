@@ -1,0 +1,37 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+//分享
+service ShareService {
+
+    //海报分享
+    rpc Poster (ShareRequest) returns (SharePosterResponse) {}
+    //商品分享
+    rpc Goods (ShareRequest) returns (ShareGoodsResponse) {}
+
+    //刷新海报
+    rpc RefreshPoster (ShareRequest) returns (SharePosterResponse) {}
+}
+
+message ShareRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 top = 3;
+    int64 goods_id = 4;
+    string type = 6;
+    repeated int64 ids = 5;
+}
+
+message SharePosterResponse  {
+    string user_share_url =1;//分享地址
+    string user_share_qrcode =2;//分享二维码
+    string user_share_poster =3;//分享海报
+    string home_seo_site_title =4;//浏览器名称
+}
+
+
+message ShareGoodsResponse{
+    string user_share_url =1;//分享地址
+    string user_share_qrcode =2;//分享二维码
+}

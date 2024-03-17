@@ -1,0 +1,76 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service GoodsService {
+    //分销商品添加
+    rpc Create (Goods) returns (GoodsResponse) {}
+    //分销商品修改
+    rpc Update (Goods) returns (GoodsResponse) {}
+    //分销商品移除
+    rpc Delete (Goods) returns (GoodsResponse) {}
+    //分销商品详情
+    rpc Detail (Goods) returns (GoodsResponse) {}
+    //分销商品查询
+    rpc Search (GoodsRequest) returns (GoodsResponse) {}
+    //分销商品取消/参与推广
+    rpc Switch (GoodsRequest) returns (GoodsResponse) {}
+    //产品搜索
+    rpc ProductSearch (GoodsRequest) returns (GoodsResponse) {}
+}
+
+message Goods {
+    int64 id = 1;
+    int64 spu_id = 2;
+    string md5_key = 3;
+    string type = 4;
+    int32 sort = 5;
+    string is_enabled = 8;
+    string created_at = 9;
+    string updated_at = 10;
+    repeated GoodsCommission commissions = 11;
+    ProductInfo product =12;
+}
+
+message GoodsCommission{
+    int32 level_id =1; //销售员等级ID
+    int32 level_rate_one =2; //一级返佣比例%
+    int32 level_rate_two =3; //二级返佣比例%
+    int32 level_rate_three =4; //三级返佣比例%
+    int32 down_return_rate =5; //向下返佣比例%
+    int32 self_buy_rate =6; //内购返佣比例%
+    string level_name = 7;
+}
+
+message GoodsRequest {
+    int64 paged = 1;
+    int64 page_size = 2;
+    int64 top = 3;
+    int64 id = 4;
+    //-----
+    string keywords = 6;
+    int32 cat_id = 7;
+    string type = 8;
+    string sorting = 9;
+    int64 item_id = 10;
+    int64 sku_id = 11;
+    string sku_name = 12;
+    string sku_price = 13;
+    string sku_status = 14;
+    string commission_type = 15;
+    string status = 16;
+    int64 member_id = 17;
+    bool client = 18;
+    repeated int64 sku_ids = 19;
+    repeated int64 ids = 20;
+
+}
+message GoodsResponse{
+    Goods entity = 1;
+    common.Pager pager =2;
+    repeated Goods items = 3;
+    string info =4;
+    repeated ProductInfo products = 5;
+}
