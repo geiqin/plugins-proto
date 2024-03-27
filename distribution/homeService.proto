@@ -60,6 +60,7 @@ message HomeIndex {
     MemberInfo superior =4;//推荐人
     ProfitLadder profit_ladder =5;//阶梯返佣提示
     repeated AppNavInfo nav_list =6;//导航列表
+    string is_distributor =7;//是否为分销员(0否，1是)
 }
 
 

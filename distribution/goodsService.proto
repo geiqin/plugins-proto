@@ -25,9 +25,9 @@ message Goods {
     int64 id = 1;
     int64 spu_id = 2;
     string md5_key = 3;
-    string type = 4;
+    string calculate_type = 4;
     int32 sort = 5;
-    string is_enabled = 8;
+    string is_promotion = 8;
     string created_at = 9;
     string updated_at = 10;
     repeated GoodsCommission commissions = 11;
@@ -58,13 +58,14 @@ message GoodsRequest {
     int64 sku_id = 11;
     string sku_name = 12;
     string sku_price = 13;
-    string sku_status = 14;
-    string commission_type = 15;
+    string is_promotion = 14;
+    string calculate_type = 15;
     string status = 16;
     int64 member_id = 17;
     bool client = 18;
-    repeated int64 sku_ids = 19;
-    repeated int64 ids = 20;
+    repeated string md5key_list = 19;
+    repeated int64 spu_ids = 20;
+    repeated int64 ids = 21;
 
 }
 message GoodsResponse{

@@ -29,9 +29,10 @@ message LevelRequest {
 
 message Level {
     int32  id =1;//ID
-    int32  rank =2;//等级
-    string name =3;//等级名称
-    string image_url =4;//图标
+    string type =2;//等级
+    int32  grade =3;//等级
+    string name =4;//等级名称
+    string image_url =5;//图标
     int32  level_rate_one =6;//一级返佣比例
     int32  level_rate_two =7;//二级返佣比例
     int32  level_rate_three =8;//三级返佣比例

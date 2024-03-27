@@ -11,6 +11,8 @@ service ConfigureService {
     rpc SavePosterData (PosterData) returns (ConfigureResponse) {}
     //保存商品海报数据
     rpc SavePosterGoodsData (PosterGoodsData) returns (ConfigureResponse) {}
+    //保存招募申请数据
+    rpc SaveRecruitData (RecruitData) returns (ConfigureResponse) {}
     //清空推广海报生成数据
     rpc ClearPoster (PosterRequest) returns (ConfigureResponse) {}
     //清空商品海报生成数据
@@ -26,7 +28,7 @@ message DistributionConfig{
     string user_poster_share_desc = 5; //用户海报分享描述
     string is_upper_return = 6; //向上返佣,默认关闭
     int32 level = 7; //分销层级,默认三级
-    string self_buy = 8; //分销商内购,默认关闭
+    string is_self_buy = 8; //分销商内购,默认关闭
     string auto_level_type = 9; //自动升级分销等级类型
     string is_down_return = 10; //向下返佣
     int32 down_return_number = 11; //最多分摊佣金人数
@@ -78,6 +80,7 @@ message DistributionConfig{
     PosterData poster_data = 57;//推广海报数据
     PosterGoodsData poster_goods_data = 58; //商品海报数据
     ApplyCondition apply_condition =59;//申请条件
+    RecruitData recruit_data =60;//招募数据
 }
 
 // 申请加入条件
@@ -92,6 +95,16 @@ message ApplyCondition {
     int64 appoint_buy_goods_spu_id = 10; //指定购买商品SpuID
     string appoint_buy_goods_md5_key = 11; //指定购买商品MD5key
     string appoint_buy_goods_number = 12;//指定购买商品数量
+}
+
+//招募数据
+message RecruitData {
+    string title =1;//招募标题
+    string is_auto_audit =2;//是否自动审核（0否，1是）
+    string submit_button_title =3;//提交按钮内容
+    string submit_button_style =4;//提交按钮风格
+    string description =5;//招募描述
+    string poster_url =6;//底部右侧文本
 }
 
 //商品海报

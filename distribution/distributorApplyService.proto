@@ -7,7 +7,7 @@ import "levelService.proto";
 
 service DistributorApplyService {
     // 申请首页【客户专用】
-    rpc Index (DistributorApply) returns (DistributorApplyResponse) {}
+    rpc Index (DistributorApply) returns (DistributorApplyIndexResponse) {}
     // 发起申请【客户专用】
     rpc Create (DistributorApply) returns (DistributorApplyResponse) {}
     //审核申请者
@@ -36,7 +36,6 @@ message DistributorApply {
     string status_name = 15;
 }
 
-
 message DistributorApplyRequest {
     int64 paged = 1;
     int64 page_size = 2;
@@ -51,9 +50,32 @@ message DistributorApplyRequest {
     repeated int64 ids = 11;
 }
 
+
+message DistributorApplyRecruit {
+    string  title =1;//标题
+    string  poster_url =2;//海报URL
+    string  description =3;//描述
+    string button_name = 4; //申请按钮名称
+    repeated string equity_list =6;//权益列表
+}
+
+message DistributorApplyAudit{
+    string  status =1;//状态：0待审核，1审核通过，2审核未通过
+    string  fail_reason =2;//失败原因
+    string  audit_time =3;//审核时间
+    string  apply_time =4;//申请时间
+}
+
+message DistributorApplyIndexResponse{
+    DistributorApplyRecruit recruit =1; //招募海报
+    DistributorApplyAudit audit =2; //审核结果
+    string  is_distributor =3;//是否已成分销员：0否，1是
+    string  is_refuse_apply =4;//是否拒绝申请：0否，1是
+}
+
 message DistributorApplyResponse {
-    DistributorApply entity = 3;
-    common.Pager pager =4;
-    repeated DistributorApply items = 5;
-    string info =7;
+    DistributorApply entity = 1;
+    common.Pager pager =2;
+    repeated DistributorApply items = 3;
+    string info =4;
 }

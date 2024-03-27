@@ -57,6 +57,7 @@ message ProductInfo {
   string created_at = 55;
   string updated_at = 56;
   string brand_name =75;
+  string is_delete =76;//是否删除（0否，1是）
   string is_error =77;//是否错误（0否，1是）
   string error_msg =78;//错误信息
   int64 original_price =80;//划线价

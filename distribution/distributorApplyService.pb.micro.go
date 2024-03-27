@@ -44,7 +44,7 @@ func NewDistributorApplyServiceEndpoints() []*api.Endpoint {
 
 type DistributorApplyService interface {
 	// 申请首页【客户专用】
-	Index(ctx context.Context, in *DistributorApply, opts ...client.CallOption) (*DistributorApplyResponse, error)
+	Index(ctx context.Context, in *DistributorApply, opts ...client.CallOption) (*DistributorApplyIndexResponse, error)
 	// 发起申请【客户专用】
 	Create(ctx context.Context, in *DistributorApply, opts ...client.CallOption) (*DistributorApplyResponse, error)
 	//审核申请者
@@ -67,9 +67,9 @@ func NewDistributorApplyService(name string, c client.Client) DistributorApplySe
 	}
 }
 
-func (c *distributorApplyService) Index(ctx context.Context, in *DistributorApply, opts ...client.CallOption) (*DistributorApplyResponse, error) {
+func (c *distributorApplyService) Index(ctx context.Context, in *DistributorApply, opts ...client.CallOption) (*DistributorApplyIndexResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorApplyService.Index", in)
-	out := new(DistributorApplyResponse)
+	out := new(DistributorApplyIndexResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (c *distributorApplyService) Search(ctx context.Context, in *DistributorApp
 
 type DistributorApplyServiceHandler interface {
 	// 申请首页【客户专用】
-	Index(context.Context, *DistributorApply, *DistributorApplyResponse) error
+	Index(context.Context, *DistributorApply, *DistributorApplyIndexResponse) error
 	// 发起申请【客户专用】
 	Create(context.Context, *DistributorApply, *DistributorApplyResponse) error
 	//审核申请者
@@ -134,7 +134,7 @@ type DistributorApplyServiceHandler interface {
 
 func RegisterDistributorApplyServiceHandler(s server.Server, hdlr DistributorApplyServiceHandler, opts ...server.HandlerOption) error {
 	type distributorApplyService interface {
-		Index(ctx context.Context, in *DistributorApply, out *DistributorApplyResponse) error
+		Index(ctx context.Context, in *DistributorApply, out *DistributorApplyIndexResponse) error
 		Create(ctx context.Context, in *DistributorApply, out *DistributorApplyResponse) error
 		Audit(ctx context.Context, in *DistributorApply, out *DistributorApplyResponse) error
 		Detail(ctx context.Context, in *DistributorApply, out *DistributorApplyResponse) error
@@ -151,7 +151,7 @@ type distributorApplyServiceHandler struct {
 	DistributorApplyServiceHandler
 }
 
-func (h *distributorApplyServiceHandler) Index(ctx context.Context, in *DistributorApply, out *DistributorApplyResponse) error {
+func (h *distributorApplyServiceHandler) Index(ctx context.Context, in *DistributorApply, out *DistributorApplyIndexResponse) error {
 	return h.DistributorApplyServiceHandler.Index(ctx, in, out)
 }
 

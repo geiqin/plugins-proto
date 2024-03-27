@@ -50,6 +50,8 @@ type ConfigureService interface {
 	SavePosterData(ctx context.Context, in *PosterData, opts ...client.CallOption) (*ConfigureResponse, error)
 	//保存商品海报数据
 	SavePosterGoodsData(ctx context.Context, in *PosterGoodsData, opts ...client.CallOption) (*ConfigureResponse, error)
+	//保存招募申请数据
+	SaveRecruitData(ctx context.Context, in *RecruitData, opts ...client.CallOption) (*ConfigureResponse, error)
 	//清空推广海报生成数据
 	ClearPoster(ctx context.Context, in *PosterRequest, opts ...client.CallOption) (*ConfigureResponse, error)
 	//清空商品海报生成数据
@@ -108,6 +110,16 @@ func (c *configureService) SavePosterGoodsData(ctx context.Context, in *PosterGo
 	return out, nil
 }
 
+func (c *configureService) SaveRecruitData(ctx context.Context, in *RecruitData, opts ...client.CallOption) (*ConfigureResponse, error) {
+	req := c.c.NewRequest(c.name, "ConfigureService.SaveRecruitData", in)
+	out := new(ConfigureResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *configureService) ClearPoster(ctx context.Context, in *PosterRequest, opts ...client.CallOption) (*ConfigureResponse, error) {
 	req := c.c.NewRequest(c.name, "ConfigureService.ClearPoster", in)
 	out := new(ConfigureResponse)
@@ -139,6 +151,8 @@ type ConfigureServiceHandler interface {
 	SavePosterData(context.Context, *PosterData, *ConfigureResponse) error
 	//保存商品海报数据
 	SavePosterGoodsData(context.Context, *PosterGoodsData, *ConfigureResponse) error
+	//保存招募申请数据
+	SaveRecruitData(context.Context, *RecruitData, *ConfigureResponse) error
 	//清空推广海报生成数据
 	ClearPoster(context.Context, *PosterRequest, *ConfigureResponse) error
 	//清空商品海报生成数据
@@ -151,6 +165,7 @@ func RegisterConfigureServiceHandler(s server.Server, hdlr ConfigureServiceHandl
 		SaveConfig(ctx context.Context, in *DistributionConfig, out *ConfigureResponse) error
 		SavePosterData(ctx context.Context, in *PosterData, out *ConfigureResponse) error
 		SavePosterGoodsData(ctx context.Context, in *PosterGoodsData, out *ConfigureResponse) error
+		SaveRecruitData(ctx context.Context, in *RecruitData, out *ConfigureResponse) error
 		ClearPoster(ctx context.Context, in *PosterRequest, out *ConfigureResponse) error
 		ClearPosterGoods(ctx context.Context, in *PosterRequest, out *ConfigureResponse) error
 	}
@@ -179,6 +194,10 @@ func (h *configureServiceHandler) SavePosterData(ctx context.Context, in *Poster
 
 func (h *configureServiceHandler) SavePosterGoodsData(ctx context.Context, in *PosterGoodsData, out *ConfigureResponse) error {
 	return h.ConfigureServiceHandler.SavePosterGoodsData(ctx, in, out)
+}
+
+func (h *configureServiceHandler) SaveRecruitData(ctx context.Context, in *RecruitData, out *ConfigureResponse) error {
+	return h.ConfigureServiceHandler.SaveRecruitData(ctx, in, out)
 }
 
 func (h *configureServiceHandler) ClearPoster(ctx context.Context, in *PosterRequest, out *ConfigureResponse) error {
