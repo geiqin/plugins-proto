@@ -44,17 +44,22 @@ message GoodsDisplayData {
     string exchange_type =1;//兑换类型：0 纯积分兑换，1-积分+金额兑换
     int64 integral = 2;
     int64 money = 3;
-    string tips = 4;
+    int64 stock =4; //可兑换库存
+    string is_not_buy =5;//是否不允许购买（0否，1是）
+    string tips = 6;
 }
 
 //积分兑换数据
 message IntegralExchangeData {
-    bool is_support_goods_exchange =1;//是否支持商品兑换（0否，1是）
-    bool is_contain_only_exchange =2;//是否包含仅积分兑换商品
-    int64 use_integral = 3; //使用积分
-    int64 use_price = 4; //使用金额
-    int64 discount_price = 5; //优惠金额
-    repeated CalculateExchangeGoods exchange_goods_list =6; //兑换商品列表
+    string is_support_exchange =1;//是否支持兑换（0否，1是）
+    string is_not_buy =2;//是否不允许购买（0否，1是）
+    string exchange_type =3;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+    int64 use_integral = 4; //使用积分
+    int64 use_price = 5; //使用金额
+    int64 discount_price =6; //优惠金额
+    string is_error =7;//是否有错误（0否，1是）
+    string error_msg =8;//错误信息
+    repeated CalculateExchangeGoods exchange_goods_list =9; //兑换商品列表
 }
 
 message CalculateResponse {
