@@ -34,7 +34,7 @@ message DictResponse {
   DictInfo entity = 1;
   common.Pager pager =2;
   repeated DictType dict_list = 3;
-  string info =4;
+  string msg =4;
 }
 
 
@@ -52,10 +52,9 @@ message CouponConfig {
   map<string,string> banner_url_rules = 13;//优惠券首页顶部大图（链接地址）
 }
 
-
 message ConfigResponse {
   CouponConfig config = 1;
-  string info = 2;
+  string msg = 2;
 }
 
 

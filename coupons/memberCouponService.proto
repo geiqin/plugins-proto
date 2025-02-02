@@ -1,0 +1,74 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+import "couponService.proto";
+
+//用户优惠劵
+service MemberCouponService {
+    //用户优惠券删除
+    rpc Delete (MemberCoupon) returns (MemberCouponResponse) {}
+    //用户优惠劵详情
+    rpc Detail (MemberCoupon) returns (MemberCouponResponse) {}
+    //我的优惠劵
+    rpc Index (MemberCouponRequest) returns (MemberCouponIndexResponse) {}
+    //用户优惠劵查询
+    rpc Search (MemberCouponRequest) returns (MemberCouponResponse) {}
+    //用户优惠劵可用列表（支付展示）
+    rpc UsableList (MemberCouponRequest) returns (MemberCouponResponse) {}
+}
+
+message MemberCoupon {
+    int64 id = 1; //
+    string code = 2; //凭证编号
+    int64 coupon_id = 3; //优惠券id
+    int64 member_id = 4; //用户id
+    string start_time = 5; //开始时间
+    string end_time = 6; //结束时间
+    string receive_scene = 7; //领取场景
+    int64 used_order_id = 8; //使用订单id
+    int64 used_amount = 9; //使用金额
+    string used_time = 10; //使用时间
+    string status = 11; //优惠劵状态
+    string created_at = 12; //创建时间
+    string updated_at = 13; //修改时间
+    Coupon coupon = 14;//优惠券
+    MemberInfo member = 15;//用户
+    OrderInfo use_order = 16;//使用关联的订单
+    repeated int64 buy_goods_ids =17;//附加：购买商品ID
+}
+
+message MemberCouponRequest {
+    int32 top = 1;
+    int64 paged = 2;
+    int64 page_size = 3;
+    string keywords = 4;
+    repeated string sorts = 5;
+    repeated string date_range = 6;
+    repeated int64 ids = 7;
+    int64 id = 8;
+    //以下为自定义参数
+    string code = 11; //凭证编号
+    int64 coupon_id = 12; //优惠券id
+    int64 member_id = 13; //用户id
+    string receive_scene = 14; //领取场景
+    int64 used_order_id = 15; //使用订单id
+    string status = 16; //优惠劵状态
+}
+
+message MemberCouponIndexResponse {
+    common.Pager pager =1;
+    repeated MemberCoupon items = 2;
+    repeated MemberCoupon not_use = 3;
+    repeated MemberCoupon already_use = 4;
+    repeated MemberCoupon already_expire = 5;
+    string msg =6;
+}
+
+message MemberCouponResponse {
+    MemberCoupon entity = 1;
+    common.Pager pager =2;
+    repeated MemberCoupon items = 3;
+    string msg =4;
+}

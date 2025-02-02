@@ -2,111 +2,154 @@ syntax = "proto3";
 package services;
 option go_package = "/.;services";
 
-//货品信息
+
+
 message ProductInfo {
-  int64  spu_id =1;//SpuID
-  int64  shop_id =2;//多店铺ID
-  int64  taxonomy_id =3;//标准类目ID
-  int64  category_id =4;//商品分类ID
-  int32  brand_id =5;//品牌ID
-  string title =6;//商品标题
-  string title_color =7;//标题颜色
-  string simple_desc =8;//简述
-  string type =9;//商品类型：goods实物商品,fictitious虚拟商品,combine组合商品
-  string is_virtual =10;//是否为虚拟商品（0否, 1是）
-  string is_many_spec =11;//是否多规格商品（0否, 1是）
-  string is_open_weight =12;//是否开启称重（0否, 1是）
-  string is_open_presale =13;//是否开启预售（0否, 1是）
-  string model =14;//型号
-  int64  place_origin_id =15;//产地ID（地区省id）
-  string unit =16;//计量单位
-  float  unit_rate =17;//计量单位换算率(称重商品需要)
-  string weight_plu_code =18;//称重PLU码
-  string image_url =20;//商品主图url
-  string video_url =21;//短视频url
-  string content =22;//商品内容
-  string is_shelve =24;//是否上架（ 0否, 1是）
-  string is_disable_buy =25;//是否不允许直接购买
-  string is_deduction_inventory =26;//是否扣减库存（0否, 1是）
-  string is_member_right =27;//是否设置商品购买权限（0否, 1是）
-  string is_member_price =28;//是否参与会员折扣价（0否, 1是）
-  int64  min_original_price =29;//最低原价
-  int64  max_original_price =30;//最大原价
-  int64  min_price =31;//最低价格
-  int64  max_price =32;//最高价格
-  int64  buy_min_number =33;//最低起购数量（默认1）
-  int64  buy_max_number =34;//最大购买数量（最大数值 100000000, 小于等于0或空则不限）
-  int32  photo_count =35;//相册图片数量
-  int32  access_count =36;//访问次数
-  int32  sale_count =37;//实际销量
-  int32  initial_sale_count =38;//初始销售数量（前端展示销量=实际销量+初始销售数量）
-  string button_mode =41;//立即购买按钮：1默认名称，2自定义名称
-  string button_custom =42;//按钮自定义名称,英文最多15个字符
-  string freight_type =43;//运费模式：0统一邮费，1运费模板
-  int64  freight_uniform_fee =44;//统一运费
-  int64  freight_template_id =45;//运费模板ID
-  repeated string support_logistics =46;//支持的物流类型（1快递发货, 2同城配送, 3虚拟发货,4上门自提）
-  repeated string support_client_type =47;//支持的客户终端
-  map<string,string> fictitious_value =48;//虚拟商品展示数据
-  int64  detail_template_id =49;//展示详情模板ID
-  string seo_title =50;//SEO标题
-  string seo_keywords =51;//SEO关键字
-  string seo_desc =52;//SEO描述
-  int32  sort =53;//排序(数字越大显示越靠前)
-  string status =54;//商品状态。0创建 1新品 2正常 3清仓 4停售 5淘汰
-  string created_at = 55;
-  string updated_at = 56;
-  string brand_name =75;
-  string is_delete =76;//是否删除（0否，1是）
-  string is_error =77;//是否错误（0否，1是）
-  string error_msg =78;//错误信息
-  int64 original_price =80;//划线价
-  int64 cost_price =81;//成本价
-  int64 price =82;//销售价
-  int64 inventory =83;//库存
-  string md5_key =84;//唯一标识
-  string coding =85;//编号
-  string barcode =86;//条码
-  int64 weight =87;//重量：克
-  int64 volume =88;//体积
-  string spec_desc =89;//规格描述
-  string goods_url =92;//商品URL
-  repeated SkuSpecInfo spec = 93; //规格
-  bool checked =94;
+  string type = 2; //商品类型
+  int64 shop_id = 3; //分店ID
+  int64 category_id = 4; //商品分类
+  int64 taxonomy_id = 5; //商品类目
+  int32 brand_id = 6; //品牌
+  string name = 7; //商品名称
+  string code = 8; //SPU编码
+  string sell_mode = 9; //销售模式
+  string image_url = 10; //商品主图
+  string video_url = 11; //主图视频
+  string explain_video_url = 12; //讲解视频
+  string is_virtual = 13; //虚拟商品
+  string is_many_spec = 14; //多规格商品
+  string is_open_weigh = 15; //开启称重
+  string is_more_barcode = 16; //一品多码
+  int32 unit_id = 17; //计量单位ID
+  string unit_name = 18; //计量单位名称
+  string unit_type = 19; //计量单位类型
+  string inventory_deduct_type = 21; //库存扣减类型
+  string is_shelve = 22; //是否上架
+  string is_member_right = 23; //购买权限
+  string is_member_price = 24; //是否会员折扣价
+  int64 min_original_price = 25; //最低原价
+  int64 max_original_price = 26; //最大原价
+  int64 min_price = 27; //最低价格
+  int64 max_price = 28; //最高价格
+  int64 buy_min_number = 29; //最低起购数量
+  int64 buy_max_number = 30; //最大购买数量
+  int64 photo_count = 31; //图片数量
+  int64 access_count = 32; //访问次数
+  int64 sale_count = 33; //实际销量
+  int64 initial_sales = 34; //初始销量
+  string button_mode = 35; //立即购买按钮
+  string button_custom = 36; //按钮自定义名称
+  repeated string logistics_types = 37; //支持物流类型
+  string express_fee_type = 38; //快递运费类型
+  int64 express_uniform_fee = 39; //快递统一运费
+  int64 express_fee_template_id = 40; //快递运费模板
+  repeated string client_types = 41; //的客户终端
+  int32 sort = 49; //排序
+  string extra_main_id = 50; //扩展业务主要ID
+  string status = 52; //商品状态
+  //sku信息
+  int64 spu_id = 62; //商品ID
+  string sku_key = 63; //SKUKey
+  string coding = 64; //编号
+  string barcode = 65; //条码
+  repeated string more_barcodes = 66; //更多条码
+  int64 original_price = 67; //划线价
+  int64 cost_price = 68; //成本价
+  int64 price = 69; //销售价
+  int64 inventory = 70; //库存
+  int64 weight = 71; //重量
+  int64 volume = 72; //体积
+  string spec_desc = 74; //规格描述
+  string extra_detail_id = 75; //扩展业务明细ID
+  string out_system_id = 76; //外部系统ID
+  string created_at = 77; //创建时间
+  string updated_at = 78; //修改时间
+  string deleted_at = 79; //删除时间
+  //额外扩展
+  string goods_url =80;//商品URL
+  string is_delete =81;//商品是否已删除（0否，1是）
+  string is_error =82;//是否错误（0否，1是）
+  string error_msg =83;//错误信息
+  bool checked =84;
 }
 
-message SkuSpecInfo{
-  string type =1;
-  string value =2;
+message SkuInfo {
+  int64 id = 1; //ID
+  int64 spu_id = 2; //商品ID
+  string sku_key = 3; //SKUKey
+  string coding = 4; //编号
+  string barcode = 5; //条码
+  int64 original_price = 7; //划线价
+  int64 cost_price = 8; //成本价
+  int64 price = 9; //销售价
+  int64 inventory = 10; //库存
+  int64 weight = 11; //重量
+  int64 volume = 12; //体积
+  string spec_desc = 14; //规格描述
+  string extra_detail_id = 15; //扩展业务明细ID
+  string out_system_id = 16; //外部系统ID
 }
 
 message MemberInfo {
-  int64  id =1;//ID
-  string type =2;//类型：0个人,1企业
-  string number_code =3;//会员编号
-  string username =4;//用户名称
-  string nickname =5;//用户昵称
-  string gender =6;//性别:0=未知,1=男,2=女
-  string birthday =7;//会员生日
-  int64  province_id =8;//区域ID
-  int64  city_id =9;//区域ID
-  int64  county_id =10;//区域ID
-  string province_name =11;//所在省
-  string city_name =12;//所在市
-  string county_name =13;//所在区/县
-  string address =14;//详细地址
-  string email =15;//绑定邮箱
-  string mobile =16;//绑定手机
-  string avatar_url =17;//会员头像url地址
-  int64  integral =19;//有效积分
-  int64  locking_integral =20;//锁定积分
-  int64  points =21;//累计积分(升级专用)
-  int64 surplus =32; //可用余额（依赖钱包更新）
-  string status =33;//状态：1正常，2锁定，3禁用，9注销
-  string created_at =34;
-  string updated_at =35;
-  string type_name =42;
-  string status_name =43;
-  string gender_name =44;
-  string client_type_name =45;
+  int64 id = 1; //ID
+  string type = 2; //类型
+  string number = 3; //会员编号
+  string username = 4; //用户名称
+  string nickname = 5; //用户昵称
+  string gender = 6; //性别
+  string birthday = 7; //会员生日
+  string avatar_url = 8; //头像
+  int64 province_id = 9; //所在省ID
+  int64 city_id = 10; //所在市ID
+  int64 county_id = 11; //所在区ID
+  string province_name = 12; //所在省
+  string city_name = 13; //所在市
+  string county_name = 14; //所在区
+  string mobile = 15; //手机号
+  string status = 16; //状态
+}
+
+
+message OrderInfo {
+  int64 id = 1; //ID
+  string order_no = 2; //订单号
+  string type = 3; //订单类型
+  int64 member_id = 4; //买家ID
+  int64 shop_id = 5; //多商户ID
+  int64 realstore_id = 6; //多门店ID
+  int64 warehouse_id = 7; //仓库ID
+  float buy_count = 8; //购买总数
+  int64 buy_count_number = 9; //购买总件数
+  int64 buy_count_weighed = 10; //购买总称重
+  int64 total_amount = 11; //订单单价
+  int64 actual_amount = 12; //订单实付
+  int64 increase_amount = 13; //增加金额
+  int64 preferential_amount = 14; //优惠金额
+  int64 use_integral = 15; //使用积分
+  int64 use_surplus = 16; //使用余额
+  repeated int64 member_coupon_ids = 17; //用户优惠劵
+  int64 paid_amount = 18; //已支付金额
+  int64 refunded_amount = 19; //已退款金额
+  int64 returned_number = 20; //已退货数量
+  int64 delivered_number = 21; //已发货数量
+  string client_type = 44; //客户端类型
+  string pay_status = 45; //支付状态
+  string status = 46; //订单状态
+  string confirm_time = 47; //确认时间
+  string pay_time = 48; //确认时间
+  string delivery_time = 49; //确认时间
+  string collect_time = 50; //收货时间
+  string cancel_time = 51; //取消时间
+  string close_time = 52; //退款完成时间
+  string comment_time = 53; //订单完成时间
+  string out_system_id = 54; //外部系统ID
+  string created_at = 55; //创建时间
+}
+
+message TreeNodeData{
+  int64 key =1;//ID
+  int64 parentId =2;//父ID
+  string title =3;//标题
+  int32 sort =4;//排序
+  repeated TreeNodeData children =5;
 }

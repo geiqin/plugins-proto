@@ -5,14 +5,14 @@ import "common/base.proto";
 import "baseInfoService.proto";
 
 //积分兑换日志
-service IntegralExchangeLogService {
+service ExchangeLogService {
   //物流信息详情
-  rpc Detail (IntegralExchangeLog) returns (IntegralExchangeLogResponse) {}
+  rpc Detail (ExchangeLog) returns (ExchangeLogResponse) {}
   //查询物流信息
-  rpc Search (IntegralExchangeLogRequest) returns (IntegralExchangeLogResponse) {}
+  rpc Search (ExchangeLogRequest) returns (ExchangeLogResponse) {}
 }
 
-message IntegralExchangeLog {
+message ExchangeLog {
   int64  id =1;//ID
   int64  member_id =2;//会员id
   string exchange_type =3;//兑换类型：0 纯积分兑换，1-积分+金额兑换
@@ -20,30 +20,36 @@ message IntegralExchangeLog {
   int64  use_price =5;//使用金额
   int64  number =6;//兑换数量
   int64  spu_id =7;//商品id
-  string md5_key =8;//md5key
+  string sku_key =8;//skuKey
   int64 order_id =9;//订单ID
   string status =10;//状态:
   string created_at =12;
   string updated_at =13;
   string status_name =14;
   ProductInfo product =15;
+  OrderInfo order =16;
 }
 
-message IntegralExchangeLogRequest {
-  int64 paged = 1;
-  int64 page_size = 2;
+message ExchangeLogRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
   //以下为自定义参数
-  int64 start_at =3;
-  string express_type =4;
-  string express_name =8;
-  string express_number =9;
-  string express_code =10;
-  string status =11;
+  int64 member_id =10;
+  string exchange_type =11;
+  int64 spu_id =12;
+  int64 order_id =13;
+  string status =14;
 }
 
-message IntegralExchangeLogResponse {
-  IntegralExchangeLog entity = 1;
+message ExchangeLogResponse {
+  ExchangeLog entity = 1;
   common.Pager pager =2;
-  repeated IntegralExchangeLog items = 3;
-  string info =4;
+  repeated ExchangeLog items = 3;
+  string msg =4;
 }

@@ -1,0 +1,66 @@
+syntax = "proto3";
+package services;
+option go_package ="/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service CommodityService {
+  rpc Create (Commodity ) returns (CommodityResponse) {}
+  rpc Update (Commodity ) returns (CommodityResponse) {}
+  rpc Delete (Commodity ) returns (CommodityResponse) {}
+  rpc Detail (Commodity ) returns (CommodityResponse) {}
+  rpc Search (CommodityRequest) returns (CommodityResponse) {}
+  rpc ProductSearch (CommodityRequest) returns (ProductSearchResponse) {}
+}
+
+message Commodity {
+  int64  id =1;//ID
+  string exchange_type =2;//兑换类型：0 纯积分兑换，1-积分+金额兑换
+  int64  category_id =3;//分类id
+  int64  spu_id =4;//商品id
+  string sku_key =5;//货品key
+  int64  integral =6;//积分
+  int64  money =7;//金额
+  int64  stock =8;//可兑换数量
+  int64  exchanged_count =9;//已兑换数量
+  int64  limit_num =10;//限制数量，件/人
+  int32  sort =11;//排序值
+  string is_only_exchange =12;//只能兑换：0否，1是
+  string describe =13;//积分兑换说明
+  string created_at =14;
+  string updated_at =15;
+  ProductInfo product =16;
+}
+
+message CommodityRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  string exchange_type = 11; //兑换类型
+  int64 category_id = 12; //分类id
+  int64 spu_id = 13; //商品id
+  string is_only_exchange = 14; //只允许兑换
+  int64 min_integral = 15;
+  int64 max_integral = 16;
+  string sku_key = 17;
+  repeated string sku_key_list =18;
+}
+
+message CommodityResponse {
+  Commodity entity = 1;
+  repeated Commodity items = 2;
+  common.Pager pager =3;
+  string msg =4;
+}
+
+message ProductSearchResponse {
+  repeated ProductInfo items = 2;
+  common.Pager pager =3;
+  string msg =4;
+}

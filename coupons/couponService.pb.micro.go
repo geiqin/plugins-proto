@@ -50,7 +50,7 @@ type CouponService interface {
 	//删除优惠券
 	Delete(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error)
 	//状态更新
-	StatusUpdate(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error)
+	UpdateStatus(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error)
 	//获得优惠劵详情
 	Detail(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error)
 	//所有优惠劵查询
@@ -60,7 +60,7 @@ type CouponService interface {
 	//优惠劵领取
 	Receive(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*CouponResponse, error)
 	//优惠劵发送
-	Send(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*CouponResponse, error)
+	Send(ctx context.Context, in *CouponSendRequest, opts ...client.CallOption) (*CouponResponse, error)
 }
 
 type couponService struct {
@@ -105,8 +105,8 @@ func (c *couponService) Delete(ctx context.Context, in *Coupon, opts ...client.C
 	return out, nil
 }
 
-func (c *couponService) StatusUpdate(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error) {
-	req := c.c.NewRequest(c.name, "CouponService.StatusUpdate", in)
+func (c *couponService) UpdateStatus(ctx context.Context, in *Coupon, opts ...client.CallOption) (*CouponResponse, error) {
+	req := c.c.NewRequest(c.name, "CouponService.UpdateStatus", in)
 	out := new(CouponResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -155,7 +155,7 @@ func (c *couponService) Receive(ctx context.Context, in *CouponRequest, opts ...
 	return out, nil
 }
 
-func (c *couponService) Send(ctx context.Context, in *CouponRequest, opts ...client.CallOption) (*CouponResponse, error) {
+func (c *couponService) Send(ctx context.Context, in *CouponSendRequest, opts ...client.CallOption) (*CouponResponse, error) {
 	req := c.c.NewRequest(c.name, "CouponService.Send", in)
 	out := new(CouponResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -175,7 +175,7 @@ type CouponServiceHandler interface {
 	//删除优惠券
 	Delete(context.Context, *Coupon, *CouponResponse) error
 	//状态更新
-	StatusUpdate(context.Context, *Coupon, *CouponResponse) error
+	UpdateStatus(context.Context, *Coupon, *CouponResponse) error
 	//获得优惠劵详情
 	Detail(context.Context, *Coupon, *CouponResponse) error
 	//所有优惠劵查询
@@ -185,7 +185,7 @@ type CouponServiceHandler interface {
 	//优惠劵领取
 	Receive(context.Context, *CouponRequest, *CouponResponse) error
 	//优惠劵发送
-	Send(context.Context, *CouponRequest, *CouponResponse) error
+	Send(context.Context, *CouponSendRequest, *CouponResponse) error
 }
 
 func RegisterCouponServiceHandler(s server.Server, hdlr CouponServiceHandler, opts ...server.HandlerOption) error {
@@ -193,12 +193,12 @@ func RegisterCouponServiceHandler(s server.Server, hdlr CouponServiceHandler, op
 		Create(ctx context.Context, in *Coupon, out *CouponResponse) error
 		Update(ctx context.Context, in *Coupon, out *CouponResponse) error
 		Delete(ctx context.Context, in *Coupon, out *CouponResponse) error
-		StatusUpdate(ctx context.Context, in *Coupon, out *CouponResponse) error
+		UpdateStatus(ctx context.Context, in *Coupon, out *CouponResponse) error
 		Detail(ctx context.Context, in *Coupon, out *CouponResponse) error
 		Search(ctx context.Context, in *CouponRequest, out *CouponResponse) error
 		Index(ctx context.Context, in *CouponRequest, out *CouponResponse) error
 		Receive(ctx context.Context, in *CouponRequest, out *CouponResponse) error
-		Send(ctx context.Context, in *CouponRequest, out *CouponResponse) error
+		Send(ctx context.Context, in *CouponSendRequest, out *CouponResponse) error
 	}
 	type CouponService struct {
 		couponService
@@ -223,8 +223,8 @@ func (h *couponServiceHandler) Delete(ctx context.Context, in *Coupon, out *Coup
 	return h.CouponServiceHandler.Delete(ctx, in, out)
 }
 
-func (h *couponServiceHandler) StatusUpdate(ctx context.Context, in *Coupon, out *CouponResponse) error {
-	return h.CouponServiceHandler.StatusUpdate(ctx, in, out)
+func (h *couponServiceHandler) UpdateStatus(ctx context.Context, in *Coupon, out *CouponResponse) error {
+	return h.CouponServiceHandler.UpdateStatus(ctx, in, out)
 }
 
 func (h *couponServiceHandler) Detail(ctx context.Context, in *Coupon, out *CouponResponse) error {
@@ -243,6 +243,6 @@ func (h *couponServiceHandler) Receive(ctx context.Context, in *CouponRequest, o
 	return h.CouponServiceHandler.Receive(ctx, in, out)
 }
 
-func (h *couponServiceHandler) Send(ctx context.Context, in *CouponRequest, out *CouponResponse) error {
+func (h *couponServiceHandler) Send(ctx context.Context, in *CouponSendRequest, out *CouponResponse) error {
 	return h.CouponServiceHandler.Send(ctx, in, out)
 }

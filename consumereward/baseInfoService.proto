@@ -3,58 +3,46 @@ package services;
 option go_package = "/.;services";
 
 
-//商品信息
 message SpuInfo {
-	int64 id = 1; //比如购物车ID
-	int64 sku_id = 2;
-	int64 spu_id = 3;
-	string type = 4; //类型
-	string title = 5; //标题
-	string title_color = 6; //标题颜色
-	string simple_desc = 7; //简单描述
-	int32 inventory = 8; //库存数量
-	string unit = 9; //库存单位
-	string image_url = 10; //封面URL
-	string video_url = 11; //视频URL
-	string is_many_spec = 12;//是否多规格商品（0否，1是）
-	string is_deduction_inventory = 13; //是否扣减库存
-	string is_listed = 14; //是否上架（0否，1是）
-	string is_virtual = 15; //是否虚拟商品（0否，1是）
-	int64 shop_id = 16; //分店ID
-	int32 brand_id = 17;//品牌ID
-	string brand_name = 18; //品牌名称
-	string virtual_type = 19; //虚拟商品类型
-	string virtual_data = 20; //虚拟商品扩展数据
-	int64 taxonomy_id = 22;//
-	int64 category_id  =23;
-	int64 give_integral  = 24;
-	int32 buy_min_number  = 25;
-	int32 buy_max_number  = 26;
-	int32 photo_count =27; //相册数量
-	int32 sale_count =28; //销售量
-	int32 access_count =29; //访问量
-	int64 place_origin_id =30; //原产地ID
-	int64 weight = 31;
-	int64 volume = 32;
-	string coding = 33;
-	string barcode = 34;
-	int64 price = 35;
-	int64 original_price = 36;
-	int64 cost_price = 37;
-	string spec_desc =38;
-	string show_field_original_price_text =39;
-	string show_field_price_text =40;
-	string goods_url =41;
-	bool checked = 42; //是否选中
-	int32 number = 43; //购买数量
-	int64 subtotal_price = 44; //合计价格
-	string is_error = 45; //购物车用(0否,1是)
-	string error_message = 46; //购物车用
-	repeated SpecificationData spec = 47; //规格
+	int64 id = 1; //ID
+	string type = 2; //商品类型
+	string name = 3; //商品名称
+	string code = 4; //SPU编码
+	string image_url = 5; //商品主图
+	string is_virtual = 6; //虚拟商品
+	string is_many_spec = 7; //多规格商品
+	int32 unit_id = 8; //计量单位ID
+	string unit_name = 9; //计量单位名称
+	string unit_type = 10; //计量单位类型
+	int64 inventory = 11; //库存
+	string is_shelve = 12; //是否上架
+	int64 min_price = 13; //最低价格
+	int64 max_price = 14; //最高价格
+	string status = 15; //商品状态
 }
 
-//货品规格信息
-message SpecificationData{
-	string type =1;
-	string value =2;
+//优惠劵
+message CouponInfo{
+	int64 id = 1; //ID
+	int64 shop_id = 2; //店铺id
+	string coupon_type = 3; //优惠券类型
+	string coupon_name = 4; //名称
+	string coupon_desc = 5; //名称备注
+	string user_type = 6; //用户类型
+	int64 face_value = 7; //优惠内容
+	int64 max_value = 8; //最多优惠
+	int64 min_value = 9; //最少优惠
+	string expire_type = 13; //到期类型
+	int32 expire_days = 14; //到期天数
+	string expire_start_time = 15; //生效时间
+	string expire_end_time = 16; //到期时间
+	string usage_threshold = 17; //使用门槛
+	int64 threshold_amount = 18; //门槛金额
+	string limit_receive_type = 19; //每人限领类型
+	int32 limit_receive_count = 20; //每人限领次数
+	int32 issue_count = 21; //发放总量
+	int32 received_count = 22; //领取数量
+	string spu_scope_type = 23; //适用商品类型
+	string is_public_receive = 24; //是否公开领取
+	string status = 28; //启用状态
 }

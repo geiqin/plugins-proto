@@ -2,7 +2,7 @@ syntax = "proto3";
 package services;
 option go_package = "/.;services";
 import "couponService.proto";
-import "couponUserService.proto";
+import "memberCouponService.proto";
 
 //钩子服务
 service HookService {
@@ -40,21 +40,20 @@ message HookRequest{
 message GoodsResultResponse {
     CouponBaseInfo base =1;
     repeated Coupon data = 2;
-    string info =3;
+    string msg =3;
 }
 
 
 message BuyResultResponse {
     int64 warehouse_id =1;
     string warehouse_name =2;
-    repeated CouponUser coupon_list =3;
-    repeated CouponUser coupon_choice =4;
-    string info =5;
+    repeated MemberCoupon coupon_list =3;
+    repeated MemberCoupon coupon_choice =4;
+    string msg =5;
 }
-
 
 message BuyCalculateResponse {
     bool is_changed =1;
     string buy_order_data =2;
-    string info =3;
+    string msg =3;
 }

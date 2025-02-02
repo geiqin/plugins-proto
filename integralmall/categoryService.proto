@@ -1,0 +1,52 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service CategoryService {
+    rpc Create(Category) returns (CategoryResponse);
+    rpc Update(Category) returns (CategoryResponse);
+    rpc Delete (Category) returns (CategoryResponse);
+    rpc Get (Category) returns (CategoryResponse);
+    rpc List (CategoryRequest) returns (CategoryResponse);
+    // 商品分类列表树
+    rpc ListTree (CategoryRequest) returns (CategoryResponse) {}
+    // 商品分类选择树
+    rpc SelectTree (CategoryRequest) returns (CategoryResponse) {}
+}
+
+message Category {
+    int64 id = 1; 
+    string name = 3;
+    int64 parent_id = 4;
+    repeated int64 ancestors = 5;
+    int32 sort = 11;
+    string status = 12;
+    string created_at = 13;
+    string updated_at = 14;
+    repeated Category children = 15;
+}
+
+
+message CategoryRequest {
+    int32 top = 1;
+    int64 paged = 2;
+    int64 page_size = 3;
+    string keywords = 4;
+    repeated string sorts = 5;
+    repeated string date_range = 6;
+    repeated int64 ids = 7;
+    int64 id = 8;
+    string name = 10;
+    int64 parent_id = 12;
+    string status = 13;
+}
+
+message CategoryResponse {
+    Category  entity = 1;
+    common.Pager pager = 2;
+    repeated Category items = 3;
+    repeated TreeNodeData select_tree = 4;
+    string msg= 5;
+}

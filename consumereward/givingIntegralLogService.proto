@@ -1,0 +1,47 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service GivingIntegralLogService {
+  rpc Detail (GivingIntegralLog) returns (GivingIntegralLogResponse) {}
+  rpc Search (GivingIntegralLogRequest) returns (GivingIntegralLogResponse) {}
+}
+
+message GivingIntegralLog {
+  int64 id = 1; //ID
+  int64 order_id = 2; //订单id
+  int64 member_id = 3; //用户id
+  int64 consume_id = 4; //活动id
+  int64 order_price = 5; //订单金额
+  int64 rate = 6; //赠送比例
+  int64 integral = 7; //赠送积分
+  int64 refund_integral = 8; //退还积分
+  string desc = 9; //描述
+  string status = 10; //状态
+  string created_at = 11; //创建时间
+  string updated_at = 12; //修改时间
+}
+
+message GivingIntegralLogRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  int64 order_id = 11; //订单id
+  int64 member_id = 12; //用户id
+  int64 consume_id = 13; //活动id
+  string status = 14; //状态
+}
+
+message GivingIntegralLogResponse {
+  GivingIntegralLog entity = 1;
+  common.Pager pager = 2;
+  repeated GivingIntegralLog items = 3;
+  string msg= 4;
+}

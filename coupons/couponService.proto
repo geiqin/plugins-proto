@@ -13,7 +13,7 @@ service CouponService {
     //删除优惠券
     rpc Delete (Coupon) returns (CouponResponse) {}
     //状态更新
-    rpc StatusUpdate (Coupon) returns (CouponResponse) {}
+    rpc UpdateStatus (Coupon) returns (CouponResponse) {}
 
     //获得优惠劵详情
     rpc Detail (Coupon) returns (CouponResponse) {}
@@ -25,65 +25,83 @@ service CouponService {
     //优惠劵领取
     rpc Receive (CouponRequest) returns (CouponResponse) {}
     //优惠劵发送
-    rpc Send (CouponRequest) returns (CouponResponse) {}
+    rpc Send (CouponSendRequest) returns (CouponResponse) {}
 
 }
 
 //优惠劵
 message Coupon{
-    int64   id =1;//ID
-    int64   shop_id =2;//店铺id
-    string  name =3;//名称
-    string  desc =4;//描述
-    string  bg_color =5;//优惠券颜色
-    string  type =6;//优惠券类型（0满减劵, 1折扣劵,2代金劵）
-    int64   discount_value =7;//减免金额 | 折扣系数 0-100，95代表9.5折，0或空代表无折扣
-    string  expire_type =8;//到期类型（0领取生效, 1固定日期）
-    int32   expire_hour =9;//有效小时（单位 时）
-    string  fixed_start_time =10;//生效时间
-    string  fixed_end_time =11;//到期时间
-    int64   where_order_price =12;//订单最低金额
-    string  use_limit_type =13;//使用限制（0不限, 1商品分类, 2商品）
-    repeated int64 use_value_ids =14;//联商品分类id 或 关联商品id（以json存储）
-    int32   limit_send_count =15;//限制发放总数量（0则不限）
-    int32   already_send_count =16;//已发放总数量
-    int32   sort =17;//排序
-    string  is_enable =18;//是否启用（0否，1是）
-    string  is_user_receive =19;//是否开放用户领取（0否, 1是）
-    string  is_register_send =20;//是否注册即发放（0否, 1是）
-    string  is_repeat_receive =21;//允许用户重复领取（0否, 1是）
-    string created_at = 22;
-    string updated_at = 23;
-    repeated SpuInfo use_spu_list = 26;
-    MemberInfo member = 27;
-    string bg_color_name =28; //背景颜色名称
-    string bg_color_value =29; //背景颜色值
-    string expire_type_name =30; //到期类型名称
-    string use_limit_type_name =31; //使用限制名称
-    string type_name =32; //类型名称
-    string type_unit =33; //类型单位
-    string is_operable =34; //是否可以操作
-    string is_operable_name =35; //是否可以操作名称
+    int64 id = 1; //ID
+    int64 shop_id = 2; //店铺id
+    string coupon_type = 3; //优惠券类型
+    string coupon_name = 4; //名称
+    string coupon_desc = 5; //名称备注
+    string user_type = 6; //用户类型
+    int64 face_value = 7; //优惠内容
+    int64 max_value = 8; //最多优惠
+    int64 min_value = 9; //最少优惠
+    string description = 10; //优惠说明
+    string use_notice = 11; //使用须知
+    string card_color = 12; //优惠券颜色
+    string expire_type = 13; //到期类型
+    int32 expire_days = 14; //到期天数
+    string expire_start_time = 15; //生效时间
+    string expire_end_time = 16; //到期时间
+    string usage_threshold = 17; //使用门槛
+    int64 threshold_amount = 18; //门槛金额
+    string limit_receive_type = 19; //每人限领类型
+    int32 limit_receive_count = 20; //每人限领次数
+    int32 issue_count = 21; //发放总量
+    int32 received_count = 22; //领取数量
+    string spu_range_type = 23; //适用商品类型
+    string is_public_receive = 24; //是否公开领取
+    string is_transfer_giving = 25; //是否转赠
+    string is_sync_add_tag = 26; //领取打标签
+    repeated string sync_add_tags = 27; //同步的标签
+    string status = 28; //启用状态
+    string created_at = 29; //创建时间
+    string updated_at = 30; //修改时间
+    repeated SpuInfo spu_ranges = 36;
+    MemberInfo member = 37;
+    string bg_color_name =38; //背景颜色名称
+    string bg_color_value =39; //背景颜色值
+    string expire_type_name =40; //到期类型名称
+    string coupon_type_name =41; //类型名称
+    string is_operable =42; //是否可以操作
+    string is_operable_name =43; //是否可以操作名称
+    repeated int64 spu_range_ids = 44; //编辑需要
 }
 
-
-
 message CouponRequest{
-    int64 paged = 1;
-    int64 page_size = 2;
-    string order_by = 3;
-    //
-    int64 id = 4;
-    string name = 5;
-    string type = 6;
-    string is_enable = 7;
-    string is_register_send = 8;
-    int64 shop_id = 9;
-    int64 spu_id = 10;
-    string is_user_receive = 11;
-    repeated int64 ids = 12;
-    repeated int64 member_ids = 13;
-    int64 coupon_id = 14;
+    int32 top = 1;
+    int64 paged = 2;
+    int64 page_size = 3;
+    string keywords = 4;
+    repeated string sorts = 5;
+    repeated string date_range = 6;
+    repeated int64 ids = 7;
+    int64 id = 8;
+    //以下为自定义参数
+    int64 shop_id = 11; //店铺id
+    string coupon_type = 12; //优惠券类型
+    string coupon_name = 13; //名称
+    string user_type = 14; //用户类型
+    string expire_type = 15; //到期类型
+    string limit_receive_type = 16; //每人限领类型
+    string is_sync_add_tag = 17; //领取打标签
+    string status = 18; //启用状态
+    int64 spu_id = 19;
+    int64 coupon_id = 20;
+    repeated int64 member_ids = 21;
+}
+
+message CouponSendRequest{
+    repeated int64 member_ids = 1;
+    repeated list coupon_list =2;
+    message list{
+        int64 coupon_id = 1;
+        int32 send_num = 2;
+    }
 }
 
 message CouponBaseInfo{
@@ -100,6 +118,6 @@ message CouponResponse {
     Coupon entity = 1;
     common.Pager pager =2;
     repeated Coupon items = 3;
-    string info =4;
+    string msg =4;
     CouponBaseInfo base =5;
 }

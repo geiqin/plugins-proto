@@ -3,7 +3,7 @@ package services;
 option go_package = "/.;services";
 import "configService.proto";
 import "baseInfoService.proto";
-import "integralCommodityService.proto";
+import "commodityService.proto";
 
 service HomeService {
     rpc Index(HomeRequest) returns (HomeResponse);
@@ -22,7 +22,7 @@ message HomeRequest {
 message HomeIndex {
     IntegralMallConfig base = 1;
     MemberInfo member =2;
-    repeated IntegralCommodity commodities = 3;
+    repeated Commodity commodities = 3;
 }
 
 

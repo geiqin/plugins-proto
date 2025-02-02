@@ -3,69 +3,76 @@ package services;
 option go_package = "/.;services";
 
 message MemberInfo {
-    int64  id =1;//ID
-    string type =2;//类型：0个人,1企业
-    string number_code =3;//会员编号
-    string username =4;//用户名称
-    string nickname =5;//用户昵称
-    string gender =6;//性别:0=未知,1=男,2=女
-    string birthday =7;//会员生日
-    int64  area_id =8;//区域ID
-    string province_name =9;//所在省
-    string city_name =10;//所在市
-    string county_name =11;//所在区/县
-    string address =12;//详细地址
-    string email =13;//邮箱
-    string mobile =14;//手机号
-    int64  avatar_id =15;//会员头像ID
-    string avatar_url =16;//会员头像url地址
-    string status =17;
+    int64 id = 1; //ID
+    string type = 2; //类型
+    string number = 3; //会员编号
+    string username = 4; //用户名称
+    string nickname = 5; //用户昵称
+    string gender = 6; //性别
+    string birthday = 7; //会员生日
+    string avatar_url = 8; //头像
+    int64 province_id = 9; //所在省ID
+    int64 city_id = 10; //所在市ID
+    int64 county_id = 11; //所在区ID
+    string province_name = 12; //所在省
+    string city_name = 13; //所在市
+    string county_name = 14; //所在区
+    string mobile = 15; //手机号
+    string status = 16; //状态
 }
 
 message SpuInfo {
-    int64 id =1;//ID
-    int64 taxonomy_id =2;//标准类目ID
-    int64 category_id =3;//商品分类ID
-    int32 brand_id =4;//品牌ID
-    int64 shop_id =5;//分店ID
-    string title =6;//商品标题
-    string title_color =7;//标题颜色
-    string simple_desc =8;//简述
-    string type =9;//商品类型：product商品,material原料,assets资产
-    string site_type =10;//商品类型
-    string unit =11;//计量单位
-    int64  place_origin_id =12;//产地ID（地区省id）
-    int32  inventory =13;//库存（所有规格库存总和）
-    string image_url =15;//商品主图url
-    string video_url =17;//短视频url
-    string is_many_spec =20;//是否多规格商品,否则为单品
-    string is_deduction_inventory =21;//是否扣减库存（0否, 1是）
-    string is_listed =22;//是否上架（下架后用户不可见, 0否, 1是）
-    string is_member_right =23;//是否设置商品购买权限（0否, 1是）
-    string is_member_price =24;//是否参与会员折扣价（0否, 1是）
-    int64  min_original_price =25;//最低原价
-    int64  max_original_price =26;//最大原价
-    int64  min_price =27;//最低价格
-    int64  max_price =28;//最高价格
-    string show_original_price =29;//显示原价（单值:10, 区间:10.00-20.00）一般用于展示使用
-    string show_price =30;//显示销售价格（单值:10, 区间:10.00-20.00）一般用于展示使用
-    int32  buy_min_number =31;//最低起购数量（默认1）
-    int32  buy_max_number =32;//最大购买数量（最大数值 100000000, 小于等于0或空则不限）
-    int32  give_integral =33;//购买赠送积分比例
-    int32  photo_count =34;//相册图片数量
-    int32  sale_count =35;//销量
-    int32  access_count =36;//访问次数
-    int32  sort =37;//排序值
-    string freight_type =42;//运费模式：1统一邮费，2运费模板
-    int64  freight_uniform_fee =43;//统一运费
-    int64  freight_express_id =44;//运费模板ID
-    string is_fictitious =45;//是否虚拟商品（0否, 1是）
-    string status = 50;
+    int64 id = 1; //ID
+    string type = 2; //商品类型
+    string name = 3; //商品名称
+    string code = 4; //SPU编码
+    string image_url = 5; //商品主图
+    string is_virtual = 6; //虚拟商品
+    string is_many_spec = 7; //多规格商品
+    int32 unit_id = 8; //计量单位ID
+    string unit_name = 9; //计量单位名称
+    string unit_type = 10; //计量单位类型
+    int64 inventory = 11; //库存
+    string is_shelve = 12; //是否上架
+    int64 min_price = 13; //最低价格
+    int64 max_price = 14; //最高价格
+    string status = 15; //商品状态
 }
 
 message OrderInfo {
-    int64 id = 1;//ID
-    string order_no =2; //订单编号
+    int64 id = 1; //ID
+    string order_no = 2; //订单号
+    string type = 3; //订单类型
+    int64 member_id = 4; //买家ID
+    int64 shop_id = 5; //多商户ID
+    int64 realstore_id = 6; //多门店ID
+    int64 warehouse_id = 7; //仓库ID
+    float buy_count = 8; //购买总数
+    int64 buy_count_number = 9; //购买总件数
+    int64 buy_count_weighed = 10; //购买总称重
+    int64 total_amount = 11; //订单单价
+    int64 actual_amount = 12; //订单实付
+    int64 increase_amount = 13; //增加金额
+    int64 preferential_amount = 14; //优惠金额
+    int64 use_integral = 15; //使用积分
+    int64 use_surplus = 16; //使用余额
+    repeated int64 member_coupon_ids = 17; //用户优惠劵
+    int64 paid_amount = 18; //已支付金额
+    int64 refunded_amount = 19; //已退款金额
+    int64 returned_number = 20; //已退货数量
+    int64 delivered_number = 21; //已发货数量
+    string client_type = 44; //客户端类型
+    string pay_status = 45; //支付状态
+    string status = 46; //订单状态
+    string confirm_time = 47; //确认时间
+    string pay_time = 48; //确认时间
+    string delivery_time = 49; //确认时间
+    string collect_time = 50; //收货时间
+    string cancel_time = 51; //取消时间
+    string close_time = 52; //退款完成时间
+    string comment_time = 53; //订单完成时间
+    string out_system_id = 54; //外部系统ID
+    string created_at = 55; //创建时间
 }
 
 message OrderExtensionInfo {

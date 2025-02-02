@@ -14,14 +14,14 @@ service CalculateService {
 //计算购买商品
 message CalculateBuyGoods{
     int64 spu_id =1;
-    string md5_key =2;
+    string sku_key =2;
     int64 price =3; //价格
     int64 stock =4; //数量
 }
 //计算可兑换商品
 message CalculateExchangeGoods{
     int64 spu_id =1;
-    string md5_key =2;
+    string sku_key =2;
     int64 price =3; //价格
     int64 integral =4;//积分
     int64 stock =5; //数量
@@ -35,7 +35,7 @@ message IntegralExchangeRequest {
 
 message GoodsDisplayRequest {
     int64 spu_id = 1;
-    string md5_key = 2;
+    string sku_key = 2;
     int64 member_id = 3; //用户ID
     int64 member_integral = 4; //用户积分
 }

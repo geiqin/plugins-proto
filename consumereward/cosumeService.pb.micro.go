@@ -46,7 +46,7 @@ type ConsumeService interface {
 	Create(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
 	Update(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
 	Delete(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
-	Switch(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
+	Stop(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
 	Detail(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error)
 	Search(ctx context.Context, in *ConsumeRequest, opts ...client.CallOption) (*ConsumeResponse, error)
 	List(ctx context.Context, in *ConsumeRequest, opts ...client.CallOption) (*ConsumeResponse, error)
@@ -94,8 +94,8 @@ func (c *consumeService) Delete(ctx context.Context, in *Consume, opts ...client
 	return out, nil
 }
 
-func (c *consumeService) Switch(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error) {
-	req := c.c.NewRequest(c.name, "ConsumeService.Switch", in)
+func (c *consumeService) Stop(ctx context.Context, in *Consume, opts ...client.CallOption) (*ConsumeResponse, error) {
+	req := c.c.NewRequest(c.name, "ConsumeService.Stop", in)
 	out := new(ConsumeResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -140,7 +140,7 @@ type ConsumeServiceHandler interface {
 	Create(context.Context, *Consume, *ConsumeResponse) error
 	Update(context.Context, *Consume, *ConsumeResponse) error
 	Delete(context.Context, *Consume, *ConsumeResponse) error
-	Switch(context.Context, *Consume, *ConsumeResponse) error
+	Stop(context.Context, *Consume, *ConsumeResponse) error
 	Detail(context.Context, *Consume, *ConsumeResponse) error
 	Search(context.Context, *ConsumeRequest, *ConsumeResponse) error
 	List(context.Context, *ConsumeRequest, *ConsumeResponse) error
@@ -151,7 +151,7 @@ func RegisterConsumeServiceHandler(s server.Server, hdlr ConsumeServiceHandler, 
 		Create(ctx context.Context, in *Consume, out *ConsumeResponse) error
 		Update(ctx context.Context, in *Consume, out *ConsumeResponse) error
 		Delete(ctx context.Context, in *Consume, out *ConsumeResponse) error
-		Switch(ctx context.Context, in *Consume, out *ConsumeResponse) error
+		Stop(ctx context.Context, in *Consume, out *ConsumeResponse) error
 		Detail(ctx context.Context, in *Consume, out *ConsumeResponse) error
 		Search(ctx context.Context, in *ConsumeRequest, out *ConsumeResponse) error
 		List(ctx context.Context, in *ConsumeRequest, out *ConsumeResponse) error
@@ -179,8 +179,8 @@ func (h *consumeServiceHandler) Delete(ctx context.Context, in *Consume, out *Co
 	return h.ConsumeServiceHandler.Delete(ctx, in, out)
 }
 
-func (h *consumeServiceHandler) Switch(ctx context.Context, in *Consume, out *ConsumeResponse) error {
-	return h.ConsumeServiceHandler.Switch(ctx, in, out)
+func (h *consumeServiceHandler) Stop(ctx context.Context, in *Consume, out *ConsumeResponse) error {
+	return h.ConsumeServiceHandler.Stop(ctx, in, out)
 }
 
 func (h *consumeServiceHandler) Detail(ctx context.Context, in *Consume, out *ConsumeResponse) error {

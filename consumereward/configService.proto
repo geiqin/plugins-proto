@@ -18,6 +18,6 @@ message ConsumeRewardConfig {
 
 message ConfigResponse {
     ConsumeRewardConfig data = 1;
-    string info =2;
+    string msg =2;
 }
 

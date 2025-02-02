@@ -2,66 +2,91 @@ syntax = "proto3";
 package services;
 option go_package = "/.;services";
 import "common/base.proto";
+import "baseInfoService.proto";
 
 service ConsumeService {
   rpc Create (Consume) returns (ConsumeResponse) {}
   rpc Update (Consume) returns (ConsumeResponse) {}
   rpc Delete (Consume) returns (ConsumeResponse) {}
-  rpc Switch (Consume) returns (ConsumeResponse) {}
+  rpc Stop (Consume) returns (ConsumeResponse) {}
   rpc Detail (Consume) returns (ConsumeResponse) {}
   rpc Search (ConsumeRequest) returns (ConsumeResponse) {}
   rpc List (ConsumeRequest) returns (ConsumeResponse) {}
 }
 
 message Consume {
-  int64  id =1;//ID
-  string name =2;//活动名称
-  string time_type =3;//活动时间类型：1固定时间，2周期时间
-  string fixed_begin_time =4;//固定开始时间，时间格式：yyyy-MM-dd HH:mm:ss
-  string fixed_end_time =5;//固定结束时间，时间格式：yyyy-MM-dd HH:mm:ss
-  string condition_type =6;//赠送方式:0-单次消费满x元,1-单次消费每满x元,2-累计消费满x元
-  string give_node =7;//赠送节点：0支付完成后赠送、1确认收货后赠送、2订单完成后赠送
-  string price_type =8;//参与金额： 0-实付金额、1-实付+余额支付、2订单总价
-  string goods_range =9;//适用商品：0-全部商品，1指定商品，2-指定分类
-  string memo =10;//备注
-  string status =16;//状态： 0未开始，1进行中，2已结束
-  string status_name =17; //状态名称： 0未开始，1进行中，2已结束
-  string created_at =18;
-  string updated_at =19;
-  repeated ConsumeRule rules =20;
+  int64 id = 1; //ID
+  string name = 2; //活动名称
+  string time_type = 3; //活动时间类型
+  string begin_date = 4; //开始日期
+  string end_date = 5; //结束日期
+  string period_time_type = 6; //周期类型
+  repeated int32 period_days =7; //周期天数
+  string period_begin_time = 8; //周期开始时间段
+  string period_end_time = 9; //周期结束时间段
+  string reward_condition_type = 10; //赠送方式:1-单次消费满x元,2-单次消费每满x元,3-累计消费满x元
+  string reward_order_status = 11; //赠送节点 1支付完成后赠送、2确认收货后赠送、3订单完成后赠送
+  string participate_money_type = 12; //参与金额： 1-实付金额、2-实付+余额支付、3订单总价
+  string spu_range_type = 13; //适用商品
+  string description = 14; //活动描述
+  string send_time_type = 15; //赠送时间
+  int32 send_time_hours = 16; //赠送延时小时
+  string is_recover_reward = 17; //奖励是否回收
+  string is_sync_add_tag = 18; //是否同步标签
+  string sync_add_tags = 19; //同步的标签
+  string status = 20; //状态： 0未开始，1进行中，2已结束
+  repeated ConsumeRewardRule rules = 21; //奖励规则
+  string created_at = 22; //创建时间
+  string updated_at = 23; //修改时间
+  repeated SpuInfo spu_ranges = 24;
+  repeated int64 spu_range_ids = 25;
 }
 
-message ConsumeRule{
+message ConsumeRewardRule{
   int64 order_amount =1;//订单金额满X元
-  string is_give_integral =2;//是否送积分（0否，1是）
-  string is_give_surplus =3;//是否送余额（0否，1是）
-  string is_give_coupon =4;//是否送优惠劵（0否，1是）
+  bool is_give_integral =2;//是否送积分（0否，1是）
+  bool is_give_surplus =3;//是否送余额（0否，1是）
+  bool is_give_coupon =4;//是否送优惠劵（0否，1是）
   int64 give_integral =5;//送多少积分
   int64 give_surplus =6;//送多少余额
   int64 give_max_integral =7;//最多送多少积分，0表示不限制
   int64 give_max_surplus =8;//最多送多少余额，0表示不限制
-  int64 give_coupon_ids =9;//送优惠劵Ids(每种优惠劵只能送一张，送完为止)
+  repeated ConsumeGiveCoupon give_coupons =9;//赠送优惠劵列表
+}
+
+message ConsumeGiveCoupon{
+  int64 coupon_id =1; //优惠劵ID
+  int32 number =2; //数量
+  CouponInfo coupon =3;
 }
 
 message ConsumeRequest {
-  int64 paged = 1;
-  int64 page_size = 2;
-  int64 top = 3;
-  //base params
-  int32 id = 4;
-  string code = 5;
-  string name = 6;
-  string give_node = 7;
-  string time_type =8;
-  string price_type = 9;
-  string status =10; //状态： 0未开始，1进行中，2已结束
-  repeated int32 ids = 11;
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  string name = 11; //活动名称
+  string time_type = 12; //活动时间类型
+  string reward_condition_type = 13; //赠送方式
+  string reward_order_status = 14; //赠送节点
+  string participate_money_type = 15; //参与金额
+  string spu_range_type = 16; //适用商品
+  string send_time_type = 17; //赠送时间
+  string is_recover_reward = 18; //奖励是否回收
+  string is_sync_add_tag = 19; //是否同步标签
+  string status = 20; //状态： 0未开始，1进行中，2已结束
+  string period_time_type =21;
 }
 
 message ConsumeResponse {
   Consume entity = 1;
   common.Pager pager =2;
   repeated Consume items = 3;
-  string info =4;
+  string msg =4;
 }
 
