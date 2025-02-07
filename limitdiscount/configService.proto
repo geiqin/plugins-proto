@@ -1,0 +1,23 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+service ConfigService {
+    //获配置信息
+    rpc Get (LimitDiscountConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save (LimitDiscountConfig) returns (ConfigResponse) {}
+    //配送开关：开启/关闭
+    rpc Switch (LimitDiscountConfig) returns (ConfigResponse) {}
+}
+
+//限时折扣配置
+message LimitDiscountConfig {
+    string is_enable =1;//是否开启限时折扣(0否、1是)
+}
+
+message ConfigResponse {
+    LimitDiscountConfig data = 1;
+    string msg =2;
+}
+

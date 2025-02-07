@@ -1,0 +1,23 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+service ConfigService {
+    //获配置信息
+    rpc Get (FullReduceConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save (FullReduceConfig) returns (ConfigResponse) {}
+    //配送开关：开启/关闭
+    rpc Switch (FullReduceConfig) returns (ConfigResponse) {}
+}
+
+//满减送配置
+message FullReduceConfig {
+    string is_enable =1;//是否开启满减送(0否、1是)
+}
+
+message ConfigResponse {
+    FullReduceConfig data = 1;
+    string msg =2;
+}
+

@@ -1,0 +1,23 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+service ConfigService {
+    //获配置信息
+    rpc Get (CombineGoodsConfig) returns (ConfigResponse) {}
+    //保存配置信息
+    rpc Save (CombineGoodsConfig) returns (ConfigResponse) {}
+    //配送开关：开启/关闭
+    rpc Switch (CombineGoodsConfig) returns (ConfigResponse) {}
+}
+
+//优惠套餐配置
+message CombineGoodsConfig {
+    string is_enable =1;//是否开启优惠套餐(0否、1是)
+}
+
+message ConfigResponse {
+    CombineGoodsConfig data = 1;
+    string msg =2;
+}
+

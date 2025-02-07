@@ -1,0 +1,57 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+
+service CombinationService {
+  rpc Create (Combination) returns (CombinationResponse) {}
+  rpc Update (Combination) returns (CombinationResponse) {}
+  rpc Delete (Combination) returns (CombinationResponse) {}
+  rpc Stop (Combination) returns (CombinationResponse) {}
+  rpc Detail (Combination) returns (CombinationResponse) {}
+  rpc Search (CombinationRequest) returns (CombinationResponse) {}
+  rpc List (CombinationRequest) returns (CombinationResponse) {}
+}
+
+message Combination {
+  int64 id = 1; //ID
+  string name = 2; //套餐名称
+  string type = 3; //套餐类型
+  string begin_date = 4; //开始日期
+  string end_date = 5; //结束日期
+  int32 stock = 6; //可售库存
+  string limit_buy_type = 7; //限购类型
+  int32 limit_buy_num = 8; //限购数量
+  string is_sync_add_tag = 9; //是否同步标签
+  repeated string sync_add_tags = 10; //同步的标签
+  string description = 11; //活动描述
+  string status = 12; //状态
+  string created_at = 13; //创建时间
+  string updated_at = 14; //修改时间
+}
+
+
+message CombinationRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  string name = 11; //套餐名称
+  string type = 12; //套餐类型
+  string limit_buy_type = 13; //限购类型
+  string is_sync_add_tag = 14; //是否同步标签
+  string status = 15; //状态
+}
+
+message CombinationResponse {
+  Combination entity = 1;
+  common.Pager pager =2;
+  repeated Combination items = 3;
+  string msg =4;
+}
+

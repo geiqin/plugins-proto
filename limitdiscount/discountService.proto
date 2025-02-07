@@ -1,0 +1,84 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service DiscountService {
+  rpc Create (Discount) returns (DiscountResponse) {}
+  rpc Update (Discount) returns (DiscountResponse) {}
+  rpc Delete (Discount) returns (DiscountResponse) {}
+  rpc Stop (Discount) returns (DiscountResponse) {}
+  rpc Detail (Discount) returns (DiscountResponse) {}
+  rpc Search (DiscountRequest) returns (DiscountResponse) {}
+  rpc List (DiscountRequest) returns (DiscountResponse) {}
+}
+
+message Discount {
+  int64 id = 1; //ID
+  string name = 2; //活动名称
+  string time_type = 3; //活动时间类型
+  string begin_date = 4; //开始日期
+  string end_date = 5; //结束日期
+  string period_time_type = 6; //周期类型
+  repeated int32 period_days = 7; //周期天数
+  string period_begin_time = 8; //开始时间
+  string period_end_time = 9; //结束时间
+  string discount_overlay_type = 10; //优惠叠加
+  int32 order_close_time = 11; //订单自动关闭时间
+  string activity_tag = 12; //活动标签
+  string limit_buy_type = 13; //限购类型
+  int32 limit_buy_num = 14; //限购数量
+  string description = 15; //活动描述
+  string warm_up_type = 16; //活动预热类型
+  int32 warm_up_hours = 17; //活动预热小时
+  string is_sync_add_tag = 18; //是否同步标签
+  string sync_add_tags = 19; //同步的标签
+  string status = 20; //状态
+  string created_at = 21; //创建时间
+  string updated_at = 22; //修改时间
+  repeated DiscountProduct products = 24;
+}
+
+// 限时折扣商品
+message DiscountProduct {
+  int64 id = 1; //ID
+  int64 discount_id = 2; //活动id
+  int64 spu_id = 3; //商品ID
+  string sku_key = 4; //货品key
+  string method = 5; //优惠方式
+  int64 discount_value = 6; //优惠值
+  int32 stock = 7; //可销售量
+  string created_at = 8; //创建时间
+  string updated_at = 9; //修改时间
+  SpuInfo spu =10;
+}
+
+
+message DiscountRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  string name = 11; //活动名称
+  string time_type = 12; //活动时间类型
+  string period_time_type = 13; //周期类型
+  string discount_overlay_type = 14; //优惠叠加
+  string limit_buy_type = 15; //限购类型
+  string warm_up_type = 16; //活动预热类型
+  string is_sync_add_tag = 17; //是否同步标签
+  string status = 18; //状态
+}
+
+message DiscountResponse {
+  Discount entity = 1;
+  common.Pager pager =2;
+  repeated Discount items = 3;
+  string msg =4;
+}
+

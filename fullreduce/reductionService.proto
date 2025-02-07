@@ -1,0 +1,74 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+import "common/base.proto";
+import "baseInfoService.proto";
+
+service ReductionService {
+  rpc Create (Reduction) returns (ReductionResponse) {}
+  rpc Update (Reduction) returns (ReductionResponse) {}
+  rpc Delete (Reduction) returns (ReductionResponse) {}
+  rpc Stop (Reduction) returns (ReductionResponse) {}
+  rpc Detail (Reduction) returns (ReductionResponse) {}
+  rpc Search (ReductionRequest) returns (ReductionResponse) {}
+  rpc List (ReductionRequest) returns (ReductionResponse) {}
+}
+
+message Reduction {
+  int64 id = 1; //ID
+  string name = 2; //活动名称
+  string time_type = 3; //活动时间类型
+  string begin_date = 4; //开始日期
+  string end_date = 5; //结束日期
+  string period_time_type = 6; //周期类型
+  repeated int32 period_days = 7; //周期天数
+  string period_begin_time = 8; //开始时间
+  string period_end_time = 9; //结束时间
+  string rule_type = 10; //活动类型
+  string discount_type = 11; //减免类型
+  string spu_range_type = 12; //适用商品
+  string description = 13; //活动描述
+  string is_sync_add_tag = 14; //是否同步标签
+  string sync_add_tags = 15; //同步的标签
+  string status = 16; //状态
+  repeated ReductionRule rules = 17; //奖励规则
+  string created_at = 18; //创建时间
+  string updated_at = 19; //修改时间
+  repeated SpuInfo spu_ranges = 24;
+  repeated int64 spu_range_ids = 25;
+}
+
+message ReductionRule{
+  int64 full_price =1;
+  int64 full_number =2;
+  int64 discount_rate =3;
+  int64 discount_price =4;
+}
+
+message ReductionRequest {
+  int32 top = 1;
+  int64 paged = 2;
+  int64 page_size = 3;
+  string keywords = 4;
+  repeated string sorts = 5;
+  repeated string date_range = 6;
+  repeated int64 ids = 7;
+  int64 id = 8;
+  //以下为自定义参数
+  string name = 11; //活动名称
+  string time_type = 12; //活动时间类型
+  string period_time_type = 13; //周期类型
+  string rule_type = 14; //活动类型
+  string discount_type = 15; //减免类型
+  string spu_range_type = 16; //适用商品
+  string is_sync_add_tag = 17; //是否同步标签
+  string status = 18; //状态
+}
+
+message ReductionResponse {
+  Reduction entity = 1;
+  common.Pager pager =2;
+  repeated Reduction items = 3;
+  string msg =4;
+}
+
