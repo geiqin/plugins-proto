@@ -1,0 +1,41 @@
+syntax = "proto3";
+package services;
+option go_package = "/.;services";
+
+//计算器服务
+service CalculatorService {
+  //计算订单优惠
+  rpc CalculateOrderDiscount (CalculatorRequest) returns (CalculatorResponse) {}
+}
+
+//订单优惠
+message OrderDiscountInfo{
+  string discount_type =1;
+  int64 discount_amount =2;
+  bytes rule_detail =3; //规则详情
+  repeated string sync_tags =4; //同步标签
+}
+
+//购买商品项
+message PurchaseItemInfo{
+  int64 spu_id =1;
+  string sku_key =2;
+  int64 price =3; //价格
+  int64 stock =4; //购买数量
+  int64 weight =5; //重量
+}
+
+//计算请求
+message CalculatorRequest {
+  int64 original_amount =1;
+  int64 remaining_amount =2;
+  repeated PurchaseItemInfo purchase_items =3;
+  repeated OrderDiscountInfo order_discounts =4;
+  int64 purchase_member_id =5;
+  int64 use_integral =6; //使用积分
+}
+
+message CalculatorResponse{
+  string msg =1;
+  OrderDiscountInfo order_discount_data =2;
+}
