@@ -6,6 +6,8 @@ option go_package = "/.;services";
 service CalculatorService {
   //计算订单优惠
   rpc CalculateOrderDiscount (CalculatorRequest) returns (CalculatorResponse) {}
+  //BuyMemberCouponList 下单可选优惠劵列表
+
 }
 
 //订单优惠

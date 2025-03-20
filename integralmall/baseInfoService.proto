@@ -62,9 +62,8 @@ message ProductInfo {
   string spec_desc = 74; //规格描述
   string extra_detail_id = 75; //扩展业务明细ID
   string out_system_id = 76; //外部系统ID
-  string created_at = 77; //创建时间
-  string updated_at = 78; //修改时间
-  string deleted_at = 79; //删除时间
+  int64 created_at = 77; //创建时间
+  int64 updated_at = 78; //修改时间
   //额外扩展
   string goods_url =80;//商品URL
   string is_delete =81;//商品是否已删除（0否，1是）
@@ -135,15 +134,15 @@ message OrderInfo {
   string client_type = 44; //客户端类型
   string pay_status = 45; //支付状态
   string status = 46; //订单状态
-  string confirm_time = 47; //确认时间
-  string pay_time = 48; //确认时间
-  string delivery_time = 49; //确认时间
-  string collect_time = 50; //收货时间
-  string cancel_time = 51; //取消时间
-  string close_time = 52; //退款完成时间
-  string comment_time = 53; //订单完成时间
+  int64 confirm_time = 47; //确认时间
+  int64 pay_time = 48; //确认时间
+  int64 delivery_time = 49; //确认时间
+  int64 collect_time = 50; //收货时间
+  int64 cancel_time = 51; //取消时间
+  int64 close_time = 52; //退款完成时间
+  int64 comment_time = 53; //订单完成时间
   string out_system_id = 54; //外部系统ID
-  string created_at = 55; //创建时间
+  int64 created_at = 55; //创建时间
 }
 
 message TreeNodeData{

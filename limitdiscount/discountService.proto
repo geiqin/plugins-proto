@@ -18,8 +18,8 @@ message Discount {
   int64 id = 1; //ID
   string name = 2; //活动名称
   string time_type = 3; //活动时间类型
-  string begin_date = 4; //开始日期
-  string end_date = 5; //结束日期
+  int64 begin_date = 4; //开始日期
+  int64 end_date = 5; //结束日期
   string period_time_type = 6; //周期类型
   repeated int32 period_days = 7; //周期天数
   string period_begin_time = 8; //开始时间
@@ -35,8 +35,8 @@ message Discount {
   string is_sync_add_tag = 18; //是否同步标签
   string sync_add_tags = 19; //同步的标签
   string status = 20; //状态
-  string created_at = 21; //创建时间
-  string updated_at = 22; //修改时间
+  int64 created_at = 21; //创建时间
+  int64 updated_at = 22; //修改时间
   repeated DiscountProduct products = 24;
 }
 

@@ -45,8 +45,8 @@ message Coupon{
     string card_color = 12; //优惠券颜色
     string expire_type = 13; //到期类型
     int32 expire_days = 14; //到期天数
-    string expire_start_time = 15; //生效时间
-    string expire_end_time = 16; //到期时间
+    int64 expire_start_time = 15; //生效时间
+    int64 expire_end_time = 16; //到期时间
     string usage_threshold = 17; //使用门槛
     int64 threshold_amount = 18; //门槛金额
     string limit_receive_type = 19; //每人限领类型
@@ -59,8 +59,8 @@ message Coupon{
     string is_sync_add_tag = 26; //领取打标签
     repeated string sync_add_tags = 27; //同步的标签
     string status = 28; //启用状态
-    string created_at = 29; //创建时间
-    string updated_at = 30; //修改时间
+    int64 created_at = 29; //创建时间
+    int64 updated_at = 30; //修改时间
     repeated SpuInfo spu_ranges = 36;
     MemberInfo member = 37;
     string bg_color_name =38; //背景颜色名称

@@ -27,8 +27,8 @@ message Commodity {
   int32  sort =11;//排序值
   string is_only_exchange =12;//只能兑换：0否，1是
   string describe =13;//积分兑换说明
-  string created_at =14;
-  string updated_at =15;
+  int64 created_at =14;
+  int64 updated_at =15;
   ProductInfo product =16;
 }
 

@@ -19,8 +19,8 @@ message GivingIntegralLog {
   int64 refund_integral = 8; //退还积分
   string desc = 9; //描述
   string status = 10; //状态
-  string created_at = 11; //创建时间
-  string updated_at = 12; //修改时间
+  int64 created_at = 11; //创建时间
+  int64 updated_at = 12; //修改时间
 }
 
 message GivingIntegralLogRequest {

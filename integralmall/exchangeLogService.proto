@@ -23,8 +23,8 @@ message ExchangeLog {
   string sku_key =8;//skuKey
   int64 order_id =9;//订单ID
   string status =10;//状态:
-  string created_at =12;
-  string updated_at =13;
+  int64 created_at =12;
+  int64 updated_at =13;
   string status_name =14;
   ProductInfo product =15;
   OrderInfo order =16;

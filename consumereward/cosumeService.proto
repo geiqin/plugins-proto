@@ -18,8 +18,8 @@ message Consume {
   int64 id = 1; //ID
   string name = 2; //活动名称
   string time_type = 3; //活动时间类型
-  string begin_date = 4; //开始日期
-  string end_date = 5; //结束日期
+  int64 begin_date = 4; //开始日期
+  int64 end_date = 5; //结束日期
   string period_time_type = 6; //周期类型
   repeated int32 period_days =7; //周期天数
   string period_begin_time = 8; //周期开始时间段
@@ -36,8 +36,8 @@ message Consume {
   string sync_add_tags = 19; //同步的标签
   string status = 20; //状态： 0未开始，1进行中，2已结束
   repeated ConsumeRewardRule rules = 21; //奖励规则
-  string created_at = 22; //创建时间
-  string updated_at = 23; //修改时间
+  int64 created_at = 22; //创建时间
+  int64 updated_at = 23; //修改时间
   repeated SpuInfo spu_ranges = 24;
   repeated int64 spu_range_ids = 25;
 }

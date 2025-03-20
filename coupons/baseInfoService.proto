@@ -9,7 +9,7 @@ message MemberInfo {
     string username = 4; //用户名称
     string nickname = 5; //用户昵称
     string gender = 6; //性别
-    string birthday = 7; //会员生日
+    int64 birthday = 7; //会员生日
     string avatar_url = 8; //头像
     int64 province_id = 9; //所在省ID
     int64 city_id = 10; //所在市ID
@@ -64,15 +64,15 @@ message OrderInfo {
     string client_type = 44; //客户端类型
     string pay_status = 45; //支付状态
     string status = 46; //订单状态
-    string confirm_time = 47; //确认时间
-    string pay_time = 48; //确认时间
-    string delivery_time = 49; //确认时间
-    string collect_time = 50; //收货时间
-    string cancel_time = 51; //取消时间
-    string close_time = 52; //退款完成时间
-    string comment_time = 53; //订单完成时间
+    int64 confirm_time = 47; //确认时间
+    int64 pay_time = 48; //确认时间
+    int64 delivery_time = 49; //确认时间
+    int64 collect_time = 50; //收货时间
+    int64 cancel_time = 51; //取消时间
+    int64 close_time = 52; //退款完成时间
+    int64 comment_time = 53; //订单完成时间
     string out_system_id = 54; //外部系统ID
-    string created_at = 55; //创建时间
+    int64 created_at = 55; //创建时间
 }
 
 message OrderExtensionInfo {
